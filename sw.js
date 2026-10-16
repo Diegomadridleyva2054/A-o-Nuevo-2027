@@ -1,5 +1,5 @@
 /* Service Worker v3 - Cuenta Regresiva Año Nuevo (modo offline completo) */
-const VERSION = 'v6';
+const VERSION = 'v7';
 const CACHE = `new-year-countdown-${VERSION}`;
 const CORE = ['./', './index.html', './manifest.json'];
 const MEDIA = ['./musicfondo.mp3', './Jazz-traditional.mp3', './Audio-Library.mp3', './Cruce-De-Sentimientos.mp3', './sinfonía-de-penas.mp3', './año-nuevo.mp4', './musica-año-nuevo.mp4', './icon-192x192.png', './icon-512x512.png', './icon-maskable-512.png'];
@@ -94,12 +94,15 @@ self.addEventListener('message', e => {
   if (e.ports && e.ports[0]) e.ports[0].postMessage({ type: 'SW_READY', version: VERSION });
 });
 
-self.addEventListener('push', e => {
-  e.waitUntil(self.registration.showNotification('Año Nuevo', {
-    body: e.data ? e.data.text() : '¡Ya casi es Año Nuevo!',
-    tag: 'new-year', icon: './icon-192x192.png'
-  }));
-});
+// Avisos push (FCM): el servidor envía mensajes "data" y aquí se muestran aunque la app esté cerrada
+try { importScripts('https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js', 'https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js'); } catch (e) {}
+if (self.firebase) {
+  firebase.initializeApp({apiKey:"AIzaSyDNXX68-zlaijO3Me2GDUVguOB5PpNL3ts",authDomain:"studio-3276495626-227e0.firebaseapp.com",projectId:"studio-3276495626-227e0",storageBucket:"studio-3276495626-227e0.firebasestorage.app",messagingSenderId:"1012275718197",appId:"1:1012275718197:web:25ec226e771e5a4072a97c"});
+  firebase.messaging().onBackgroundMessage(p => {
+    const d = p.data || {};
+    return self.registration.showNotification(d.title || 'Año Nuevo', { body: d.body || '', tag: d.tag || 'ny', icon: './icon-192x192.png', badge: './icon-192x192.png', vibrate: [200, 100, 200] });
+  });
+}
 
 self.addEventListener('notificationclick', e => {
   e.notification.close();
