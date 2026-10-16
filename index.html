@@ -3364,7 +3364,7 @@ function push(){const d={};SYNC.forEach(k=>{const v=LS.getItem(k);if(v!==null)d[
 Storage.prototype.setItem=function(k,v){_s.call(this,k,v);if(this===LS&&UID&&SYNC.includes(k)){clearTimeout(tm);tm=setTimeout(push,1200);}
 if(this===LS&&UID&&/^nt_/.test(k)&&LS.getItem('pushOn')==='1'){clearTimeout(tp);tp=setTimeout(syncPush,1500);}};
 /* --- avisos push con la app cerrada (FCM) --- */
-const VAPID_KEY='PEGA_AQUI_TU_CLAVE_VAPID';let tp;
+const VAPID_KEY='BDOF22zKjKZ5ukY4XqsFiXMVd8TI6H1lkHtoMscbuZhRUpTiSpNlKyPhyIwQwojCAsWQA2CHxg3A2mpdq-Jlqo8';let tp;
 const tkRef=t=>db.collection('tokens').doc(t),pbtn=document.createElement('button');
 pbtn.className='btn-preview';pbtn.style.marginTop='12px';document.getElementById('notifBtn').closest('.modal-section').appendChild(pbtn);
 function pLabel(){pbtn.innerHTML=LS.getItem('pushOn')==='1'?'<i class="fa-solid fa-circle-check"></i> Avisos con la app cerrada: activos (tocar para desactivar)':'<i class="fa-solid fa-bell-concierge"></i> Activar avisos con la app cerrada';}pLabel();
