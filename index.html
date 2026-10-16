@@ -1379,6 +1379,12 @@
       .pm-top{padding:12px}.pm-actions button span{display:none}
     }
     @media (max-height:480px) and (orientation:landscape){.pm-year{font-size:3rem}.pm-sub{margin-bottom:2vh}.pm-u b{font-size:3rem}}
+
+    .gallery-item .cap{position:absolute;left:0;right:0;bottom:0;padding:24px 10px 8px;background:linear-gradient(transparent,rgba(5,10,26,.88));color:var(--champagne);font-size:.78rem;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;pointer-events:none}
+    .lightbox img{max-height:76dvh!important}
+    .lb-cap{position:absolute;bottom:0;left:0;right:0;padding:18px 64px calc(18px + env(safe-area-inset-bottom));text-align:center;color:var(--champagne);background:linear-gradient(transparent,rgba(5,10,26,.92));font-size:.95rem;max-height:24dvh;overflow:auto}
+    .lb-cap small{display:block;color:var(--gold-soft);margin-top:4px}.lb-cap a{color:var(--gold);text-decoration:underline;word-break:break-all}
+    .dlg .modal-content{max-width:460px}.dlg textarea.fld,.dlg input.fld{margin-bottom:10px}.dlg .pv{width:100%;max-height:200px;object-fit:contain;border-radius:12px;margin-bottom:12px}.dlg p{color:var(--champagne);margin-bottom:18px}
   </style>
 </head>
 <body>
@@ -1723,7 +1729,7 @@
     <div class="pm-big" id="pmBig"></div><div class="pm-final" id="pmFinal"></div>
   </div>
 
-  <div class="lightbox" id="lightbox"><button id="lbClose" aria-label="Cerrar"><i class="fa-solid fa-xmark"></i></button><button id="lbPrev" aria-label="Anterior"><i class="fa-solid fa-chevron-left"></i></button><img id="lbImg" alt=""><button id="lbNext" aria-label="Siguiente"><i class="fa-solid fa-chevron-right"></i></button></div>
+  <div class="lightbox" id="lightbox"><button id="lbClose" aria-label="Cerrar"><i class="fa-solid fa-xmark"></i></button><button id="lbPrev" aria-label="Anterior"><i class="fa-solid fa-chevron-left"></i></button><img id="lbImg" alt=""><div class="lb-cap" id="lbCap"></div><button id="lbNext" aria-label="Siguiente"><i class="fa-solid fa-chevron-right"></i></button></div>
   <!-- Hidden Audio Elements -->
   <audio id="backgroundAudio" preload="auto"></audio>
   <audio id="soundClick" preload="auto"></audio>
@@ -3221,7 +3227,7 @@ const nm=Q.get('nombre')||LS.getItem('name')||'', cm=Q.get('mensaje')||LS.getIte
 if(nm)$('greet').textContent='✦ '+nm+' ✦'; if(cm)$('customMsg').textContent=cm;
 $('inName').value=LS.getItem('name')||'';$('inMsg').value=LS.getItem('cmsg')||'';$('inDate').value=LS.getItem('tdate')||'';
 $('saveCustom').onclick=()=>{LS.setItem('name',$('inName').value.trim());LS.setItem('cmsg',$('inMsg').value.trim());LS.setItem('tdate',$('inDate').value);location.href=location.pathname;};
-$('resetAll').onclick=()=>{if(confirm(TX('confirm'))){LS.clear();location.href=location.pathname;}};
+$('resetAll').onclick=()=>{if(confirm(TX('confirm'))){Promise.resolve(window.dbReset&&window.dbReset()).finally(()=>{LS.clear();location.href=location.pathname;});}};
 $('notifBtn').onclick=()=>{if(!('Notification' in window))return toast(TX('nosup'));Notification.requestPermission().then(p=>toast(p==='granted'?TX('notifok'):TX('denied')));};
 $('fxFire').onclick=()=>launchFireworks();$('fxConf').onclick=()=>launchConfetti();
 /* acento */
@@ -3238,20 +3244,7 @@ function drawTracks(){const cur=LS.getItem('track')||TR[0][0];$('trackList').inn
 drawTracks();
 const vol=$('musicVol');vol.value=LS.getItem('musicVol')??20;$('volVal').textContent=vol.value+'%';
 vol.oninput=()=>{LS.setItem('musicVol',vol.value);$('volVal').textContent=vol.value+'%';window.setMusicVol&&window.setMusicVol(vol.value/100);};
-/* galería imgBB */
-const KEY='f5567fb36a6232aae841ea9aac0ee139',gal=$('gallery'),inp=$('photoInput'),zone=$('uploadZone'),st=$('upStatus');
-let ph=JSON.parse(LS.getItem('imgbb')||'[]');LS.removeItem('photos');
-const sv=()=>LS.setItem('imgbb',JSON.stringify(ph));
-function rg(){gal.innerHTML='';ph.forEach((p,i)=>{const d=document.createElement('div');d.className='gallery-item';const im=new Image();im.src=p.t;im.loading='lazy';im.alt='Foto '+(i+1);im.onclick=()=>lb(i);const b=document.createElement('button');b.className='delete-photo';b.setAttribute('aria-label','Quitar foto');b.innerHTML='<i class="fa-solid fa-trash"></i>';b.onclick=e=>{e.stopPropagation();ph.splice(i,1);sv();rg();};d.append(im,b);gal.appendChild(d);});}
-async function up(files){const fs=[...files].filter(f=>f.type.startsWith('image/'));let n=0;for(const f of fs){st.textContent=TX('uploading')+' '+(++n)+'/'+fs.length+'…';try{if(f.size>32e6)throw 0;const fd=new FormData();fd.append('image',f);const r=await fetch('https://api.imgbb.com/1/upload?key='+KEY,{method:'POST',body:fd}),j=await r.json();if(!j.success)throw 0;ph.push({u:j.data.url,t:(j.data.medium&&j.data.medium.url)||j.data.url});sv();rg();}catch(e){toast(TX('failed')+' '+f.name);}}st.textContent=fs.length?TX('done'):'';setTimeout(()=>st.textContent='',2500);}
-zone.onclick=()=>inp.click();zone.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();inp.click();}};
-zone.ondragover=e=>{e.preventDefault();zone.style.borderColor='var(--gold)';};zone.ondragleave=()=>zone.style.borderColor='';
-zone.ondrop=e=>{e.preventDefault();zone.style.borderColor='';up(e.dataTransfer.files);};inp.onchange=e=>{up(e.target.files);inp.value='';};
-let li=0;const L=$('lightbox');
-function lb(i){li=(i+ph.length)%ph.length;$('lbImg').src=ph[li].u;L.classList.add('show');}
-$('lbClose').onclick=()=>L.classList.remove('show');$('lbPrev').onclick=()=>lb(li-1);$('lbNext').onclick=()=>lb(li+1);L.onclick=e=>{if(e.target===L)L.classList.remove('show');};
-document.addEventListener('keydown',e=>{if(!L.classList.contains('show'))return;if(e.key==='Escape')L.classList.remove('show');if(e.key==='ArrowLeft')lb(li-1);if(e.key==='ArrowRight')lb(li+1);});
-rg();$('gallerySection').classList.add('show');
+$('gallerySection').classList.add('show');
 /* zonas horarias (Intl, con horario de verano) */
 const ZN=['Pacific/Auckland','Australia/Sydney','Asia/Tokyo','Asia/Hong_Kong','Asia/Kolkata','Asia/Dubai','Europe/Paris','Europe/London','America/New_York','America/Los_Angeles','Pacific/Honolulu'];
 function tzr(){const g=$('timezonesGrid'),names=Object.keys(t('timezones')),now=new Date(),Y=(window.getCountdownTarget?window.getCountdownTarget():new Date(CONFIG.TARGET_YEAR,0,1)).getFullYear();g.innerHTML='';
@@ -3283,6 +3276,63 @@ document.addEventListener('fullscreenchange',()=>{if(!fsOn()&&pm.classList.conta
 document.addEventListener('keydown',e=>{if(!pm.classList.contains('active'))return;if(e.key==='Escape')pc();if(e.key==='f'||e.key==='F')$('pmFull').click();if(e.key==='m'||e.key==='M')$('pmMusic').click();});
 pm.addEventListener('mousemove',()=>{pm.classList.remove('idle');clearTimeout(idle);idle=setTimeout(()=>pm.classList.add('idle'),3000);});
 applyI18n();
+})();
+</script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+(function(){
+const $=id=>document.getElementById(id),LS=localStorage,toast=m=>showToast(m),st=$('upStatus');
+if(!window.firebase){st.textContent='La galería compartida necesita conexión a internet';return;}
+const IMGBB='f5567fb36a6232aae841ea9aac0ee139';
+firebase.initializeApp({apiKey:"AIzaSyDNXX68-zlaijO3Me2GDUVguOB5PpNL3ts",authDomain:"studio-3276495626-227e0.firebaseapp.com",projectId:"studio-3276495626-227e0",storageBucket:"studio-3276495626-227e0.firebasestorage.app",messagingSenderId:"1012275718197",appId:"1:1012275718197:web:25ec226e771e5a4072a97c"});
+const db=firebase.firestore(),au=firebase.auth();let UID=null,docs=[];
+db.enablePersistence({synchronizeTabs:true}).catch(()=>{});
+const okLink=l=>/^https?:\/\//i.test(l||'');
+function dlg(html){const o=document.createElement('div');o.className='modal-overlay show dlg';o.innerHTML='<div class="modal-content">'+html+'</div>';document.body.appendChild(o);o.close=()=>o.remove();return o;}
+/* --- galería compartida --- */
+function rg(){const g=$('gallery');g.innerHTML='';docs.forEach((p,i)=>{const d=document.createElement('div');d.className='gallery-item';const im=new Image();im.src=p.thumb||p.url;im.loading='lazy';im.alt=p.desc||'Foto';im.onclick=()=>lb(i);d.appendChild(im);
+if(p.desc){const c=document.createElement('div');c.className='cap';c.textContent=p.desc;d.appendChild(c);}
+if(UID&&p.owner===UID){const b=document.createElement('button');b.className='delete-photo';b.setAttribute('aria-label','Eliminar foto');b.innerHTML='<i class="fa-solid fa-trash"></i>';b.onclick=e=>{e.stopPropagation();del(p);};d.appendChild(b);}
+g.appendChild(d);});}
+db.collection('photos').orderBy('createdAt','desc').limit(120).onSnapshot(q=>{docs=q.docs.map(x=>({id:x.id,...x.data()}));rg();},()=>toast('No se pudo leer la galería'));
+function del(p){const o=dlg('<div class="modal-header"><h2>¿Eliminar esta foto?</h2></div><p>Se quitará de la galería para todos. Esta acción no se puede deshacer.</p><div class="btn-row"><button class="btn-preview" id="dNo">Cancelar</button><button class="btn-preview danger" id="dYes"><i class="fa-solid fa-trash"></i> Sí, eliminar</button></div>');
+o.querySelector('#dNo').onclick=o.close;o.querySelector('#dYes').onclick=()=>{o.close();db.collection('photos').doc(p.id).delete().then(()=>toast('Foto eliminada ✓')).catch(()=>toast('No se pudo eliminar'));};}
+function ask(f,i,n){return new Promise(res=>{const o=dlg('<div class="modal-header"><h2>Foto '+i+' de '+n+'</h2></div><img class="pv" alt=""><textarea class="fld" id="fD" rows="3" maxlength="500" placeholder="Descripción de la foto"></textarea><input class="fld" id="fL" type="url" placeholder="Enlace (opcional) https://..."><input class="fld" id="fA" maxlength="40" placeholder="Tu nombre (opcional)"><div class="btn-row"><button class="btn-preview" id="fN">Omitir</button><button class="btn-preview" id="fY"><i class="fa-solid fa-cloud-arrow-up"></i> Subir</button></div>');
+const u=URL.createObjectURL(f);o.querySelector('.pv').src=u;o.querySelector('#fA').value=LS.getItem('name')||'';
+const end=v=>{URL.revokeObjectURL(u);o.close();res(v);};o.querySelector('#fN').onclick=()=>end(null);
+o.querySelector('#fY').onclick=()=>{const l=o.querySelector('#fL').value.trim();if(l&&!okLink(l))return toast('El enlace debe empezar con http:// o https://');end({desc:o.querySelector('#fD').value.trim(),link:l,author:o.querySelector('#fA').value.trim()});};});}
+async function up(files){const fs=[...files].filter(f=>f.type.startsWith('image/'));if(!UID)return toast('Conectando con la base de datos… intenta de nuevo');let n=0;
+for(const f of fs){const m=await ask(f,++n,fs.length);if(!m)continue;st.textContent=TX('uploading')+' '+n+'/'+fs.length+'…';
+try{if(f.size>32e6)throw 0;const fd=new FormData();fd.append('image',f);const j=await (await fetch('https://api.imgbb.com/1/upload?key='+IMGBB,{method:'POST',body:fd})).json();if(!j.success)throw 0;
+await db.collection('photos').add({url:j.data.url,thumb:(j.data.medium&&j.data.medium.url)||j.data.url,desc:m.desc,link:m.link,author:m.author,owner:UID,createdAt:firebase.firestore.FieldValue.serverTimestamp()});}
+catch(e){toast(TX('failed')+' '+f.name);}}
+st.textContent=fs.length?TX('done'):'';setTimeout(()=>st.textContent='',2500);}
+const zone=$('uploadZone'),inp=$('photoInput');
+zone.onclick=()=>inp.click();zone.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();inp.click();}};
+zone.ondragover=e=>{e.preventDefault();zone.style.borderColor='var(--gold)';};zone.ondragleave=()=>zone.style.borderColor='';
+zone.ondrop=e=>{e.preventDefault();zone.style.borderColor='';up(e.dataTransfer.files);};inp.onchange=e=>{up(e.target.files);inp.value='';};
+/* --- visor --- */
+let li=0;const L=$('lightbox');
+function lb(i){if(!docs.length)return;li=(i+docs.length)%docs.length;const p=docs[li],c=$('lbCap');$('lbImg').src=p.url;c.innerHTML='';
+if(p.desc){const t=document.createElement('div');t.textContent=p.desc;c.appendChild(t);}
+if(okLink(p.link)){const a=document.createElement('a');a.href=p.link;a.target='_blank';a.rel='noopener noreferrer';a.textContent=p.link;const d=document.createElement('div');d.appendChild(a);c.appendChild(d);}
+if(p.author){const s=document.createElement('small');s.textContent='— '+p.author;c.appendChild(s);}L.classList.add('show');}
+$('lbClose').onclick=()=>L.classList.remove('show');$('lbPrev').onclick=()=>lb(li-1);$('lbNext').onclick=()=>lb(li+1);L.onclick=e=>{if(e.target===L)L.classList.remove('show');};
+document.addEventListener('keydown',e=>{if(!L.classList.contains('show'))return;if(e.key==='Escape')L.classList.remove('show');if(e.key==='ArrowLeft')lb(li-1);if(e.key==='ArrowRight')lb(li+1);});
+/* --- datos personales en la base de datos (resoluciones y ajustes) --- */
+const SYNC=['resolutions','name','cmsg','tdate','accent','track','musicVol','fx','language','theme','voiceEnabled','musicEnabled','soundEnabled'];
+const _s=Storage.prototype.setItem;let tm;
+const ref=()=>db.collection('users').doc(UID);
+function push(){const d={};SYNC.forEach(k=>{const v=LS.getItem(k);if(v!==null)d[k]=v;});ref().set(d,{merge:true}).catch(()=>{});}
+Storage.prototype.setItem=function(k,v){_s.call(this,k,v);if(this===LS&&UID&&SYNC.includes(k)){clearTimeout(tm);tm=setTimeout(push,1200);}};
+window.dbReset=()=>UID?ref().delete().catch(()=>{}):null;
+au.onAuthStateChanged(async u=>{if(!u)return;UID=u.uid;rg();
+try{const d=await ref().get();let ch=false;
+if(d.exists&&!sessionStorage.dbPulled){const r=d.data();SYNC.forEach(k=>{if(r[k]!==undefined&&(LS.getItem(k)===null||(k==='resolutions'&&LS.getItem(k)==='[]'))){_s.call(LS,k,r[k]);ch=true;}});}
+sessionStorage.dbPulled='1';if(ch)return location.reload();push();}catch(e){}});
+au.signInAnonymously().catch(()=>toast('No se pudo conectar con la base de datos'));
 })();
 </script>
 <script>
