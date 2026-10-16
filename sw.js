@@ -1,8 +1,8 @@
 /* Service Worker v3 - Cuenta Regresiva Año Nuevo (modo offline completo) */
-const VERSION = 'v4';
+const VERSION = 'v5';
 const CACHE = `new-year-countdown-${VERSION}`;
 const CORE = ['./', './index.html', './manifest.json'];
-const MEDIA = ['./musicfondo.mp3', './Jazz-traditional.mp3', './Audio-Library.mp3', './Cruce-De-Sentimientos.mp3', './sinfonía-de-penas.mp3', './año-nuevo.mp4', './icon-192x192.png', './icon-512x512.png', './icon-maskable-512.png'];
+const MEDIA = ['./musicfondo.mp3', './Jazz-traditional.mp3', './Audio-Library.mp3', './Cruce-De-Sentimientos.mp3', './sinfonía-de-penas.mp3', './año-nuevo.mp4', './musica-año-nuevo.mp4', './icon-192x192.png', './icon-512x512.png', './icon-maskable-512.png'];
 const EXTERNAL = [
   'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Marcellus&family=Jost:wght@300;400;500;600;700&display=swap',
   'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css'
