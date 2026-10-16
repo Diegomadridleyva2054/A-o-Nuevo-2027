@@ -1,149 +1,24 @@
 {
-  "name": "Cuenta Regresiva Año Nuevo 2025",
+  "id": "./",
+  "name": "Cuenta Regresiva Año Nuevo 2027",
   "short_name": "Año Nuevo",
-  "description": "Una experiencia inmersiva y elegante para contar los segundos hacia el Año Nuevo con múltiples idiomas, temas, y características interactivas.",
-  
+  "description": "Cuenta regresiva hacia el Año Nuevo 2027 con música, fuegos artificiales, galería, resoluciones y modo presentación.",
+  "lang": "es",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
-  
-  "orientation": "portrait-primary",
-  "prefer_related_applications": false,
-  
+  "orientation": "any",
   "theme_color": "#050a1a",
   "background_color": "#050a1a",
-  
-  "screenshots": [
-    {
-      "src": "https://i.pinimg.com/736x/e1/4f/7a/e14f7aa5e0dc4c4dbd6f86f79b6c708f.jpg",
-      "sizes": "540x720",
-      "type": "image/jpg",
-      "form_factor": "narrow"
-    },
-    {
-"src": "https://i.pinimg.com/736x/e1/4f/7a/e14f7aa5e0dc4c4dbd6f86f79b6c708f.jpg",      "sizes": "1280x720",
-      "type": "image/jpg",
-      "form_factor": "wide"
-    }
-  ],
-
+  "categories": ["lifestyle", "entertainment"],
   "icons": [
-    {
-"src": "https://i.pinimg.com/736x/e1/4f/7a/e14f7aa5e0dc4c4dbd6f86f79b6c708f.jpg",      "sizes": "192x192",
-      "type": "image/jpg",
-      "purpose": "any"
-    },
-    {
-"src": "https://i.pinimg.com/736x/e1/4f/7a/e14f7aa5e0dc4c4dbd6f86f79b6c708f.jpg",      "sizes": "192x192",
-      "type": "image/jpg",
-      "purpose": "maskable"
-    },
-    {
-"src": "https://i.pinimg.com/736x/e1/4f/7a/e14f7aa5e0dc4c4dbd6f86f79b6c708f.jpg",      "sizes": "512x512",
-      "type": "image/jpg",
-      "purpose": "any"
-    },
-    {
-"src": "https://i.pinimg.com/736x/e1/4f/7a/e14f7aa5e0dc4c4dbd6f86f79b6c708f.jpg",      "sizes": "512x512",
-      "type": "image/jpg",
-      "purpose": "maskable"
-    },
-    {
-"src": "https://i.pinimg.com/736x/e1/4f/7a/e14f7aa5e0dc4c4dbd6f86f79b6c708f.jpg",      "sizes": "72x72",
-      "type": "image/jpg",
-      "purpose": "any"
-    },
-    {
-"src": "https://i.pinimg.com/736x/e1/4f/7a/e14f7aa5e0dc4c4dbd6f86f79b6c708f.jpg",      "sizes": "96x96",
-      "type": "image/jpg",
-      "purpose": "any"
-    },
-    {
-"src": "https://i.pinimg.com/736x/e1/4f/7a/e14f7aa5e0dc4c4dbd6f86f79b6c708f.jpg",      "sizes": "128x128",
-      "type": "image/svg+xml",
-      "purpose": "any"
-    },
-    {
-"src": "https://i.pinimg.com/736x/e1/4f/7a/e14f7aa5e0dc4c4dbd6f86f79b6c708f.jpg",      "sizes": "256x256",
-      "type": "image/jpg",
-      "purpose": "any"
-    }
+    { "src": "icon-192x192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ],
-
-  "categories": ["lifestyle", "productivity"],
-  
   "shortcuts": [
-    {
-      "name": "Cuenta Regresiva",
-      "short_name": "Countdown",
-      "description": "Ver la cuenta regresiva hacia el Año Nuevo",
-      "url": "./index.html?action=countdown",
-      "icons": [
-        {
-          "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%23d4af37' width='192' height='192'/><text x='96' y='120' font-size='120' font-weight='bold' fill='%23050a1a' text-anchor='middle' font-family='serif'>⏱</text></svg>",
-          "sizes": "192x192",
-          "type": "image/svg+xml"
-        }
-      ]
-    },
-    {
-      "name": "Mis Resoluciones",
-      "short_name": "Resoluciones",
-      "description": "Añade tus resoluciones del Año Nuevo",
-      "url": "./index.html?action=resolutions",
-      "icons": [
-        {
-          "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%23d4af37' width='192' height='192'/><text x='96' y='120' font-size='120' font-weight='bold' fill='%23050a1a' text-anchor='middle' font-family='serif'>✨</text></svg>",
-          "sizes": "192x192",
-          "type": "image/svg+xml"
-        }
-      ]
-    },
-    {
-      "name": "Galería",
-      "short_name": "Fotos",
-      "description": "Ve la galería del año pasado",
-      "url": "./index.html?action=gallery",
-      "icons": [
-        {
-          "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%23d4af37' width='192' height='192'/><text x='96' y='120' font-size='120' font-weight='bold' fill='%23050a1a' text-anchor='middle' font-family='serif'>📸</text></svg>",
-          "sizes": "192x192",
-          "type": "image/svg+xml"
-        }
-      ]
-    }
-  ],
-
-  "share_target": {
-    "action": "./share",
-    "method": "POST",
-    "enctype": "multipart/form-data",
-    "params": {
-      "title": "title",
-      "text": "text",
-      "url": "url",
-      "files": [
-        {
-          "name": "photo",
-          "accept": ["image/*"]
-        }
-      ]
-    }
-  },
-
-  "protocol_handlers": [
-    {
-      "protocol": "web+countdown",
-      "url": "./?group=%s"
-    }
-  ],
-
-  "file_handlers": [
-    {
-      "action": "./open-calendar",
-      "accept": {
-        "text/calendar": [".ics"]
-      }
-    }
+    { "name": "Cuenta Regresiva", "short_name": "Cuenta", "url": "./index.html?action=countdown", "icons": [{ "src": "icon-192x192.png", "sizes": "192x192", "type": "image/png" }] },
+    { "name": "Mis Resoluciones", "short_name": "Resoluciones", "url": "./index.html?action=resolutions", "icons": [{ "src": "icon-192x192.png", "sizes": "192x192", "type": "image/png" }] },
+    { "name": "Galería", "short_name": "Fotos", "url": "./index.html?action=gallery", "icons": [{ "src": "icon-192x192.png", "sizes": "192x192", "type": "image/png" }] }
   ]
 }
