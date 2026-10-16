@@ -3226,7 +3226,7 @@ END:VCALENDAR`;
         r.append(sp, sw); box.appendChild(r);
       });
       const note = document.createElement('p'); note.className = 'ntnote';
-      note.textContent = 'Los avisos llegan mientras la página esté abierta (aunque sea en segundo plano). Para recibirlos con la página cerrada se necesita un servidor de notificaciones push.';
+      note.textContent = 'Con la página abierta los avisos son inmediatos. Con la app cerrada (botón «Activar avisos») llegan los hitos de la cuenta, la medianoche y las fotos nuevas; el recordatorio de resoluciones y los países que celebran solo funcionan con la página abierta.';
       box.appendChild(note); host.appendChild(box);
       document.getElementById('notifBtn').addEventListener('click', () => {
         if ('Notification' in window) Notification.requestPermission().then(p => p === 'granted' && notify('', '✨ Notificaciones activadas', 'Te avisaremos de los momentos importantes.'));
@@ -3313,6 +3313,7 @@ applyI18n();
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js"></script>
 <script>
 (function(){
 const $=id=>document.getElementById(id),LS=localStorage,toast=m=>showToast(m),st=$('upStatus');
@@ -3360,9 +3361,24 @@ const SYNC=['resolutions','name','cmsg','tdate','accent','track','musicVol','fx'
 const _s=Storage.prototype.setItem;let tm;
 const ref=()=>db.collection('users').doc(UID);
 function push(){const d={};SYNC.forEach(k=>{const v=LS.getItem(k);if(v!==null)d[k]=v;});ref().set(d,{merge:true}).catch(()=>{});}
-Storage.prototype.setItem=function(k,v){_s.call(this,k,v);if(this===LS&&UID&&SYNC.includes(k)){clearTimeout(tm);tm=setTimeout(push,1200);}};
+Storage.prototype.setItem=function(k,v){_s.call(this,k,v);if(this===LS&&UID&&SYNC.includes(k)){clearTimeout(tm);tm=setTimeout(push,1200);}
+if(this===LS&&UID&&/^nt_/.test(k)&&LS.getItem('pushOn')==='1'){clearTimeout(tp);tp=setTimeout(syncPush,1500);}};
+/* --- avisos push con la app cerrada (FCM) --- */
+const VAPID_KEY='PEGA_AQUI_TU_CLAVE_VAPID';let tp;
+const tkRef=t=>db.collection('tokens').doc(t),pbtn=document.createElement('button');
+pbtn.className='btn-preview';pbtn.style.marginTop='12px';document.getElementById('notifBtn').closest('.modal-section').appendChild(pbtn);
+function pLabel(){pbtn.innerHTML=LS.getItem('pushOn')==='1'?'<i class="fa-solid fa-circle-check"></i> Avisos con la app cerrada: activos (tocar para desactivar)':'<i class="fa-solid fa-bell-concierge"></i> Activar avisos con la app cerrada';}pLabel();
+try{if(!firebase.messaging.isSupported())pbtn.style.display='none';}catch(e){pbtn.style.display='none';}
+async function syncPush(){const tk=LS.getItem('pushToken');if(!tk||!UID)return;const T=window.getCountdownTarget(),r=tkRef(tk),pv=await r.get(),o={uid:UID,target:T.getTime(),year:T.getFullYear(),prefs:{},updated:firebase.firestore.FieldValue.serverTimestamp()};
+['nt_miles','nt_mid','nt_photo'].forEach(k=>o.prefs[k]=LS.getItem(k)!=='false');if(!pv.exists||pv.data().target!==o.target)o.sent=[];await r.set(o,{merge:true});}
+pbtn.onclick=async()=>{try{const m=firebase.messaging();
+if(LS.getItem('pushOn')==='1'){const tk=LS.getItem('pushToken');await m.deleteToken().catch(()=>{});if(tk)await tkRef(tk).delete().catch(()=>{});LS.setItem('pushOn','0');LS.removeItem('pushToken');pLabel();return toast('Avisos con app cerrada desactivados');}
+if(!UID)return toast('Conectando… intenta de nuevo');if(VAPID_KEY.startsWith('PEGA'))return toast('Falta la clave VAPID en el código');
+if(await Notification.requestPermission()!=='granted')return toast('Permiso denegado');
+const tk=await m.getToken({vapidKey:VAPID_KEY,serviceWorkerRegistration:await navigator.serviceWorker.ready});
+LS.setItem('pushToken',tk);LS.setItem('pushOn','1');await syncPush();pLabel();toast('Avisos con app cerrada activados ✓');}catch(e){toast('No se pudieron activar los avisos push');}};
 window.dbReset=()=>UID?ref().delete().catch(()=>{}):null;
-au.onAuthStateChanged(async u=>{if(!u)return;UID=u.uid;rg();
+au.onAuthStateChanged(async u=>{if(!u)return;UID=u.uid;rg();if(LS.getItem('pushOn')==='1')syncPush().catch(()=>{});
 try{const d=await ref().get();let ch=false;
 if(d.exists&&!sessionStorage.dbPulled){const r=d.data();SYNC.forEach(k=>{if(r[k]!==undefined&&(LS.getItem(k)===null||(k==='resolutions'&&LS.getItem(k)==='[]'))){_s.call(LS,k,r[k]);ch=true;}});}
 sessionStorage.dbPulled='1';if(ch)return location.reload();push();}catch(e){}});
