@@ -1,0 +1,3275 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Cuenta regresiva interactiva hacia el Año Nuevo con multimedia, efectos visuales y experiencia inmersiva.">
+  <meta name="theme-color" content="#050a1a">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Año Nuevo">
+  
+  <link rel="icon" type="image/png" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%23050a1a' width='192' height='192'/><text x='96' y='120' font-size='120' font-weight='bold' fill='%23d4af37' text-anchor='middle' font-family='serif'>✦</text></svg>">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%23050a1a' width='192' height='192'/><text x='96' y='120' font-size='120' font-weight='bold' fill='%23d4af37' text-anchor='middle' font-family='serif'>✦</text></svg>">
+  <meta property="og:title" content="Cuenta Regresiva Año Nuevo 2027"><meta property="og:description" content="Cuenta regresiva interactiva hacia 2027 con música, fuegos artificiales y galería."><meta property="og:type" content="website">
+  <link rel="manifest" href="manifest.json">
+  
+  <title>Cuenta Regresiva Año Nuevo 2027</title>
+  
+  <!-- Fonts: Typography Stack -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Marcellus&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Icon Library -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <style>
+    /* ============================================================
+       CSS CUSTOM PROPERTIES & DESIGN TOKENS
+       ============================================================ */
+    :root {
+      /* Color Palette - Luxury Deep Navy & Gold (Dark Mode) */
+      --navy-deep: #050a1a;
+      --navy: #0a1230;
+      --navy-mid: #101c40;
+      --navy-light: #1a2847;
+      --gold: #d4af37;
+      --gold-soft: #e8cd7a;
+      --champagne: #f3e7c4;
+      --ivory: #f7f4ec;
+      
+      /* Neumorphism Base */
+      --glass-bg: rgba(20, 30, 60, 0.35);
+      --glass-border: rgba(212, 175, 55, 0.25);
+      --shadow-deep: 0 20px 60px rgba(0, 0, 0, 0.55);
+      --shadow-light: 0 8px 24px rgba(0, 0, 0, 0.25);
+      
+      /* Neumorphic Shadows (Soft UI) */
+      --neomorph-light: inset 0 1px 0 rgba(255, 255, 255, 0.1), inset 0 0 20px rgba(255, 255, 255, 0.05);
+      --neomorph-dark: 0 12px 32px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.3);
+      --neomorph-hover: 0 16px 40px rgba(212, 175, 55, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      
+      /* Transitions */
+      --transition-fast: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-smooth: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-bounce: 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+      
+      /* Spacing */
+      --spacing-xs: 8px;
+      --spacing-sm: 16px;
+      --spacing-md: 24px;
+      --spacing-lg: 48px;
+    }
+
+    /* Light Mode Variables */
+    [data-theme="light"] {
+      --navy-deep: #f5f5f5;
+      --navy: #ffffff;
+      --navy-mid: #f0f0f0;
+      --navy-light: #e8e8e8;
+      --gold: #d4af37;
+      --gold-soft: #b8892a;
+      --champagne: #333333;
+      --ivory: #1a1a1a;
+      --glass-bg: rgba(255, 255, 255, 0.6);
+      --glass-border: rgba(212, 175, 55, 0.4);
+      --shadow-deep: 0 20px 60px rgba(0, 0, 0, 0.1);
+      --shadow-light: 0 8px 24px rgba(0, 0, 0, 0.08);
+      --neomorph-dark: 0 12px 32px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    /* ============================================================
+       RESET & BASE STYLES
+       ============================================================ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(ellipse at 20% 0%, rgba(30, 45, 90, 0.55) 0%, transparent 55%),
+                  radial-gradient(ellipse at 85% 20%, rgba(60, 45, 20, 0.25) 0%, transparent 50%),
+                  linear-gradient(160deg, var(--navy-deep) 0%, var(--navy) 45%, var(--navy-mid) 100%);
+      color: var(--ivory);
+      font-family: 'Jost', sans-serif;
+      overflow-x: hidden;
+      position: relative;
+      line-height: 1.6;
+      transition: background 0.5s ease;
+    }
+
+    [data-theme="light"] body {
+      background: linear-gradient(160deg, #f5f5f5 0%, #ffffff 45%, #f0f0f0 100%);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    h1, h2, h3, .serif {
+      font-family: 'Marcellus', serif;
+    }
+
+    .display {
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    ::selection {
+      background: var(--gold);
+      color: var(--navy-deep);
+    }
+
+    button:focus-visible,
+    a:focus-visible,
+    input:focus-visible {
+      outline: 2px solid var(--gold-soft);
+      outline-offset: 3px;
+    }
+
+    /* ============================================================
+       CANVAS & LAYERS
+       ============================================================ */
+    #particles {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    #fireworks {
+      position: fixed;
+      inset: 0;
+      z-index: 4;
+      pointer-events: none;
+      display: none;
+    }
+
+    #confetti {
+      position: fixed;
+      inset: 0;
+      z-index: 5;
+      pointer-events: none;
+      display: none;
+    }
+
+    /* ============================================================
+       LAYOUT
+       ============================================================ */
+    .wrap {
+      position: relative;
+      z-index: 2;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 var(--spacing-md);
+    }
+
+    /* Topbar Header */
+    header.topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 30;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--spacing-md) var(--spacing-md) 0;
+      backdrop-filter: blur(10px);
+      background: rgba(5, 10, 26, 0.3);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+      transition: all 0.5s ease;
+    }
+
+    [data-theme="light"] header.topbar {
+      background: rgba(255, 255, 255, 0.4);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-xs);
+      letter-spacing: 0.14em;
+      font-size: 0.85rem;
+      color: var(--champagne);
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .brand i {
+      color: var(--gold);
+      font-size: 1.1rem;
+    }
+
+    .topbar-controls {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    /* ============================================================
+       GLASS COMPONENT
+       ============================================================ */
+    .glass {
+      background: var(--glass-bg);
+      backdrop-filter: blur(18px) saturate(140%);
+      -webkit-backdrop-filter: blur(18px) saturate(140%);
+      border: 1px solid var(--glass-border);
+      border-radius: 22px;
+      box-shadow: var(--shadow-deep), var(--neomorph-light);
+      transition: all var(--transition-smooth);
+    }
+
+    .glass:hover {
+      border-color: rgba(212, 175, 55, 0.45);
+      box-shadow: var(--neomorph-hover);
+      transform: translateY(-2px);
+    }
+
+    /* ============================================================
+       BUTTONS
+       ============================================================ */
+    .btn-neomorph {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--spacing-xs);
+      padding: 14px 28px;
+      border: none;
+      border-radius: 16px;
+      background: linear-gradient(145deg, rgba(30, 45, 90, 0.6), rgba(15, 22, 48, 0.8));
+      color: var(--champagne);
+      font-family: 'Jost', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: var(--neomorph-dark), var(--neomorph-light);
+      transition: all var(--transition-smooth);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      overflow: hidden;
+    }
+
+    .btn-neomorph::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(212, 175, 55, 0.2);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+
+    .btn-neomorph:hover {
+      color: var(--gold-soft);
+      box-shadow: var(--neomorph-hover);
+      transform: translateY(-4px);
+      border-color: rgba(212, 175, 55, 0.4);
+    }
+
+    .btn-neomorph:active {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5), var(--neomorph-light);
+    }
+
+    .btn-neomorph i {
+      transition: transform var(--transition-smooth);
+    }
+
+    .btn-neomorph:hover i {
+      transform: rotate(-12deg) scale(1.15);
+    }
+
+    /* Topbar Buttons */
+    .share-btn, .theme-btn, .lang-btn {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 14px;
+      padding: 11px 16px;
+      color: var(--champagne);
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: all var(--transition-smooth);
+      box-shadow: var(--neomorph-dark), var(--neomorph-light);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Jost', sans-serif;
+    }
+
+    .theme-btn, .lang-btn {
+      padding: 11px 14px;
+      font-size: 1rem;
+    }
+
+    .share-btn:hover, .theme-btn:hover, .lang-btn:hover {
+      color: var(--gold-soft);
+      border-color: rgba(212, 175, 55, 0.35);
+      transform: translateY(-2px);
+      box-shadow: var(--neomorph-hover);
+    }
+
+    .share-btn.copied {
+      color: var(--gold);
+      border-color: var(--gold);
+    }
+
+    /* Settings Floating Button */
+    .settings-btn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 25;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      background: linear-gradient(145deg, rgba(30, 45, 90, 0.7), rgba(15, 22, 48, 0.9));
+      color: var(--gold-soft);
+      font-size: 1.4rem;
+      cursor: pointer;
+      box-shadow: var(--neomorph-dark), var(--neomorph-light);
+      transition: all var(--transition-smooth);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .settings-btn:hover {
+      color: var(--gold);
+      transform: translateY(-6px) rotate(20deg) scale(1.1);
+      box-shadow: var(--neomorph-hover);
+      border-color: rgba(212, 175, 55, 0.5);
+    }
+
+    /* ============================================================
+       HERO SECTION
+       ============================================================ */
+    .hero {
+      text-align: center;
+      padding: 100px var(--spacing-md) 40px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      font-size: 0.72rem;
+      color: var(--gold-soft);
+      opacity: 0.85;
+      margin-bottom: var(--spacing-md);
+      position: relative;
+      padding-bottom: var(--spacing-sm);
+      font-weight: 600;
+    }
+
+    .eyebrow::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    .hero h1 {
+      font-size: clamp(2.4rem, 7vw, 5.5rem);
+      font-weight: 400;
+      line-height: 1.1;
+      background: linear-gradient(120deg, var(--ivory) 20%, var(--gold-soft) 50%, var(--champagne) 65%, var(--ivory) 85%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-size: 200% auto;
+      animation: shimmer 8s linear infinite;
+      letter-spacing: 0.01em;
+      margin-bottom: var(--spacing-sm);
+    }
+
+    @keyframes shimmer {
+      to {
+        background-position: 200% center;
+      }
+    }
+
+    .hero .sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.3rem;
+      color: rgba(243, 231, 196, 0.75);
+      max-width: 600px;
+      margin: var(--spacing-md) auto 0;
+    }
+
+    /* ============================================================
+       CIRCULAR COUNTDOWN
+       ============================================================ */
+    .countdown-stage {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 60px 12px 20px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .rings {
+      display: flex;
+      gap: clamp(16px, 4vw, 48px);
+      flex-wrap: wrap;
+      justify-content: center;
+      animation: scaleIn 1s ease-out;
+    }
+
+    @keyframes scaleIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .ring-unit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .ring-svg-wrap {
+      position: relative;
+      width: clamp(120px, 20vw, 180px);
+      height: clamp(120px, 20vw, 180px);
+    }
+
+    .ring-svg-wrap svg {
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg);
+      filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.2));
+    }
+
+    .ring-track {
+      fill: none;
+      stroke: rgba(212, 175, 55, 0.15);
+      stroke-width: 6;
+    }
+
+    .ring-progress {
+      fill: none;
+      stroke: url(#goldGrad);
+      stroke-width: 6;
+      stroke-linecap: round;
+      transition: stroke-dashoffset 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .ring-value {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Marcellus', serif;
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      font-weight: 600;
+      color: var(--ivory);
+      letter-spacing: 0.02em;
+      text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .ring-label {
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      font-size: 0.72rem;
+      color: var(--gold-soft);
+      opacity: 0.85;
+      font-weight: 600;
+    }
+
+    .rings.final-flash .ring-value {
+      color: var(--gold);
+      text-shadow: 0 0 24px rgba(212, 175, 55, 0.8), 0 0 40px rgba(212, 175, 55, 0.4);
+      animation: pulse-glow 0.5s ease;
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% {
+        text-shadow: 0 0 24px rgba(212, 175, 55, 0.8), 0 0 40px rgba(212, 175, 55, 0.4);
+      }
+      50% {
+        text-shadow: 0 0 40px rgba(212, 175, 55, 1), 0 0 60px rgba(212, 175, 55, 0.6);
+      }
+    }
+
+    /* ============================================================
+       NEW YEAR MESSAGE
+       ============================================================ */
+    .newyear-message {
+      display: none;
+      text-align: center;
+      padding: 60px 24px 30px;
+      position: relative;
+      z-index: 5;
+      animation: riseIn 1.2s ease-out;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .newyear-message.show {
+      display: block;
+    }
+
+    .newyear-message h2 {
+      font-size: clamp(2.8rem, 8vw, 6rem);
+      background: linear-gradient(120deg, var(--gold-soft), var(--champagne), var(--gold));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 60px rgba(212, 175, 55, 0.35);
+      margin-bottom: var(--spacing-lg);
+      letter-spacing: 0.02em;
+    }
+
+    .newyear-message .message-content {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+      line-height: 1.8;
+      color: var(--champagne);
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto var(--spacing-lg);
+    }
+
+    .newyear-message .message-content p {
+      margin-bottom: var(--spacing-md);
+      text-align: justify;
+      hyphens: auto;
+    }
+
+    .newyear-message .message-signature {
+      font-style: italic;
+      color: var(--gold-soft);
+      margin-top: var(--spacing-lg);
+      font-size: 1.1rem;
+    }
+
+    @keyframes riseIn {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ============================================================
+       MULTIMEDIA SECTION
+       ============================================================ */
+    .multimedia-section {
+      display: none;
+      text-align: center;
+      padding: 40px 24px;
+      position: relative;
+      z-index: 5;
+      gap: var(--spacing-lg);
+    }
+
+    .multimedia-section.show {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .video-container {
+      position: relative;
+      width: 100%;
+      max-width: 600px;
+      aspect-ratio: 16/9;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: var(--shadow-deep);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      background: #000;
+    }
+
+    .video-container video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .audio-player {
+      background: linear-gradient(145deg, rgba(30, 45, 90, 0.6), rgba(15, 22, 48, 0.8));
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 16px;
+      padding: 24px;
+      max-width: 500px;
+      box-shadow: var(--neomorph-dark), var(--neomorph-light);
+    }
+
+    .audio-player audio {
+      width: 100%;
+      margin-top: var(--spacing-md);
+      filter: brightness(1.1);
+    }
+
+    /* ============================================================
+       REFLECTION GAME MODAL
+       ============================================================ */
+    .reflection-container {
+      position: fixed;
+      bottom: 100px;
+      right: 30px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      padding: 16px 20px;
+      max-width: 280px;
+      z-index: 20;
+      backdrop-filter: blur(18px);
+      box-shadow: var(--shadow-deep);
+      display: none;
+      flex-direction: column;
+      gap: 12px;
+      animation: slideUp 0.3s ease-out;
+    }
+
+    .reflection-container.show {
+      display: flex;
+    }
+
+    .reflection-container .question {
+      font-size: 0.95rem;
+      color: var(--champagne);
+      font-style: italic;
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    .reflection-container .close-reflection {
+      align-self: flex-end;
+      background: none;
+      border: none;
+      color: var(--gold-soft);
+      cursor: pointer;
+      font-size: 1.2rem;
+      padding: 0;
+      margin-top: -8px;
+    }
+
+    /* ============================================================
+       RESOLUTIONS SECTION
+       ============================================================ */
+    .resolutions-section {
+      display: none;
+      padding: 60px 24px 40px;
+      position: relative;
+      z-index: 5;
+      text-align: center;
+      margin: 0 auto;
+    }
+
+    .resolutions-section.show {
+      display: block;
+    }
+
+    .resolutions-section h2 {
+      font-size: 2.5rem;
+      color: var(--gold-soft);
+      margin-bottom: 30px;
+    }
+
+    .resolutions-input {
+      display: flex;
+      gap: 12px;
+      max-width: 600px;
+      margin: 0 auto 30px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .resolutions-input input {
+      flex: 1;
+      min-width: 250px;
+      padding: 14px 18px;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      border-radius: 12px;
+      background: rgba(15, 22, 48, 0.6);
+      color: var(--ivory);
+      font-family: 'Jost', sans-serif;
+      font-size: 0.95rem;
+    }
+
+    .resolutions-input input::placeholder {
+      color: rgba(243, 231, 196, 0.5);
+    }
+
+    .resolutions-input button {
+      padding: 14px 24px;
+      background: linear-gradient(145deg, rgba(212, 175, 55, 0.3), rgba(232, 205, 122, 0.2));
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      border-radius: 12px;
+      color: var(--gold-soft);
+      cursor: pointer;
+      font-weight: 600;
+      transition: all var(--transition-smooth);
+    }
+
+    .resolutions-input button:hover {
+      background: linear-gradient(145deg, rgba(212, 175, 55, 0.4), rgba(232, 205, 122, 0.3));
+      color: var(--gold);
+    }
+
+    .resolutions-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 16px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .resolution-item {
+      background: rgba(15, 22, 48, 0.5);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: left;
+      position: relative;
+      animation: slideUp 0.3s ease-out;
+    }
+
+    .resolution-item.completed {
+      opacity: 0.6;
+      text-decoration: line-through;
+    }
+
+    .resolution-item input[type="checkbox"] {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      accent-color: var(--gold);
+    }
+
+    .resolution-item p {
+      color: var(--champagne);
+      word-break: break-word;
+      padding-right: 30px;
+    }
+
+    .resolution-item button {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      background: none;
+      border: none;
+      color: #ff6b6b;
+      cursor: pointer;
+      font-size: 0.8rem;
+      opacity: 0.7;
+      transition: opacity 0.3s;
+    }
+
+    .resolution-item button:hover {
+      opacity: 1;
+    }
+
+    /* ============================================================
+       TIMEZONES STATS
+       ============================================================ */
+    .timezones-section {
+      display: none;
+      padding: 40px 24px;
+      position: relative;
+      z-index: 5;
+      background: rgba(15, 22, 48, 0.3);
+      border-radius: 20px;
+      max-width: 900px;
+      margin: 0 auto 40px;
+    }
+
+    .timezones-section.show {
+      display: block;
+    }
+
+    .timezones-section h3 {
+      color: var(--gold-soft);
+      margin-bottom: 20px;
+      text-align: center;
+      font-size: 1.4rem;
+    }
+
+    .timezones-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+    }
+
+    .timezone-item {
+      background: rgba(30, 45, 90, 0.4);
+      border: 1px solid rgba(212, 175, 55, 0.15);
+      border-radius: 10px;
+      padding: 12px;
+      text-align: center;
+      font-size: 0.85rem;
+    }
+
+    .timezone-item .location {
+      color: var(--gold-soft);
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .timezone-item .time {
+      color: var(--champagne);
+      font-size: 0.9rem;
+    }
+
+    .timezone-item.celebrando {
+      background: rgba(212, 175, 55, 0.15);
+      border-color: rgba(212, 175, 55, 0.4);
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    /* ============================================================
+       GALLERY SECTION
+       ============================================================ */
+    .gallery-section {
+      display: none;
+      padding: 40px 24px;
+      position: relative;
+      z-index: 5;
+    }
+
+    .gallery-section.show {
+      display: block;
+    }
+
+    .gallery-section h3 {
+      color: var(--gold-soft);
+      text-align: center;
+      font-size: 1.4rem;
+      margin-bottom: 24px;
+    }
+
+    .gallery-upload {
+      max-width: 500px;
+      margin: 0 auto 30px;
+      text-align: center;
+    }
+
+    .upload-zone {
+      border: 2px dashed rgba(212, 175, 55, 0.4);
+      border-radius: 12px;
+      padding: 40px 20px;
+      cursor: pointer;
+      transition: all var(--transition-smooth);
+      background: rgba(15, 22, 48, 0.3);
+    }
+
+    .upload-zone:hover {
+      border-color: rgba(212, 175, 55, 0.7);
+      background: rgba(15, 22, 48, 0.5);
+    }
+
+    .upload-zone p {
+      color: var(--champagne);
+      margin-bottom: 8px;
+    }
+
+    .upload-zone .icon {
+      font-size: 2rem;
+      color: var(--gold-soft);
+      margin-bottom: 8px;
+    }
+
+    #photoInput {
+      display: none;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 12px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .gallery-item {
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+      aspect-ratio: 1;
+      cursor: pointer;
+      animation: slideUp 0.3s ease-out;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.1);
+    }
+
+    .gallery-item .delete-photo {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(0, 0, 0, 0.7);
+      border: none;
+      color: #ff6b6b;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .gallery-item:hover .delete-photo {
+      opacity: 1;
+    }
+
+    /* ============================================================
+       MODAL SETTINGS
+       ============================================================ */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 10, 26, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 40;
+      animation: fadeIn var(--transition-smooth);
+    }
+
+    .modal-overlay.show {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    .modal-content {
+      background: linear-gradient(145deg, rgba(16, 28, 64, 0.95), rgba(10, 18, 48, 0.95));
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      border-radius: 28px;
+      padding: 40px;
+      max-width: 550px;
+      width: 90%;
+      box-shadow: var(--shadow-deep), var(--neomorph-light);
+      animation: slideUp var(--transition-bounce);
+      max-height: 85vh;
+      overflow-y: auto;
+    }
+
+    [data-theme="light"] .modal-content {
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(245, 245, 245, 0.95));
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(60px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--spacing-lg);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+      padding-bottom: var(--spacing-md);
+    }
+
+    .modal-header h2 {
+      font-family: 'Marcellus', serif;
+      font-size: 1.8rem;
+      color: var(--ivory);
+      margin: 0;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      color: var(--gold-soft);
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .modal-close:hover {
+      color: var(--gold);
+      transform: rotate(90deg);
+    }
+
+    .modal-section {
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .modal-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .modal-label {
+      display: block;
+      font-size: 0.95rem;
+      color: var(--champagne);
+      margin-bottom: var(--spacing-sm);
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+
+    /* Toggle Switch */
+    .toggle-switch {
+      position: relative;
+      display: inline-flex;
+      width: 60px;
+      height: 32px;
+      background: linear-gradient(145deg, rgba(15, 22, 48, 0.8), rgba(30, 45, 90, 0.6));
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 16px;
+      cursor: pointer;
+      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      transition: all var(--transition-smooth);
+    }
+
+    .toggle-switch.active {
+      background: linear-gradient(145deg, rgba(212, 175, 55, 0.4), rgba(232, 205, 122, 0.3));
+      box-shadow: inset 0 2px 6px rgba(212, 175, 55, 0.15), 0 0 20px rgba(212, 175, 55, 0.15);
+    }
+
+    .toggle-switch::after {
+      content: '';
+      position: absolute;
+      width: 26px;
+      height: 26px;
+      background: linear-gradient(145deg, rgba(212, 175, 55, 0.5), rgba(180, 137, 42, 0.8));
+      border-radius: 50%;
+      top: 3px;
+      left: 3px;
+      transition: all var(--transition-smooth);
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+    }
+
+    .toggle-switch.active::after {
+      left: 31px;
+      background: linear-gradient(145deg, var(--gold-soft), var(--gold));
+      box-shadow: 0 3px 12px rgba(212, 175, 55, 0.4);
+    }
+
+    /* Preview Button */
+    .btn-preview {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(145deg, rgba(212, 175, 55, 0.2), rgba(232, 205, 122, 0.1));
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      border-radius: 14px;
+      color: var(--gold-soft);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition-smooth);
+      font-family: 'Jost', sans-serif;
+      font-size: 0.9rem;
+      margin-bottom: 12px;
+    }
+
+    .btn-preview:hover {
+      background: linear-gradient(145deg, rgba(212, 175, 55, 0.3), rgba(232, 205, 122, 0.2));
+      border-color: var(--gold);
+      color: var(--gold);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(212, 175, 55, 0.2);
+    }
+
+    .btn-preview:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Modal Tabs */
+    .modal-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+    }
+
+    .modal-tab {
+      flex: 1;
+      padding: 12px;
+      background: none;
+      border: none;
+      color: var(--champagne);
+      cursor: pointer;
+      font-weight: 600;
+      border-bottom: 2px solid transparent;
+      transition: all var(--transition-smooth);
+    }
+
+    .modal-tab.active {
+      color: var(--gold);
+      border-bottom-color: var(--gold);
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* ============================================================
+       PRESENTATION MODE
+       ============================================================ */
+    .presentation-mode {
+      position: fixed;
+      inset: 0;
+      background: var(--navy-deep);
+      z-index: 100;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--ivory);
+    }
+
+    .presentation-mode.active {
+      display: flex;
+    }
+
+    .presentation-mode .countdown-display {
+      font-size: 8rem;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .presentation-mode .exit-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      padding: 10px 20px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    /* ============================================================
+       TOAST NOTIFICATION
+       ============================================================ */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(120px);
+      background: rgba(15, 22, 48, 0.95);
+      border: 1px solid var(--gold);
+      color: var(--champagne);
+      padding: 14px 24px;
+      border-radius: 14px;
+      font-size: 0.9rem;
+      backdrop-filter: blur(10px);
+      opacity: 0;
+      pointer-events: none;
+      transition: all var(--transition-smooth);
+      z-index: 50;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 768px) {
+      header.topbar {
+        padding: 16px var(--spacing-sm) 0;
+      }
+
+      .brand span {
+        display: none;
+      }
+
+      .topbar-controls {
+        gap: 8px;
+      }
+
+      .theme-btn, .lang-btn {
+        font-size: 0.8rem;
+        padding: 10px 12px;
+      }
+
+      .rings {
+        gap: 12px;
+      }
+
+      .ring-svg-wrap {
+        width: clamp(100px, 18vw, 140px);
+        height: clamp(100px, 18vw, 140px);
+      }
+
+      .hero {
+        padding: 80px var(--spacing-sm) 30px;
+      }
+
+      .settings-btn {
+        width: 50px;
+        height: 50px;
+        bottom: 20px;
+        right: 20px;
+        font-size: 1.2rem;
+      }
+
+      .reflection-container {
+        bottom: auto;
+        top: 100px;
+        right: 20px;
+        left: auto;
+        max-width: 250px;
+      }
+
+      .modal-content {
+        padding: 30px 24px;
+        width: 95%;
+        max-height: 90vh;
+      }
+
+      .resolution-item p {
+        font-size: 0.9rem;
+      }
+
+      .presentation-mode .countdown-display {
+        font-size: 4rem;
+      }
+    }
+
+    /* ===== v2: responsive + nuevas funciones ===== */
+    .greet{font-family:'Cormorant Garamond',serif;font-size:1.6rem;color:var(--gold-soft);margin-bottom:8px;letter-spacing:.08em}
+    .greet:empty{display:none}
+    .newyear-message .message-content p{text-align:center}
+    .modal-tabs{flex-wrap:wrap}
+    .track-list{display:grid;gap:8px}
+    .track-btn{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:12px;border:1px solid rgba(212,175,55,.2);background:rgba(15,22,48,.5);color:var(--champagne);cursor:pointer;font:500 .9rem 'Jost',sans-serif;text-align:left;transition:all .3s}
+    .track-btn.on{border-color:var(--gold);background:rgba(212,175,55,.15);color:var(--gold)}
+    .track-btn:hover{border-color:rgba(212,175,55,.5)}
+    .rng{width:100%;accent-color:var(--gold)}
+    .swatches,.btn-row{display:flex;gap:10px;flex-wrap:wrap}
+    .btn-row .btn-preview{flex:1;min-width:120px}
+    .sw{width:36px;height:36px;border-radius:50%;border:2px solid transparent;cursor:pointer}
+    .sw.on{border-color:var(--ivory);box-shadow:0 0 0 3px rgba(255,255,255,.15)}
+    .fld{width:100%;padding:12px 14px;border-radius:12px;border:1px solid rgba(212,175,55,.3);background:rgba(15,22,48,.6);color:var(--ivory);font:.95rem 'Jost',sans-serif;resize:vertical}
+    .btn-preview.danger{color:#ff8a8a;border-color:rgba(255,107,107,.4)}
+    .up-status{margin-top:10px;font-size:.85rem;color:var(--gold-soft);min-height:1.2em}
+    .gallery-grid{display:block!important;column-width:170px;column-gap:12px;max-width:1000px!important}
+    .gallery-grid .gallery-item{aspect-ratio:auto;break-inside:avoid;margin-bottom:12px;border-radius:14px;cursor:zoom-in}
+    .gallery-grid .gallery-item img{height:auto;display:block}
+    @media (hover:none){.gallery-item .delete-photo{opacity:.9}}
+    .lightbox{display:none;position:fixed;inset:0;z-index:200;background:rgba(5,10,26,.95);align-items:center;justify-content:center;padding:env(safe-area-inset-top) 12px env(safe-area-inset-bottom)}
+    .lightbox.show{display:flex}
+    .lightbox img{max-width:min(100%,1100px);max-height:86dvh;object-fit:contain;border-radius:12px}
+    .lightbox button{position:absolute;background:rgba(255,255,255,.1);border:1px solid rgba(212,175,55,.3);color:var(--champagne);width:46px;height:46px;border-radius:50%;cursor:pointer;font-size:1.1rem}
+    #lbClose{top:16px;right:16px}#lbPrev{left:12px}#lbNext{right:12px}
+    /* Modo presentación */
+    .presentation-mode{background:radial-gradient(ellipse at 50% 30%,#14224d 0%,var(--navy-deep) 70%);overflow:hidden;padding:env(safe-area-inset-top) 16px env(safe-area-inset-bottom)}
+    .pm-glow{position:absolute;width:70vmin;height:70vmin;border-radius:50%;background:radial-gradient(circle,rgba(212,175,55,.22),transparent 65%);animation:pmPulse 6s ease-in-out infinite}
+    @keyframes pmPulse{50%{transform:scale(1.25);opacity:.6}}
+    .pm-top{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:20px;transition:opacity .5s;z-index:2}
+    .pm-clock{color:var(--gold-soft);letter-spacing:.12em;font-size:.95rem}
+    .pm-actions{display:flex;gap:10px}
+    .pm-actions button{background:rgba(255,255,255,.08);border:1px solid rgba(212,175,55,.35);color:var(--champagne);border-radius:12px;padding:10px 16px;cursor:pointer;font:600 .85rem 'Jost',sans-serif}
+    .pm-actions button:hover{color:var(--gold)}
+    .presentation-mode .exit-btn{position:static}
+    .pm-center{position:relative;z-index:1;text-align:center;width:100%;transition:opacity .6s}
+    .pm-year{font:400 clamp(3rem,13vw,10rem)/1 'Marcellus',serif;background:linear-gradient(120deg,var(--ivory),var(--gold-soft),var(--champagne));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+    .pm-sub{font:italic clamp(1rem,2.4vw,1.8rem) 'Cormorant Garamond',serif;color:rgba(243,231,196,.75);margin:8px 0 4vh}
+    .pm-units{display:flex;justify-content:center;gap:clamp(10px,3vw,40px);flex-wrap:wrap}
+    .pm-u{min-width:clamp(70px,16vw,200px);padding:clamp(10px,2vw,24px) 8px;border-radius:20px;background:rgba(20,30,60,.45);border:1px solid rgba(212,175,55,.25)}
+    .pm-u b{display:block;font:600 clamp(2.4rem,10vw,7.5rem)/1.1 'Marcellus',serif;color:var(--ivory);font-variant-numeric:tabular-nums}
+    .pm-u small{letter-spacing:.25em;text-transform:uppercase;font-size:clamp(.6rem,1.4vw,.95rem);color:var(--gold-soft)}
+    .pm-bar{width:min(700px,80%);height:6px;border-radius:6px;background:rgba(212,175,55,.15);margin:5vh auto 0;overflow:hidden}
+    .pm-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--champagne),var(--gold));transition:width 1s linear}
+    .pm-big,.pm-final{position:absolute;inset:0;display:none;align-items:center;justify-content:center;text-align:center;z-index:3;font-family:'Marcellus',serif;color:var(--gold);text-shadow:0 0 60px rgba(212,175,55,.6)}
+    .pm-big{font-size:min(60vw,60vh)}.pm-final{font-size:clamp(2.5rem,11vw,9rem);padding:20px}
+    .presentation-mode.last .pm-center,.presentation-mode.done .pm-center{opacity:0}
+    .presentation-mode.last .pm-big,.presentation-mode.done .pm-final{display:flex}
+    .presentation-mode.idle{cursor:none}.presentation-mode.idle .pm-top{opacity:0}
+    body.pm-on #fireworks,body.pm-on #confetti{z-index:150!important}
+    /* Responsive */
+    @media (max-width:768px){
+      .hero{padding:90px 16px 20px}
+      .reflection-container{left:16px;right:16px;max-width:none;bottom:96px}
+      .settings-btn{right:16px;bottom:16px}
+      .modal-content{padding:24px 18px;width:94%;max-height:90dvh}
+      .timezones-grid{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
+    }
+    @media (max-width:600px){
+      .ring-svg-wrap{width:clamp(96px,38vw,160px);height:clamp(96px,38vw,160px)}
+      .rings{gap:18px 14px}
+      .countdown-stage{padding-top:30px}
+      .share-btn span{display:none}
+      .modal-tab span{display:none}
+      .resolutions-input input{min-width:0}
+      .video-container{border-radius:14px}
+      .pm-top{padding:12px}.pm-actions button span{display:none}
+    }
+    @media (max-height:480px) and (orientation:landscape){.pm-year{font-size:3rem}.pm-sub{margin-bottom:2vh}.pm-u b{font-size:3rem}}
+  </style>
+</head>
+<body>
+
+  <!-- Particle Canvas -->
+  <canvas id="particles"></canvas>
+  <canvas id="fireworks"></canvas>
+  <canvas id="confetti"></canvas>
+
+  <!-- Header -->
+  <header class="topbar">
+    <div class="brand">
+      <i class="fa-regular fa-star"></i>
+      <span id="brandText">Cuenta Regresiva Año Nuevo</span>
+    </div>
+    <div class="topbar-controls">
+      <button class="theme-btn" id="themeBtn" aria-label="Cambiar tema" title="Cambiar tema">
+        <i class="fa-solid fa-moon"></i>
+      </button>
+      <button class="lang-btn" id="langBtn" aria-label="Cambiar idioma" title="Cambiar idioma">
+        <i class="fa-solid fa-globe"></i>
+      </button>
+      <button class="share-btn glass" id="shareBtn" aria-label="Compartir">
+        <i class="fa-solid fa-arrow-up-from-bracket"></i>
+        <span id="shareText">Compartir</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Settings Button -->
+  <button class="settings-btn" id="settingsBtn" aria-label="Configuración">
+    <i class="fa-solid fa-gear"></i>
+  </button>
+
+  <!-- Reflection Container -->
+  <div class="reflection-container" id="reflectionContainer">
+    <button class="close-reflection" id="closeReflection">&times;</button>
+    <div class="question" id="reflectionQuestion"></div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div class="modal-overlay" id="settingsModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="settingsTitle">Configuración</h2>
+        <button class="modal-close" id="closeSettings" aria-label="Cerrar">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Tabs -->
+      <div class="modal-tabs">
+        <button class="modal-tab active" data-tab="audio">
+          <i class="fa-solid fa-volume-high"></i> <span id="audioTabText">Audio</span>
+        </button>
+        <button class="modal-tab" data-tab="display">
+          <i class="fa-solid fa-eye"></i> <span id="displayTabText">Pantalla</span>
+        </button>
+        <button class="modal-tab" data-tab="export">
+          <i class="fa-solid fa-download"></i> <span id="exportTabText">Exportar</span>
+        </button>
+        <button class="modal-tab" data-tab="custom">
+          <i class="fa-solid fa-wand-magic-sparkles"></i> <span>Personalizar</span>
+        </button>
+      </div>
+
+      <!-- Audio Tab -->
+      <div id="audio" class="tab-content active">
+        <!-- Voice Toggle -->
+        <div class="modal-section">
+          <label class="modal-label" for="voiceToggle">
+            <i class="fa-solid fa-microphone"></i> <span id="voiceLabel">Voz en Cuenta Regresiva</span>
+          </label>
+          <div style="display: flex; align-items: center; gap: 16px;">
+            <div class="toggle-switch active" id="voiceToggle" role="switch" aria-checked="true"></div>
+            <span id="voiceStatus" style="color: var(--gold-soft); font-size: 0.9rem;">Activada</span>
+          </div>
+        </div>
+
+        <!-- Background Music Toggle -->
+        <div class="modal-section">
+          <label class="modal-label" for="musicToggle">
+            <i class="fa-solid fa-music"></i> <span id="musicLabel">Música Ambiental</span>
+          </label>
+          <div style="display: flex; align-items: center; gap: 16px;">
+            <div class="toggle-switch" id="musicToggle" role="switch" aria-checked="false"></div>
+            <span id="musicStatus" style="color: var(--gold-soft); font-size: 0.9rem;">Desactivada</span>
+          </div>
+        </div>
+
+        <!-- Sound Effects Toggle -->
+        <div class="modal-section">
+          <label class="modal-label" for="soundToggle">
+            <i class="fa-solid fa-volume-off"></i> <span id="soundLabel">Efectos de Sonido</span>
+          </label>
+          <div style="display: flex; align-items: center; gap: 16px;">
+            <div class="toggle-switch active" id="soundToggle" role="switch" aria-checked="true"></div>
+            <span id="soundStatus" style="color: var(--gold-soft); font-size: 0.9rem;">Activados</span>
+          </div>
+        </div>
+
+        <div class="modal-section"><label class="modal-label"><i class="fa-solid fa-compact-disc"></i> Canción de fondo</label><div id="trackList" class="track-list"></div></div>
+        <div class="modal-section"><label class="modal-label"><i class="fa-solid fa-sliders"></i> Volumen <span id="volVal"></span></label><input type="range" id="musicVol" min="0" max="100" class="rng"></div>
+        <!-- Music Preview -->
+        <div class="modal-section">
+          <label class="modal-label">
+            <i class="fa-solid fa-play"></i> <span id="musicPreviewText">Preescuchar Música</span>
+          </label>
+          <button class="btn-preview" id="previewMusicBtn">
+            <i class="fa-solid fa-play"></i> <span id="musicPreviewBtnText">Reproducir Vista Previa</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Display Tab -->
+      <div id="display" class="tab-content">
+        <!-- Presentation Mode -->
+        <div class="modal-section">
+          <label class="modal-label">
+            <i class="fa-solid fa-tv"></i> <span id="presentationText">Modo Presentación</span>
+          </label>
+          <button class="btn-preview" id="presentationBtn">
+            <i class="fa-solid fa-expand"></i> <span id="presentationBtnText">Pantalla Completa</span>
+          </button>
+        </div>
+
+        <div class="modal-section"><label class="modal-label"><i class="fa-solid fa-palette"></i> Color de acento</label><div id="accents" class="swatches"></div></div>
+        <div class="modal-section"><label class="modal-label"><i class="fa-solid fa-sparkles"></i> Partículas de fondo</label><div style="display:flex;align-items:center;gap:16px"><div class="toggle-switch active" id="fxToggle" role="switch" aria-checked="true"></div><span id="fxStatus" style="color:var(--gold-soft);font-size:.9rem">Activadas</span></div></div>
+        <div class="modal-section"><label class="modal-label"><i class="fa-solid fa-burst"></i> Efectos al instante</label><div class="btn-row"><button class="btn-preview" id="fxFire"><i class="fa-solid fa-fire"></i> Fuegos</button><button class="btn-preview" id="fxConf"><i class="fa-solid fa-champagne-glasses"></i> Confeti</button></div></div>
+        <!-- Preview Animation -->
+        <div class="modal-section">
+          <label class="modal-label">
+            <i class="fa-solid fa-star"></i> <span id="previewText">Vista Previa</span>
+          </label>
+          <button class="btn-preview" id="previewAnimationBtn">
+            <i class="fa-solid fa-eye"></i> <span id="previewBtnText">Ver Animación de Año Nuevo</span>
+          </button>
+        </div>
+      </div>
+
+      <div id="custom" class="tab-content">
+        <div class="modal-section"><label class="modal-label" for="inName"><i class="fa-solid fa-user"></i> Tu nombre</label><input class="fld" id="inName" maxlength="40" placeholder="Ej. Ana"></div>
+        <div class="modal-section"><label class="modal-label" for="inMsg"><i class="fa-solid fa-pen"></i> Mensaje propio (aparece a medianoche)</label><textarea class="fld" id="inMsg" rows="3" maxlength="280"></textarea></div>
+        <div class="modal-section"><label class="modal-label" for="inDate"><i class="fa-solid fa-calendar-days"></i> Fecha objetivo (vacío = 1 de enero de 2027)</label><input class="fld" type="datetime-local" id="inDate"></div>
+        <div class="modal-section"><button class="btn-preview" id="saveCustom"><i class="fa-solid fa-floppy-disk"></i> Guardar y aplicar</button></div>
+        <div class="modal-section"><label class="modal-label"><i class="fa-solid fa-bell"></i> Avisos</label><button class="btn-preview" id="notifBtn"><i class="fa-solid fa-bell"></i> Activar notificaciones (10, 5 y 1 min)</button></div>
+        <div class="modal-section"><label class="modal-label"><i class="fa-solid fa-share-from-square"></i> Tarjeta para compartir</label><button class="btn-preview" id="cardBtn"><i class="fa-solid fa-image"></i> Descargar tarjeta PNG</button></div>
+        <div class="modal-section"><button class="btn-preview danger" id="resetAll"><i class="fa-solid fa-trash"></i> Borrar mis datos</button></div>
+      </div>
+
+      <!-- Export Tab -->
+      <div id="export" class="tab-content">
+        <!-- Download Wallpaper -->
+        <div class="modal-section">
+          <label class="modal-label">
+            <i class="fa-solid fa-image"></i> <span id="wallpaperText">Descargar Fondo</span>
+          </label>
+          <button class="btn-preview" id="downloadWallpaperBtn">
+            <i class="fa-solid fa-download"></i> <span id="wallpaperBtnText">Descargar Fondo de Pantalla</span>
+          </button>
+        </div>
+
+        <!-- Add to Calendar -->
+        <div class="modal-section">
+          <label class="modal-label">
+            <i class="fa-solid fa-calendar"></i> <span id="calendarText">Agendar Evento</span>
+          </label>
+          <button class="btn-preview" id="addCalendarBtn">
+            <i class="fa-solid fa-download"></i> <span id="calendarBtnText">Descargar Evento .ics</span>
+          </button>
+        </div>
+
+        <!-- Share Live Countdown -->
+        <div class="modal-section">
+          <label class="modal-label">
+            <i class="fa-solid fa-link"></i> <span id="shareLiveText">Compartir en Vivo</span>
+          </label>
+          <button class="btn-preview" id="shareLiveBtn">
+            <i class="fa-solid fa-share-nodes"></i> <span id="shareLiveBtnText">Copiar Enlace Personalizado</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <span class="eyebrow" id="dateEyebrow">31 de Diciembre</span>
+    <h1 id="heroTitle">Un Nuevo Comienzo<br>Está Esperando</h1>
+    <p class="greet" id="greet"></p>
+    <p class="sub" id="heroSubtitle">Cada segundo trae consigo la promesa de un nuevo capítulo lleno de posibilidades</p>
+  </section>
+
+  <!-- Timezones Section -->
+  <div class="timezones-section wrap" id="timezonesSection">
+    <h3 id="timezonesTitle">Países Celebrando Año Nuevo 🌍</h3>
+    <div class="timezones-grid" id="timezonesGrid"></div>
+  </div>
+
+  <!-- Main Countdown -->
+  <div class="countdown-stage wrap">
+    <div class="rings" id="rings">
+      <!-- Days -->
+      <div class="ring-unit">
+        <div class="ring-svg-wrap">
+          <svg viewBox="0 0 120 120" role="img" aria-label="Días">
+            <defs>
+              <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#f3e7c4" />
+                <stop offset="100%" stop-color="#d4af37" />
+              </linearGradient>
+            </defs>
+            <circle class="ring-track" cx="60" cy="60" r="52" />
+            <circle class="ring-progress" id="ring-days" cx="60" cy="60" r="52" stroke-dasharray="326.7" stroke-dashoffset="326.7" />
+          </svg>
+          <div class="ring-value" id="val-days">00</div>
+        </div>
+        <div class="ring-label" id="dayLabel">Días</div>
+      </div>
+
+      <!-- Hours -->
+      <div class="ring-unit">
+        <div class="ring-svg-wrap">
+          <svg viewBox="0 0 120 120" role="img" aria-label="Horas">
+            <circle class="ring-track" cx="60" cy="60" r="52" />
+            <circle class="ring-progress" id="ring-hours" cx="60" cy="60" r="52" stroke-dasharray="326.7" stroke-dashoffset="326.7" />
+          </svg>
+          <div class="ring-value" id="val-hours">00</div>
+        </div>
+        <div class="ring-label" id="hourLabel">Horas</div>
+      </div>
+
+      <!-- Minutes -->
+      <div class="ring-unit">
+        <div class="ring-svg-wrap">
+          <svg viewBox="0 0 120 120" role="img" aria-label="Minutos">
+            <circle class="ring-track" cx="60" cy="60" r="52" />
+            <circle class="ring-progress" id="ring-minutes" cx="60" cy="60" r="52" stroke-dasharray="326.7" stroke-dashoffset="326.7" />
+          </svg>
+          <div class="ring-value" id="val-minutes">00</div>
+        </div>
+        <div class="ring-label" id="minuteLabel">Minutos</div>
+      </div>
+
+      <!-- Seconds -->
+      <div class="ring-unit">
+        <div class="ring-svg-wrap">
+          <svg viewBox="0 0 120 120" role="img" aria-label="Segundos">
+            <circle class="ring-track" cx="60" cy="60" r="52" />
+            <circle class="ring-progress" id="ring-seconds" cx="60" cy="60" r="52" stroke-dasharray="326.7" stroke-dashoffset="326.7" />
+          </svg>
+          <div class="ring-value" id="val-seconds">00</div>
+        </div>
+        <div class="ring-label" id="secondLabel">Segundos</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Resolutions Section -->
+  <div class="resolutions-section wrap" id="resolutionsSection">
+    <h2 id="resolutionsTitle">Mis Resoluciones para el Año Nuevo ✨</h2>
+    <div class="resolutions-input">
+      <input type="text" id="resolutionInput" placeholder="Escribe tu resolución..." maxlength="100">
+      <button id="addResolutionBtn">
+        <i class="fa-solid fa-plus"></i>
+      </button>
+    </div>
+    <div class="resolutions-list" id="resolutionsList"></div>
+  </div>
+
+  <!-- Gallery Section -->
+  <div class="gallery-section wrap" id="gallerySection">
+    <h3 id="galleryTitle">Galería del Año Pasado 📸</h3>
+    <div class="gallery-upload">
+      <div class="upload-zone" id="uploadZone" role="button" tabindex="0">
+        <div class="icon">📷</div>
+        <p id="uploadText">Arrastra fotos aquí o haz clic para seleccionar</p>
+      </div>
+      <input type="file" id="photoInput" accept="image/*" multiple>
+      <div id="upStatus" class="up-status" role="status"></div>
+    </div>
+    <div class="gallery-grid" id="gallery"></div>
+  </div>
+
+  <!-- New Year Message -->
+  <div class="newyear-message wrap" id="newyearMsg">
+    <h2 id="happyNewYearTitle">¡Feliz Año Nuevo!</h2>
+    <div class="message-content" id="messageContent">
+      <p id="msgPara1">
+        En este instante, cuando el tiempo marca el inicio de un nuevo ciclo, queremos recordarte que cada segundo que ahora llega
+        es una oportunidad fresca, una página en blanco esperando ser escrita por tus manos.
+      </p>
+      <p id="msgPara2">
+        El pasado, con sus lecciones y enseñanzas, queda atrás. Las dudas, los "qué hubiera pasado si", tienen ahora un final.
+        Lo que importa es que has llegado hasta aquí, resiliente, con la fuerza de quien ha crecido a través de cada desafío.
+      </p>
+      <p id="msgPara3">
+        Este nuevo año es la prueba tangible de que las cosas pueden cambiar, de que el tiempo cura, transforma y renacen
+        nuevas esperanzas en quien está dispuesto a recibirlas. Es la confirmación de que tú tienes el poder de escribir tu propia historia.
+      </p>
+      <p id="msgPara4">
+        Que cada amanecer de este nuevo año te encuentre más fuerte, más sabio, más compasivo contigo mismo y con los demás.
+        Que los desafíos se conviertan en aprendizajes, y cada logro, por pequeño que sea, sea un motivo de celebración y gratitud.
+      </p>
+      <p id="msgPara5">
+        Deseamos para ti salud que prospere, abundancia que fluya naturalmente, momentos de paz profunda en las noches tranquilas,
+        y para tus sueños, el valor inquebrantable de perseguirlos sin pausa, sin miedo, con la certeza de que mereces conquistar
+        todo aquello que tu corazón desea.
+      </p>
+      <p id="msgPara6">
+        Que este año sea el testimonio de tu fuerza, el reflejo de tu capacidad de amar, de soñar, de crecer. Y que, cuando termine,
+        puedas mirar atrás con la satisfacción de quien ha vivido plenamente cada día.
+      </p>
+      <p class="message-signature" id="customMsg" style="text-align:center"></p>
+      <div class="message-signature" id="messageSig">
+        Con todo nuestro cariño, hacia un año extraordinario ✦
+      </div>
+    </div>
+    <div style="text-align:center"><button class="btn-neomorph" id="nextYearBtn"></button></div>
+  </div>
+
+  <!-- Multimedia Section -->
+  <div class="multimedia-section wrap" id="multimediaSection">
+    <div class="video-container">
+      <video id="newYearVideo" controls playsinline>
+        <source src="año-nuevo.mp4" type="video/mp4">
+        Tu navegador no soporta reproducción de video.
+      </video>
+    </div>
+  </div>
+
+  <!-- Presentation Mode -->
+  <div class="presentation-mode" id="presentationMode" aria-hidden="true">
+    <div class="pm-glow"></div>
+    <div class="pm-top"><span class="pm-clock"><i class="fa-regular fa-clock"></i> <span id="pmClock"></span></span>
+      <div class="pm-actions"><button id="pmMusic" aria-label="Música"><i class="fa-solid fa-music"></i></button><button id="pmFull" aria-label="Pantalla completa"><i class="fa-solid fa-expand"></i></button><button class="exit-btn" id="exitPresentation"><i class="fa-solid fa-xmark"></i> <span id="exitText">Salir</span></button></div></div>
+    <div class="pm-center">
+      <div class="pm-year" id="pmYear"></div><div class="pm-sub" id="pmSub">Falta muy poco para empezar de nuevo</div>
+      <div class="pm-units"><div class="pm-u"><b id="pmD">00</b><small>Días</small></div><div class="pm-u"><b id="pmH">00</b><small>Horas</small></div><div class="pm-u"><b id="pmM">00</b><small>Min</small></div><div class="pm-u"><b id="pmS">00</b><small>Seg</small></div></div>
+      <div class="pm-bar"><i id="pmBar"></i></div>
+    </div>
+    <div class="pm-big" id="pmBig"></div><div class="pm-final" id="pmFinal"></div>
+  </div>
+
+  <div class="lightbox" id="lightbox"><button id="lbClose" aria-label="Cerrar"><i class="fa-solid fa-xmark"></i></button><button id="lbPrev" aria-label="Anterior"><i class="fa-solid fa-chevron-left"></i></button><img id="lbImg" alt=""><button id="lbNext" aria-label="Siguiente"><i class="fa-solid fa-chevron-right"></i></button></div>
+  <!-- Hidden Audio Elements -->
+  <audio id="backgroundAudio" preload="auto"></audio>
+  <audio id="soundClick" preload="auto"></audio>
+  <audio id="soundBell" preload="auto"></audio>
+
+  <!-- Toast -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- Language Selection Modal -->
+  <div class="modal-overlay" id="langModal">
+    <div class="modal-content" style="max-width: 400px;">
+      <div class="modal-header">
+        <h2 id="langModalTitle">Seleccionar Idioma</h2>
+        <button class="modal-close" id="closeLangModal" aria-label="Cerrar">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+        <button class="btn-preview" data-lang="es">🇪🇸 Español</button>
+        <button class="btn-preview" data-lang="en">🇬🇧 English</button>
+        <button class="btn-preview" data-lang="fr">🇫🇷 Français</button>
+        <button class="btn-preview" data-lang="pt">🇵🇹 Português</button>
+        <button class="btn-preview" data-lang="it">🇮🇹 Italiano</button>
+        <button class="btn-preview" data-lang="de">🇩🇪 Deutsch</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       JAVASCRIPT
+       ============================================================ -->
+  <script>
+    /* ============================================================
+       TRANSLATIONS
+       ============================================================ */
+    const TRANSLATIONS = {
+      es: {
+        brandText: 'Cuenta Regresiva Año Nuevo',
+        shareText: 'Compartir',
+        settingsTitle: 'Configuración',
+        audioTabText: 'Audio',
+        displayTabText: 'Pantalla',
+        exportTabText: 'Exportar',
+        voiceLabel: 'Voz en Cuenta Regresiva',
+        voiceStatusActive: 'Activada',
+        voiceStatusInactive: 'Desactivada',
+        musicLabel: 'Música Ambiental',
+        musicStatusActive: 'Activada',
+        musicStatusInactive: 'Desactivada',
+        soundLabel: 'Efectos de Sonido',
+        soundStatusActive: 'Activados',
+        soundStatusInactive: 'Desactivados',
+        musicPreviewText: 'Preescuchar Música',
+        musicPreviewBtnText: 'Reproducir Vista Previa',
+        presentationText: 'Modo Presentación',
+        presentationBtnText: 'Pantalla Completa',
+        previewText: 'Vista Previa',
+        previewBtnText: 'Ver Animación de Año Nuevo',
+        wallpaperText: 'Descargar Fondo',
+        wallpaperBtnText: 'Descargar Fondo de Pantalla',
+        calendarText: 'Agendar Evento',
+        calendarBtnText: 'Descargar Evento .ics',
+        shareLiveText: 'Compartir en Vivo',
+        shareLiveBtnText: 'Copiar Enlace Personalizado',
+        dateEyebrow: '31 de Diciembre',
+        heroTitle: 'Un Nuevo Comienzo<br>Está Esperando',
+        heroSubtitle: 'Cada segundo trae consigo la promesa de un nuevo capítulo lleno de posibilidades',
+        timezonesTitle: 'Países Celebrando Año Nuevo 🌍',
+        dayLabel: 'Días',
+        hourLabel: 'Horas',
+        minuteLabel: 'Minutos',
+        secondLabel: 'Segundos',
+        resolutionsTitle: 'Mis Resoluciones para el Año Nuevo ✨',
+        resolutionPlaceholder: 'Escribe tu resolución...',
+        galleryTitle: 'Galería del Año Pasado 📸',
+        uploadText: 'Arrastra fotos aquí o haz clic para seleccionar',
+        happyNewYearTitle: '¡Feliz Año Nuevo!',
+        exitText: 'Salir',
+        langModalTitle: 'Seleccionar Idioma',
+        toastCopied: 'Enlace copiado al portapapeles',
+        toastError: 'No se pudo copiar el enlace',
+        toastVoiceOn: 'Voz activada',
+        toastVoiceOff: 'Voz desactivada',
+        toastMusicOn: 'Música activada',
+        toastMusicOff: 'Música desactivada',
+        toastSoundOn: 'Efectos activados',
+        toastSoundOff: 'Efectos desactivados',
+        toastCalendarSaved: 'Evento guardado en tu calendario',
+        toastWallpaperDownloaded: 'Fondo de pantalla descargado',
+        reflectionQuestions: [
+          '¿Qué aprendiste este año?',
+          '¿Cuál fue tu mayor logro?',
+          '¿Qué deseas dejar atrás?',
+          '¿Cuál es tu mayor sueño para este año?',
+          '¿Cómo creciste como persona?',
+          '¿Quién te inspiró este año?'
+        ],
+        timezones: {
+          'Nueva Zelanda': 'UTC+13',
+          'Australia': 'UTC+11',
+          'Japón': 'UTC+9',
+          'Hong Kong': 'UTC+8',
+          'India': 'UTC+5:30',
+          'Dubái': 'UTC+4',
+          'París': 'UTC+1',
+          'Londres': 'UTC+0',
+          'Nueva York': 'UTC-5',
+          'Los Ángeles': 'UTC-8',
+          'Hawái': 'UTC-10'
+        }
+      },
+      en: {
+        brandText: 'New Year Countdown',
+        shareText: 'Share',
+        settingsTitle: 'Settings',
+        audioTabText: 'Audio',
+        displayTabText: 'Display',
+        exportTabText: 'Export',
+        voiceLabel: 'Voice in Countdown',
+        voiceStatusActive: 'Enabled',
+        voiceStatusInactive: 'Disabled',
+        musicLabel: 'Ambient Music',
+        musicStatusActive: 'Enabled',
+        musicStatusInactive: 'Disabled',
+        soundLabel: 'Sound Effects',
+        soundStatusActive: 'Enabled',
+        soundStatusInactive: 'Disabled',
+        musicPreviewText: 'Preview Music',
+        musicPreviewBtnText: 'Play Preview',
+        presentationText: 'Presentation Mode',
+        presentationBtnText: 'Fullscreen',
+        previewText: 'Preview',
+        previewBtnText: 'See New Year Animation',
+        wallpaperText: 'Download Wallpaper',
+        wallpaperBtnText: 'Download Wallpaper',
+        calendarText: 'Schedule Event',
+        calendarBtnText: 'Download Event .ics',
+        shareLiveText: 'Share Live',
+        shareLiveBtnText: 'Generate Group Link',
+        dateEyebrow: 'December 31st',
+        heroTitle: 'A New Beginning<br>Is Waiting',
+        heroSubtitle: 'Every second brings the promise of a new chapter full of possibilities',
+        timezonesTitle: 'Countries Celebrating New Year 🌍',
+        dayLabel: 'Days',
+        hourLabel: 'Hours',
+        minuteLabel: 'Minutes',
+        secondLabel: 'Seconds',
+        resolutionsTitle: 'My New Year Resolutions ✨',
+        resolutionPlaceholder: 'Write your resolution...',
+        galleryTitle: 'Last Year\'s Gallery 📸',
+        uploadText: 'Drag photos here or click to select',
+        happyNewYearTitle: 'Happy New Year!',
+        exitText: 'Exit',
+        langModalTitle: 'Select Language',
+        toastCopied: 'Link copied to clipboard',
+        toastError: 'Could not copy link',
+        toastVoiceOn: 'Voice enabled',
+        toastVoiceOff: 'Voice disabled',
+        toastMusicOn: 'Music enabled',
+        toastMusicOff: 'Music disabled',
+        toastSoundOn: 'Effects enabled',
+        toastSoundOff: 'Effects disabled',
+        toastCalendarSaved: 'Event saved to your calendar',
+        toastWallpaperDownloaded: 'Wallpaper downloaded',
+        reflectionQuestions: [
+          'What did you learn this year?',
+          'What was your biggest achievement?',
+          'What do you want to leave behind?',
+          'What is your biggest dream for this year?',
+          'How did you grow as a person?',
+          'Who inspired you this year?'
+        ],
+        timezones: {
+          'New Zealand': 'UTC+13',
+          'Australia': 'UTC+11',
+          'Japan': 'UTC+9',
+          'Hong Kong': 'UTC+8',
+          'India': 'UTC+5:30',
+          'Dubai': 'UTC+4',
+          'Paris': 'UTC+1',
+          'London': 'UTC+0',
+          'New York': 'UTC-5',
+          'Los Angeles': 'UTC-8',
+          'Hawaii': 'UTC-10'
+        }
+      },
+      fr: {
+        brandText: 'Compte à rebours Nouvel An',
+        shareText: 'Partager',
+        settingsTitle: 'Paramètres',
+        audioTabText: 'Audio',
+        displayTabText: 'Affichage',
+        exportTabText: 'Exporter',
+        voiceLabel: 'Voix dans le compte à rebours',
+        voiceStatusActive: 'Activée',
+        voiceStatusInactive: 'Désactivée',
+        musicLabel: 'Musique Ambiante',
+        musicStatusActive: 'Activée',
+        musicStatusInactive: 'Désactivée',
+        soundLabel: 'Effets Sonores',
+        soundStatusActive: 'Activés',
+        soundStatusInactive: 'Désactivés',
+        musicPreviewText: 'Aperçu Musical',
+        musicPreviewBtnText: 'Jouer un aperçu',
+        presentationText: 'Mode Présentation',
+        presentationBtnText: 'Plein écran',
+        previewText: 'Aperçu',
+        previewBtnText: 'Voir Animation Nouvel An',
+        wallpaperText: 'Télécharger Fond',
+        wallpaperBtnText: 'Télécharger Fond d\'écran',
+        calendarText: 'Programmer un Événement',
+        calendarBtnText: 'Télécharger Événement .ics',
+        shareLiveText: 'Partager en Direct',
+        shareLiveBtnText: 'Générer Lien de Groupe',
+        dateEyebrow: '31 Décembre',
+        heroTitle: 'Un Nouveau Départ<br>Vous Attend',
+        heroSubtitle: 'Chaque seconde apporte la promesse d\'un nouveau chapitre plein de possibilités',
+        timezonesTitle: 'Pays Célébrant Nouvel An 🌍',
+        dayLabel: 'Jours',
+        hourLabel: 'Heures',
+        minuteLabel: 'Minutes',
+        secondLabel: 'Secondes',
+        resolutionsTitle: 'Mes Résolutions du Nouvel An ✨',
+        resolutionPlaceholder: 'Écrivez votre résolution...',
+        galleryTitle: 'Galerie de l\'Année Dernière 📸',
+        uploadText: 'Faites glisser les photos ici ou cliquez pour sélectionner',
+        happyNewYearTitle: 'Bonne Année!',
+        exitText: 'Quitter',
+        langModalTitle: 'Sélectionner la Langue',
+        toastCopied: 'Lien copié dans le presse-papiers',
+        toastError: 'Impossible de copier le lien',
+        toastVoiceOn: 'Voix activée',
+        toastVoiceOff: 'Voix désactivée',
+        toastMusicOn: 'Musique activée',
+        toastMusicOff: 'Musique désactivée',
+        toastSoundOn: 'Effets activés',
+        toastSoundOff: 'Effets désactivés',
+        toastCalendarSaved: 'Événement enregistré dans votre calendrier',
+        toastWallpaperDownloaded: 'Fond d\'écran téléchargé',
+        reflectionQuestions: [
+          'Qu\'as-tu appris cette année?',
+          'Quel était ton plus grand accomplissement?',
+          'Qu\'aimerais-tu laisser derrière?',
+          'Quel est ton plus grand rêve pour cette année?',
+          'Comment as-tu grandi en tant que personne?',
+          'Qui t\'a inspiré cette année?'
+        ],
+        timezones: {
+          'Nouvelle Zélande': 'UTC+13',
+          'Australie': 'UTC+11',
+          'Japon': 'UTC+9',
+          'Hong Kong': 'UTC+8',
+          'Inde': 'UTC+5:30',
+          'Dubaï': 'UTC+4',
+          'Paris': 'UTC+1',
+          'Londres': 'UTC+0',
+          'New York': 'UTC-5',
+          'Los Angeles': 'UTC-8',
+          'Hawaï': 'UTC-10'
+        }
+      },
+      pt: {
+        brandText: 'Contagem Regressiva Ano Novo',
+        shareText: 'Compartilhar',
+        settingsTitle: 'Configurações',
+        audioTabText: 'Áudio',
+        displayTabText: 'Exibição',
+        exportTabText: 'Exportar',
+        voiceLabel: 'Voz na Contagem Regressiva',
+        voiceStatusActive: 'Ativada',
+        voiceStatusInactive: 'Desativada',
+        musicLabel: 'Música Ambiente',
+        musicStatusActive: 'Ativada',
+        musicStatusInactive: 'Desativada',
+        soundLabel: 'Efeitos Sonoros',
+        soundStatusActive: 'Ativados',
+        soundStatusInactive: 'Desativados',
+        musicPreviewText: 'Visualização de Música',
+        musicPreviewBtnText: 'Reproduzir Visualização',
+        presentationText: 'Modo Apresentação',
+        presentationBtnText: 'Tela Inteira',
+        previewText: 'Visualização',
+        previewBtnText: 'Ver Animação do Ano Novo',
+        wallpaperText: 'Baixar Papel de Parede',
+        wallpaperBtnText: 'Baixar Papel de Parede',
+        calendarText: 'Agendar Evento',
+        calendarBtnText: 'Baixar Evento .ics',
+        shareLiveText: 'Compartilhar ao Vivo',
+        shareLiveBtnText: 'Gerar Link do Grupo',
+        dateEyebrow: '31 de Dezembro',
+        heroTitle: 'Um Novo Começo<br>Está Esperando',
+        heroSubtitle: 'Cada segundo traz a promessa de um novo capítulo cheio de possibilidades',
+        timezonesTitle: 'Países Celebrando Ano Novo 🌍',
+        dayLabel: 'Dias',
+        hourLabel: 'Horas',
+        minuteLabel: 'Minutos',
+        secondLabel: 'Segundos',
+        resolutionsTitle: 'Minhas Resoluções do Ano Novo ✨',
+        resolutionPlaceholder: 'Escreva sua resolução...',
+        galleryTitle: 'Galeria do Ano Passado 📸',
+        uploadText: 'Arraste as fotos aqui ou clique para selecionar',
+        happyNewYearTitle: 'Feliz Ano Novo!',
+        exitText: 'Sair',
+        langModalTitle: 'Selecionar Idioma',
+        toastCopied: 'Link copiado para a área de transferência',
+        toastError: 'Não foi possível copiar o link',
+        toastVoiceOn: 'Voz ativada',
+        toastVoiceOff: 'Voz desativada',
+        toastMusicOn: 'Música ativada',
+        toastMusicOff: 'Música desativada',
+        toastSoundOn: 'Efeitos ativados',
+        toastSoundOff: 'Efeitos desativados',
+        toastCalendarSaved: 'Evento salvo no seu calendário',
+        toastWallpaperDownloaded: 'Papel de parede baixado',
+        reflectionQuestions: [
+          'O que você aprendeu este ano?',
+          'Qual foi sua maior conquista?',
+          'O que você quer deixar para trás?',
+          'Qual é seu maior sonho para este ano?',
+          'Como você cresceu como pessoa?',
+          'Quem te inspirou este ano?'
+        ],
+        timezones: {
+          'Nova Zelândia': 'UTC+13',
+          'Austrália': 'UTC+11',
+          'Japão': 'UTC+9',
+          'Hong Kong': 'UTC+8',
+          'Índia': 'UTC+5:30',
+          'Dubai': 'UTC+4',
+          'Paris': 'UTC+1',
+          'Londres': 'UTC+0',
+          'Nova York': 'UTC-5',
+          'Los Angeles': 'UTC-8',
+          'Havaí': 'UTC-10'
+        }
+      },
+      it: {
+        brandText: 'Conto alla rovescia Capodanno',
+        shareText: 'Condividi',
+        settingsTitle: 'Impostazioni',
+        audioTabText: 'Audio',
+        displayTabText: 'Display',
+        exportTabText: 'Esporta',
+        voiceLabel: 'Voce nel Conto alla Rovescia',
+        voiceStatusActive: 'Attivata',
+        voiceStatusInactive: 'Disattivata',
+        musicLabel: 'Musica Ambiente',
+        musicStatusActive: 'Attivata',
+        musicStatusInactive: 'Disattivata',
+        soundLabel: 'Effetti Sonori',
+        soundStatusActive: 'Attivati',
+        soundStatusInactive: 'Disattivati',
+        musicPreviewText: 'Anteprima Musica',
+        musicPreviewBtnText: 'Riproduci Anteprima',
+        presentationText: 'Modalità Presentazione',
+        presentationBtnText: 'Schermo Intero',
+        previewText: 'Anteprima',
+        previewBtnText: 'Vedi Animazione Capodanno',
+        wallpaperText: 'Scarica Sfondo',
+        wallpaperBtnText: 'Scarica Sfondo',
+        calendarText: 'Programma Evento',
+        calendarBtnText: 'Scarica Evento .ics',
+        shareLiveText: 'Condividi in Diretta',
+        shareLiveBtnText: 'Genera Link Gruppo',
+        dateEyebrow: '31 Dicembre',
+        heroTitle: 'Un Nuovo Inizio<br>Ti Sta Aspettando',
+        heroSubtitle: 'Ogni secondo porta la promessa di un nuovo capitolo pieno di possibilità',
+        timezonesTitle: 'Paesi che Celebrano Capodanno 🌍',
+        dayLabel: 'Giorni',
+        hourLabel: 'Ore',
+        minuteLabel: 'Minuti',
+        secondLabel: 'Secondi',
+        resolutionsTitle: 'I Miei Propositi per il Nuovo Anno ✨',
+        resolutionPlaceholder: 'Scrivi il tuo proposito...',
+        galleryTitle: 'Galleria dell\'Anno Scorso 📸',
+        uploadText: 'Trascina le foto qui o fai clic per selezionare',
+        happyNewYearTitle: 'Felice Anno Nuovo!',
+        exitText: 'Esci',
+        langModalTitle: 'Seleziona Lingua',
+        toastCopied: 'Link copiato negli appunti',
+        toastError: 'Impossibile copiare il link',
+        toastVoiceOn: 'Voce attivata',
+        toastVoiceOff: 'Voce disattivata',
+        toastMusicOn: 'Musica attivata',
+        toastMusicOff: 'Musica disattivata',
+        toastSoundOn: 'Effetti attivati',
+        toastSoundOff: 'Effetti disattivati',
+        toastCalendarSaved: 'Evento salvato nel tuo calendario',
+        toastWallpaperDownloaded: 'Sfondo scaricato',
+        reflectionQuestions: [
+          'Cosa hai imparato quest\'anno?',
+          'Qual è stato il tuo più grande successo?',
+          'Cosa vuoi lasciare alle spalle?',
+          'Qual è il tuo più grande sogno per quest\'anno?',
+          'Come sei cresciuto come persona?',
+          'Chi ti ha ispirato quest\'anno?'
+        ],
+        timezones: {
+          'Nuova Zelanda': 'UTC+13',
+          'Australia': 'UTC+11',
+          'Giappone': 'UTC+9',
+          'Hong Kong': 'UTC+8',
+          'India': 'UTC+5:30',
+          'Dubai': 'UTC+4',
+          'Parigi': 'UTC+1',
+          'Londra': 'UTC+0',
+          'New York': 'UTC-5',
+          'Los Angeles': 'UTC-8',
+          'Hawaii': 'UTC-10'
+        }
+      },
+      de: {
+        brandText: 'Silvester-Countdown',
+        shareText: 'Teilen',
+        settingsTitle: 'Einstellungen',
+        audioTabText: 'Audio',
+        displayTabText: 'Anzeige',
+        exportTabText: 'Exportieren',
+        voiceLabel: 'Stimme im Countdown',
+        voiceStatusActive: 'Aktiviert',
+        voiceStatusInactive: 'Deaktiviert',
+        musicLabel: 'Umgebungsmusik',
+        musicStatusActive: 'Aktiviert',
+        musicStatusInactive: 'Deaktiviert',
+        soundLabel: 'Soundeffekte',
+        soundStatusActive: 'Aktiviert',
+        soundStatusInactive: 'Deaktiviert',
+        musicPreviewText: 'Musikvorschau',
+        musicPreviewBtnText: 'Vorschau abspielen',
+        presentationText: 'Präsentationsmodus',
+        presentationBtnText: 'Vollbild',
+        previewText: 'Vorschau',
+        previewBtnText: 'Neujahrsanimation anzeigen',
+        wallpaperText: 'Hintergrundbild Herunterladen',
+        wallpaperBtnText: 'Hintergrundbild Herunterladen',
+        calendarText: 'Ereignis Planen',
+        calendarBtnText: 'Ereignis .ics Herunterladen',
+        shareLiveText: 'Live Teilen',
+        shareLiveBtnText: 'Gruppenlink Generieren',
+        dateEyebrow: '31. Dezember',
+        heroTitle: 'Ein Neuer Anfang<br>Wartet auf Dich',
+        heroSubtitle: 'Jede Sekunde bringt die Hoffnung auf ein neues Kapitel voller Möglichkeiten',
+        timezonesTitle: 'Länder feiern Silvester 🌍',
+        dayLabel: 'Tage',
+        hourLabel: 'Stunden',
+        minuteLabel: 'Minuten',
+        secondLabel: 'Sekunden',
+        resolutionsTitle: 'Meine Neujahrsvorsätze ✨',
+        resolutionPlaceholder: 'Schreib deinen Vorsatz...',
+        galleryTitle: 'Galerie aus dem letzten Jahr 📸',
+        uploadText: 'Ziehe Fotos hierher oder klicke zum Auswählen',
+        happyNewYearTitle: 'Frohes neues Jahr!',
+        exitText: 'Beenden',
+        langModalTitle: 'Sprache Auswählen',
+        toastCopied: 'Link in die Zwischenablage kopiert',
+        toastError: 'Link konnte nicht kopiert werden',
+        toastVoiceOn: 'Stimme aktiviert',
+        toastVoiceOff: 'Stimme deaktiviert',
+        toastMusicOn: 'Musik aktiviert',
+        toastMusicOff: 'Musik deaktiviert',
+        toastSoundOn: 'Effekte aktiviert',
+        toastSoundOff: 'Effekte deaktiviert',
+        toastCalendarSaved: 'Ereignis in deinem Kalender gespeichert',
+        toastWallpaperDownloaded: 'Hintergrundbild heruntergeladen',
+        reflectionQuestions: [
+          'Was hast du dieses Jahr gelernt?',
+          'Was war dein größter Erfolg?',
+          'Was möchtest du zurücklassen?',
+          'Was ist dein größter Traum für dieses Jahr?',
+          'Wie bist du als Person gewachsen?',
+          'Wer hat dich dieses Jahr inspiriert?'
+        ],
+        timezones: {
+          'Neuseeland': 'UTC+13',
+          'Australien': 'UTC+11',
+          'Japan': 'UTC+9',
+          'Hongkong': 'UTC+8',
+          'Indien': 'UTC+5:30',
+          'Dubai': 'UTC+4',
+          'Paris': 'UTC+1',
+          'London': 'UTC+0',
+          'New York': 'UTC-5',
+          'Los Angeles': 'UTC-8',
+          'Hawaii': 'UTC-10'
+        }
+      }
+    };
+
+    /* ============================================================
+       STATE & CONFIG
+       ============================================================ */
+    let STATE = {
+      countdownEnded: false,
+      voiceEnabled: localStorage.getItem('voiceEnabled') !== 'false',
+      musicEnabled: localStorage.getItem('musicEnabled') === 'true',
+      soundEnabled: localStorage.getItem('soundEnabled') !== 'false',
+      currentLanguage: localStorage.getItem('language') || 'es',
+      spokenNumbers: new Set(),
+      previewMode: false,
+      konwamiCode: [],
+      reflectionIndex: 0,
+      resolutions: JSON.parse(localStorage.getItem('resolutions') || '[]'),
+      photos: JSON.parse(localStorage.getItem('photos') || '[]'),
+    };
+
+    function esc(v){const d=document.createElement('div');d.textContent=v;return d.innerHTML;}
+    const CONFIG = {
+      get AUDIO_FILE(){return encodeURI(localStorage.getItem('track')||'musicfondo.mp3');},
+      TARGET_YEAR: 2027,
+      VOICE:{es:'es-ES',en:'en-US',fr:'fr-FR',pt:'pt-PT',it:'it-IT',de:'de-DE'},
+      customTarget(){const d=new URLSearchParams(location.search).get('fecha')||localStorage.getItem('tdate');if(!d)return null;const x=new Date(d.length<=10?d+'T00:00:00':d);return(!isNaN(x)&&x>new Date())?x:null;},
+      VIDEO_FILE: 'año-nuevo.mp4',
+      REFLECTION_INTERVAL: 30000, // 30 seconds
+    };
+
+    /* ============================================================
+       UTILITY FUNCTIONS
+       ============================================================ */
+    function t(key) {
+      const keys = key.split('.');
+      let value = TRANSLATIONS[STATE.currentLanguage];
+      for (const k of keys) {
+        value = value[k];
+      }
+      return value;
+    }
+
+    function updateUI() {
+      // Update all text elements
+      document.getElementById('brandText').textContent = t('brandText');
+      document.getElementById('shareText').textContent = t('shareText');
+      document.getElementById('settingsTitle').textContent = t('settingsTitle');
+      document.getElementById('dateEyebrow').textContent = t('dateEyebrow');
+      document.getElementById('heroTitle').innerHTML = t('heroTitle');
+      document.getElementById('heroSubtitle').textContent = t('heroSubtitle');
+      document.getElementById('dayLabel').textContent = t('dayLabel');
+      document.getElementById('hourLabel').textContent = t('hourLabel');
+      document.getElementById('minuteLabel').textContent = t('minuteLabel');
+      document.getElementById('secondLabel').textContent = t('secondLabel');
+      
+      // Update all labels and buttons
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        el.textContent = t(key);
+      });
+
+      // Save language preference
+      localStorage.setItem('language', STATE.currentLanguage);
+    }
+
+    function showToast(message, duration = 2600) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), duration);
+    }
+
+    /* ============================================================
+       THEME TOGGLE
+       ============================================================ */
+    (function initTheme() {
+      const savedTheme = localStorage.getItem('theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      updateThemeButton();
+
+      document.getElementById('themeBtn').addEventListener('click', () => {
+        const current = document.documentElement.getAttribute('data-theme');
+        const newTheme = current === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        updateThemeButton();
+      });
+
+      function updateThemeButton() {
+        const theme = document.documentElement.getAttribute('data-theme');
+        const btn = document.getElementById('themeBtn');
+        btn.innerHTML = theme === 'dark' ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
+      }
+    })();
+
+    /* ============================================================
+       LANGUAGE SELECTOR
+       ============================================================ */
+    (function initLanguage() {
+      const langBtn = document.getElementById('langBtn');
+      const langModal = document.getElementById('langModal');
+      const closeLangModal = document.getElementById('closeLangModal');
+
+      langBtn.addEventListener('click', () => {
+        langModal.classList.add('show');
+      });
+
+      closeLangModal.addEventListener('click', () => {
+        langModal.classList.remove('show');
+      });
+
+      langModal.addEventListener('click', (e) => {
+        if (e.target === langModal) langModal.classList.remove('show');
+      });
+
+      document.querySelectorAll('[data-lang]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const lang = btn.getAttribute('data-lang');
+          STATE.currentLanguage = lang;
+          updateUI();
+          langModal.classList.remove('show');
+          showToast('Idioma actualizado');
+        });
+      });
+    })();
+
+    /* ============================================================
+       PARTICLES ANIMATION
+       ============================================================ */
+    (function initParticles() {
+      const canvas = document.getElementById('particles');
+      const ctx = canvas.getContext('2d');
+      let w, h, particles = [];
+
+      function resize() {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+      }
+      window.addEventListener('resize', resize);
+      resize();
+
+      const COUNT = Math.min(70, Math.floor((window.innerWidth * window.innerHeight) / 18000));
+      for (let i = 0; i < COUNT; i++) {
+        particles.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          r: Math.random() * 1.6 + 0.4,
+          speed: Math.random() * 0.25 + 0.05,
+          drift: (Math.random() - 0.5) * 0.15,
+          alpha: Math.random() * 0.5 + 0.15,
+          pulse: Math.random() * Math.PI * 2,
+        });
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, w, h);
+        for (const p of particles) {
+          p.pulse += 0.02;
+          const a = p.alpha * (0.6 + 0.4 * Math.sin(p.pulse));
+          ctx.beginPath();
+          ctx.fillStyle = `rgba(212,175,55,${a})`;
+          ctx.shadowColor = 'rgba(212,175,55,0.6)';
+          ctx.shadowBlur = 6;
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fill();
+
+          p.y -= p.speed;
+          p.x += p.drift;
+          if (p.y < -10) { p.y = h + 10; p.x = Math.random() * w; }
+          if (p.x < -10) p.x = w + 10;
+          if (p.x > w + 10) p.x = -10;
+        }
+        requestAnimationFrame(draw);
+      }
+      draw();
+    })();
+
+    /* ============================================================
+       COUNTDOWN TIMER
+       ============================================================ */
+    (function initCountdown() {
+      const CIRC = 2 * Math.PI * 52;
+
+      const getTarget = () => {
+        const now = new Date();
+        let year = now.getFullYear();
+        const ct = CONFIG.customTarget(); if (ct) return ct;
+        let t = new Date(CONFIG.TARGET_YEAR, 0, 1, 0, 0, 0);
+        if (t <= now) t = new Date(year + 1, 0, 1, 0, 0, 0);
+        return t;
+      };
+
+      let target = getTarget();
+      window.getCountdownTarget = () => target;
+
+      const els = {
+        days: document.getElementById('val-days'),
+        hours: document.getElementById('val-hours'),
+        minutes: document.getElementById('val-minutes'),
+        seconds: document.getElementById('val-seconds'),
+      };
+
+      const rings = {
+        days: document.getElementById('ring-days'),
+        hours: document.getElementById('ring-hours'),
+        minutes: document.getElementById('ring-minutes'),
+        seconds: document.getElementById('ring-seconds'),
+      };
+
+      function setRing(el, fraction) {
+        const offset = CIRC * (1 - fraction);
+        el.style.strokeDashoffset = offset;
+      }
+
+      function playSound(type) {
+        if (!STATE.soundEnabled) return;
+        // Usaremos sonidos simples generados con Web Audio API
+        window._ac = window._ac || new (window.AudioContext || window.webkitAudioContext)();
+        const audioContext = window._ac; if (audioContext.state === 'suspended') audioContext.resume();
+        const now = audioContext.currentTime;
+
+        if (type === 'click') {
+          const osc = audioContext.createOscillator();
+          const gain = audioContext.createGain();
+          osc.connect(gain);
+          gain.connect(audioContext.destination);
+          osc.frequency.setValueAtTime(800, now);
+          osc.frequency.exponentialRampToValueAtTime(400, now + 0.1);
+          gain.gain.setValueAtTime(0.3, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+          osc.start(now);
+          osc.stop(now + 0.1);
+        } else if (type === 'bell') {
+          const osc = audioContext.createOscillator();
+          const gain = audioContext.createGain();
+          osc.connect(gain);
+          gain.connect(audioContext.destination);
+          osc.frequency.setValueAtTime(2000, now);
+          gain.gain.setValueAtTime(0.5, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 1);
+          osc.start(now);
+          osc.stop(now + 1);
+        }
+      }
+
+      function speakNumber(n) {
+        if (!STATE.voiceEnabled) return;
+        try {
+          const u = new SpeechSynthesisUtterance(String(n));
+          u.lang = CONFIG.VOICE[STATE.currentLanguage] || 'en-US';
+          u.rate = 1;
+          u.pitch = 1.05;
+          u.volume = 1;
+          window.speechSynthesis.cancel();
+          window.speechSynthesis.speak(u);
+        } catch (e) { }
+      }
+
+      function tick() {
+        const now = new Date();
+        let diff = target - now;
+
+        if (diff <= 0) {
+          if (!STATE.countdownEnded) {
+            STATE.countdownEnded = true;
+            onMidnight();
+          }
+          return;
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((diff / (1000 * 60)) % 60);
+        const seconds = Math.floor((diff / 1000) % 60);
+
+        els.days.textContent = String(days).padStart(2, '0');
+        els.hours.textContent = String(hours).padStart(2, '0');
+        els.minutes.textContent = String(minutes).padStart(2, '0');
+        els.seconds.textContent = String(seconds).padStart(2, '0');
+
+        setRing(rings.days, 1 - (Math.min(days, 365) / 365));
+        setRing(rings.hours, 1 - (hours / 24));
+        setRing(rings.minutes, 1 - (minutes / 60));
+        setRing(rings.seconds, 1 - (seconds / 60));
+
+        const totalSecondsLeft = Math.floor(diff / 1000);
+        if (totalSecondsLeft <= 10 && totalSecondsLeft >= 1) {
+          document.getElementById('rings').classList.add('final-flash');
+          if (!STATE.spokenNumbers.has(totalSecondsLeft)) {
+            STATE.spokenNumbers.add(totalSecondsLeft);
+            speakNumber(totalSecondsLeft);
+            playSound('click');
+          }
+        }
+
+        // Update presentation mode
+        const presCountdown = document.getElementById('presentationCountdown');
+        if (presCountdown) {
+          presCountdown.textContent = `${String(days).padStart(2, '0')}:${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+      }
+
+      function onMidnight() {
+        document.getElementById('rings').style.display = 'none';
+        document.getElementById('newyearMsg').classList.add('show');
+        document.getElementById('multimediaSection').classList.add('show');
+        launchFireworks();
+        launchConfetti();
+        playSound('bell');
+
+        try {
+          const utterance = new SpeechSynthesisUtterance(document.getElementById('happyNewYearTitle').textContent);
+          utterance.lang = CONFIG.VOICE[STATE.currentLanguage] || 'es-ES';
+          utterance.rate = 0.95;
+          window.speechSynthesis.cancel();
+          window.speechSynthesis.speak(utterance);
+        } catch (e) { }
+      }
+
+      tick();
+      setInterval(tick, 1000);
+
+      window.resetCountdown = () => {
+        STATE.countdownEnded = false;
+        STATE.spokenNumbers.clear();
+        target = getTarget();
+        document.getElementById('rings').style.display = 'flex';
+        document.getElementById('newyearMsg').classList.remove('show');
+        document.getElementById('multimediaSection').classList.remove('show');
+      };
+    })();
+
+    /* ============================================================
+       FIREWORKS
+       ============================================================ */
+    function launchFireworks() {
+      const canvas = document.getElementById('fireworks');
+      canvas.style.display = 'block';
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const ctx = canvas.getContext('2d');
+
+      const colors = ['#d4af37', '#f3e7c4', '#ffffff', '#e8cd7a', '#b8892a', '#ffd700'];
+      let bursts = [];
+
+      function spawnBurst(x, y, intensity = 1) {
+        const count = Math.floor(80 * intensity);
+        const particles = [];
+        for (let i = 0; i < count; i++) {
+          const angle = (Math.PI * 2 * i) / count + Math.random() * 0.3;
+          const speed = Math.random() * 5 + 2.5;
+          particles.push({
+            x, y,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+            alpha: 1,
+            color: colors[Math.floor(Math.random() * colors.length)],
+            r: Math.random() * 2.5 + 1,
+            life: Math.random() * 60 + 40,
+          });
+        }
+        bursts.push(particles);
+      }
+
+      function frame() {
+        ctx.fillStyle = 'rgba(5,10,26,0.12)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        bursts.forEach(particles => {
+          particles.forEach(p => {
+            p.x += p.vx;
+            p.y += p.vy;
+            p.vy += 0.08;
+            p.life--;
+            p.alpha = Math.max(0, (p.life / 50) * 0.8);
+
+            if (p.alpha > 0) {
+              ctx.beginPath();
+              ctx.globalAlpha = p.alpha;
+              ctx.fillStyle = p.color;
+              ctx.shadowColor = p.color;
+              ctx.shadowBlur = 10;
+              ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+              ctx.fill();
+            }
+          });
+        });
+
+        ctx.globalAlpha = 1;
+        bursts = bursts.filter(particles => particles.some(p => p.life > 0));
+
+        if (bursts.length > 0) {
+          requestAnimationFrame(frame);
+        }
+      }
+
+      frame();
+
+      const burstTiming = [0, 300, 600, 1000, 1400, 1800, 2300, 2800, 3300, 3800, 4400, 5000];
+      burstTiming.forEach(delay => {
+        setTimeout(() => {
+          const x = Math.random() * canvas.width * 0.6 + canvas.width * 0.2;
+          const y = Math.random() * canvas.height * 0.5 + canvas.height * 0.1;
+          spawnBurst(x, y, 1.5);
+        }, delay);
+      });
+    }
+
+    /* ============================================================
+       CONFETTI
+       ============================================================ */
+    function launchConfetti() {
+      const canvas = document.getElementById('confetti');
+      canvas.style.display = 'block';
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const ctx = canvas.getContext('2d');
+
+      const confetti = [];
+      const colors = ['#d4af37', '#f3e7c4', '#e8cd7a', '#ffd700'];
+
+      for (let i = 0; i < 200; i++) {
+        confetti.push({
+          x: Math.random() * canvas.width,
+          y: -10,
+          vx: (Math.random() - 0.5) * 8,
+          vy: Math.random() * 5 + 2,
+          rotation: Math.random() * Math.PI * 2,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          size: Math.random() * 5 + 3,
+          life: 300,
+        });
+      }
+
+      function frame() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        confetti.forEach((p, idx) => {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vy += 0.1;
+          p.rotation += 0.1;
+          p.life--;
+
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.rotation);
+          ctx.fillStyle = p.color;
+          ctx.globalAlpha = Math.min(1, p.life / 100);
+          ctx.fillRect(-p.size, -p.size, p.size * 2, p.size * 2);
+          ctx.restore();
+        });
+
+        confetti = confetti.filter(p => p.life > 0 && p.y < canvas.height);
+
+        if (confetti.length > 0) {
+          requestAnimationFrame(frame);
+        } else {
+          canvas.style.display = 'none';
+        }
+      }
+
+      frame();
+    }
+
+    /* ============================================================
+       SHARE BUTTON
+       ============================================================ */
+    (function initShare() {
+      const btn = document.getElementById('shareBtn');
+      btn.addEventListener('click', async () => {
+        const url = window.location.href;
+        const shareData = {
+          title: 'Cuenta Regresiva Año Nuevo',
+          text: '¡Acompáñame en la cuenta regresiva del Año Nuevo!',
+          url,
+        };
+
+        if (navigator.share) {
+          try {
+            await navigator.share(shareData);
+          } catch (e) { }
+        } else {
+          try {
+            await navigator.clipboard.writeText(url);
+            btn.classList.add('copied');
+            showToast(t('toastCopied'));
+            setTimeout(() => btn.classList.remove('copied'), 1800);
+          } catch (e) {
+            showToast(t('toastError'));
+          }
+        }
+      });
+    })();
+
+    /* ============================================================
+       SETTINGS MODAL
+       ============================================================ */
+    (function initSettings() {
+      const settingsBtn = document.getElementById('settingsBtn');
+      const settingsModal = document.getElementById('settingsModal');
+      const closeSettings = document.getElementById('closeSettings');
+
+      settingsBtn.addEventListener('click', () => {
+        settingsModal.classList.add('show');
+      });
+
+      closeSettings.addEventListener('click', () => {
+        settingsModal.classList.remove('show');
+      });
+
+      settingsModal.addEventListener('click', (e) => {
+        if (e.target === settingsModal) {
+          settingsModal.classList.remove('show');
+        }
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && settingsModal.classList.contains('show')) {
+          settingsModal.classList.remove('show');
+        }
+      });
+
+      // Tab switching
+      document.querySelectorAll('.modal-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          const tabName = tab.getAttribute('data-tab');
+          document.querySelectorAll('.modal-tab').forEach(t => t.classList.remove('active'));
+          document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+          tab.classList.add('active');
+          document.getElementById(tabName).classList.add('active');
+        });
+      });
+    })();
+
+    /* ============================================================
+       VOICE TOGGLE
+       ============================================================ */
+    (function initVoiceToggle() {
+      const toggle = document.getElementById('voiceToggle');
+      const status = document.getElementById('voiceStatus');
+
+      function updateToggle() {
+        if (STATE.voiceEnabled) {
+          toggle.classList.add('active');
+          status.textContent = t('voiceStatusActive');
+        } else {
+          toggle.classList.remove('active');
+          status.textContent = t('voiceStatusInactive');
+        }
+      }
+
+      updateToggle();
+
+      toggle.addEventListener('click', () => {
+        STATE.voiceEnabled = !STATE.voiceEnabled;
+        localStorage.setItem('voiceEnabled', STATE.voiceEnabled);
+        updateToggle();
+        showToast(STATE.voiceEnabled ? t('toastVoiceOn') : t('toastVoiceOff'));
+      });
+    })();
+
+    /* ============================================================
+       MUSIC TOGGLE
+       ============================================================ */
+    (function initMusicToggle() {
+      const toggle = document.getElementById('musicToggle');
+      const status = document.getElementById('musicStatus');
+      let backgroundMusic = null;
+
+      function updateToggle() {
+        if (STATE.musicEnabled) {
+          toggle.classList.add('active');
+          status.textContent = t('musicStatusActive');
+          playBackgroundMusic();
+        } else {
+          toggle.classList.remove('active');
+          status.textContent = t('musicStatusInactive');
+          if (backgroundMusic) backgroundMusic.pause();
+        }
+      }
+
+      function playBackgroundMusic() {
+        if (backgroundMusic && backgroundMusic._f === CONFIG.AUDIO_FILE) { backgroundMusic.play().catch(() => {}); return; }
+        if (backgroundMusic) backgroundMusic.pause();
+        backgroundMusic = new Audio(CONFIG.AUDIO_FILE);
+        backgroundMusic._f = CONFIG.AUDIO_FILE;
+        backgroundMusic.loop = true;
+        backgroundMusic.volume = (localStorage.getItem('musicVol') ?? 20) / 100;
+        backgroundMusic.play().catch(() => {});
+      }
+
+      updateToggle();
+      window.refreshMusic = () => { if (STATE.musicEnabled) playBackgroundMusic(); };
+      window.setMusicVol = v => { if (backgroundMusic) backgroundMusic.volume = v; };
+
+      toggle.addEventListener('click', () => {
+        STATE.musicEnabled = !STATE.musicEnabled;
+        localStorage.setItem('musicEnabled', STATE.musicEnabled);
+        updateToggle();
+        showToast(STATE.musicEnabled ? t('toastMusicOn') : t('toastMusicOff'));
+      });
+    })();
+
+    /* ============================================================
+       SOUND EFFECTS TOGGLE
+       ============================================================ */
+    (function initSoundToggle() {
+      const toggle = document.getElementById('soundToggle');
+      const status = document.getElementById('soundStatus');
+
+      function updateToggle() {
+        if (STATE.soundEnabled) {
+          toggle.classList.add('active');
+          status.textContent = t('soundStatusActive');
+        } else {
+          toggle.classList.remove('active');
+          status.textContent = t('soundStatusInactive');
+        }
+      }
+
+      updateToggle();
+
+      toggle.addEventListener('click', () => {
+        STATE.soundEnabled = !STATE.soundEnabled;
+        localStorage.setItem('soundEnabled', STATE.soundEnabled);
+        updateToggle();
+        showToast(STATE.soundEnabled ? t('toastSoundOn') : t('toastSoundOff'));
+      });
+    })();
+
+    /* ============================================================
+       MUSIC PREVIEW
+       ============================================================ */
+    (function initMusicPreview() {
+      const previewBtn = document.getElementById('previewMusicBtn');
+      let currentPreview = null;
+
+      previewBtn.addEventListener('click', () => {
+        if (currentPreview) {
+          currentPreview.pause();
+          currentPreview = null;
+          previewBtn.innerHTML = '<i class="fa-solid fa-play"></i> <span id="musicPreviewBtnText">Reproducir Vista Previa</span>';
+          return;
+        }
+
+        const audio = new Audio(CONFIG.AUDIO_FILE);
+        audio.volume = 0.6;
+        audio.play().catch(() => {
+          showToast('No se pudo reproducir el archivo');
+        });
+
+        currentPreview = audio;
+        previewBtn.innerHTML = '<i class="fa-solid fa-pause"></i> Detener';
+
+        setTimeout(() => {
+          if (currentPreview === audio) {
+            audio.pause();
+            currentPreview = null;
+            previewBtn.innerHTML = '<i class="fa-solid fa-play"></i> <span id="musicPreviewBtnText">Reproducir Vista Previa</span>';
+          }
+        }, 8000);
+
+        audio.addEventListener('ended', () => {
+          currentPreview = null;
+          previewBtn.innerHTML = '<i class="fa-solid fa-play"></i> <span id="musicPreviewBtnText">Reproducir Vista Previa</span>';
+        });
+      });
+    })();
+
+    /* ============================================================
+       PREVIEW ANIMATION
+       ============================================================ */
+    (function initPreview() {
+      const previewBtn = document.getElementById('previewAnimationBtn');
+
+      previewBtn.addEventListener('click', () => {
+        if (STATE.previewMode) return;
+
+        STATE.previewMode = true;
+        previewBtn.disabled = true;
+        previewBtn.style.opacity = '0.5';
+
+        showToast('Simulando... 5 segundos para medianoche');
+
+        let count = 5;
+        const interval = setInterval(() => {
+          document.getElementById('val-seconds').textContent = String(count).padStart(2, '0');
+          count--;
+
+          if (count < 0) {
+            clearInterval(interval);
+            document.getElementById('rings').style.display = 'none';
+            document.getElementById('newyearMsg').classList.add('show');
+            document.getElementById('multimediaSection').classList.add('show');
+            launchFireworks();
+            launchConfetti();
+
+            setTimeout(() => {
+              STATE.previewMode = false;
+              window.resetCountdown();
+              previewBtn.disabled = false;
+              previewBtn.style.opacity = '1';
+            }, 3000);
+          }
+        }, 1000);
+      });
+    })();
+
+    /* ============================================================
+       WALLPAPER DOWNLOAD
+       ============================================================ */
+    (function initWallpaper() {
+      const downloadBtn = document.getElementById('downloadWallpaperBtn');
+
+      downloadBtn.addEventListener('click', () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = 1920;
+        canvas.height = 1080;
+        const ctx = canvas.getContext('2d');
+
+        // Create gradient background
+        const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+        gradient.addColorStop(0, '#050a1a');
+        gradient.addColorStop(1, '#0a1230');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Add text
+        ctx.fillStyle = '#d4af37';
+        ctx.font = 'bold 80px Marcellus';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('¡Feliz Año Nuevo!', canvas.width / 2, canvas.height / 2 - 100);
+
+        // Add countdown
+        const days = document.getElementById('val-days').textContent;
+        const hours = document.getElementById('val-hours').textContent;
+        const minutes = document.getElementById('val-minutes').textContent;
+        const seconds = document.getElementById('val-seconds').textContent;
+
+        ctx.font = '60px Jost';
+        ctx.fillText(`${days}:${hours}:${minutes}:${seconds}`, canvas.width / 2, canvas.height / 2 + 100);
+
+        // Download
+        canvas.toBlob(blob => {
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `año-nuevo-fondo.png`;
+          a.click();
+          URL.revokeObjectURL(url);
+          showToast(t('toastWallpaperDownloaded'));
+        });
+      });
+    })();
+
+    /* ============================================================
+       CALENDAR DOWNLOAD
+       ============================================================ */
+    (function initCalendar() {
+      const calendarBtn = document.getElementById('addCalendarBtn');
+
+      calendarBtn.addEventListener('click', () => {
+        const year = CONFIG.TARGET_YEAR - 1;
+        const eventDate = new Date(year, 11, 31, 23, 55, 0);
+
+        const formatDate = (d) => {
+          return d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+        };
+
+        const eventStart = formatDate(eventDate);
+        const eventEnd = formatDate(new Date(eventDate.getTime() + 30 * 60000));
+
+        const icsContent = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Año Nuevo Countdown//Countdown App//ES
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:newyear-countdown-${year}@example.com
+DTSTART:${eventStart}
+DTEND:${eventEnd}
+DTSTAMP:${formatDate(new Date())}
+CREATED:${formatDate(new Date())}
+DESCRIPTION:¡Cuenta regresiva de Año Nuevo!
+LAST-MODIFIED:${formatDate(new Date())}
+LOCATION:En línea
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:¡Cuenta Regresiva de Año Nuevo!
+TRANSP:TRANSPARENT
+END:VEVENT
+END:VCALENDAR`;
+
+        const blob = new Blob([icsContent], { type: 'text/calendar' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `año-nuevo-${year}.ics`;
+        link.click();
+        URL.revokeObjectURL(url);
+
+        showToast(t('toastCalendarSaved'));
+      });
+    })();
+
+    /* ============================================================
+       RESOLUTIONS
+       ============================================================ */
+    (function initResolutions() {
+      const input = document.getElementById('resolutionInput');
+      const addBtn = document.getElementById('addResolutionBtn');
+      const list = document.getElementById('resolutionsList');
+
+      function renderResolutions() {
+        list.innerHTML = '';
+        STATE.resolutions.forEach((res, idx) => {
+          const item = document.createElement('div');
+          item.className = 'resolution-item' + (res.completed ? ' completed' : '');
+          item.innerHTML = `
+            <input type="checkbox" ${res.completed ? 'checked' : ''} onchange="toggleResolution(${idx})">
+            <p>${esc(res.text)}</p>
+            <button onclick="deleteResolution(${idx})">
+              <i class="fa-solid fa-trash"></i> Eliminar
+            </button>
+          `;
+          list.appendChild(item);
+        });
+      }
+
+      window.toggleResolution = (idx) => {
+        STATE.resolutions[idx].completed = !STATE.resolutions[idx].completed;
+        localStorage.setItem('resolutions', JSON.stringify(STATE.resolutions));
+        renderResolutions();
+      };
+
+      window.deleteResolution = (idx) => {
+        STATE.resolutions.splice(idx, 1);
+        localStorage.setItem('resolutions', JSON.stringify(STATE.resolutions));
+        renderResolutions();
+      };
+
+      addBtn.addEventListener('click', () => {
+        if (input.value.trim()) {
+          STATE.resolutions.push({ text: input.value, completed: false });
+          localStorage.setItem('resolutions', JSON.stringify(STATE.resolutions));
+          input.value = '';
+          renderResolutions();
+        }
+      });
+
+      input.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') addBtn.click();
+      });
+
+      renderResolutions();
+      document.getElementById('resolutionsSection').classList.add('show');
+    })();
+
+    /* ============================================================
+       REFLECTION GAME
+       ============================================================ */
+    (function initReflection() {
+      const container = document.getElementById('reflectionContainer');
+      const question = document.getElementById('reflectionQuestion');
+      const closeBtn = document.getElementById('closeReflection');
+
+      const questions = t('reflectionQuestions');
+
+      function showReflection() {
+        question.textContent = questions[Math.floor(Math.random() * questions.length)];
+        container.classList.add('show');
+
+        setTimeout(() => {
+          container.classList.remove('show');
+        }, CONFIG.REFLECTION_INTERVAL);
+      }
+
+      closeBtn.addEventListener('click', () => {
+        container.classList.remove('show');
+      });
+
+      // Show first reflection after 2 minutes
+      setTimeout(showReflection, 120000);
+
+      // Then every 30 seconds
+      setInterval(showReflection, CONFIG.REFLECTION_INTERVAL);
+    })();
+
+    /* ============================================================
+       SHARE LIVE (Generate unique group link)
+       ============================================================ */
+    (function initShareLive() {
+      const shareLiveBtn = document.getElementById('shareLiveBtn');
+
+      shareLiveBtn.addEventListener('click', () => {
+        const pr = new URLSearchParams(); const n = localStorage.getItem('name'), m = localStorage.getItem('cmsg'), d = localStorage.getItem('tdate'); if (n) pr.set('nombre', n); if (m) pr.set('mensaje', m); if (d) pr.set('fecha', d);
+        const liveLink = location.origin + location.pathname + (pr.toString() ? '?' + pr : '');
+
+        navigator.clipboard.writeText(liveLink).then(() => {
+          showToast('Enlace copiado ✓');
+        }).catch(() => {
+          showToast('No se pudo copiar el enlace');
+        });
+      });
+    })();
+
+    /* ============================================================
+       EASTER EGGS - KONAMI CODE
+       ============================================================ */
+    (function initEasterEggs() {
+      const konamiCode = [
+        'ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown',
+        'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight',
+        'b', 'a'
+      ];
+      let konamiIndex = 0;
+
+      document.addEventListener('keydown', (e) => {
+        const key = e.key;
+        if (key === konamiCode[konamiIndex]) {
+          konamiIndex++;
+          if (konamiIndex === konamiCode.length) {
+            launchConfetti();
+            showToast('🎉 ¡Has encontrado un Easter Egg! 🎉');
+            konamiIndex = 0;
+          }
+        } else {
+          konamiIndex = 0;
+        }
+      });
+
+      // Double click to trigger fireworks
+      let clickCount = 0;
+      let clickTimer;
+      document.addEventListener('dblclick', (e) => {
+        if (e.target.closest('button,input,textarea,a,.modal-content,.gallery-section,.resolutions-section,.presentation-mode')) return;
+        launchFireworks();
+        showToast('✨ ¡Fuegos artificiales! ✨');
+      });
+    })();
+
+    /* ============================================================
+       NOTIFICATIONS (Request permission on load)
+       ============================================================ */
+    (function initNotifications() {
+
+      function scheduleNotifications() {
+        const now = new Date();
+        const target = window.getCountdownTarget ? window.getCountdownTarget() : new Date(CONFIG.TARGET_YEAR, 0, 1);
+
+        const intervals = [1, 5, 10]; // minutes
+        intervals.forEach(mins => {
+          const notifyTime = new Date(target.getTime() - mins * 60000);
+          const timeUntil = notifyTime - now;
+
+          if (timeUntil > 0) {
+            setTimeout(() => {
+              if ('Notification' in window && Notification.permission === 'granted') {
+                new Notification('Año Nuevo', {
+                  body: `¡Faltan ${mins} minutos para el Año Nuevo!`,
+                  icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192"><rect fill="%23050a1a" width="192" height="192"/><text x="96" y="120" font-size="120" font-weight="bold" fill="%23d4af37" text-anchor="middle" font-family="serif">✦</text></svg>'
+                });
+              }
+            }, timeUntil);
+          }
+        });
+      }
+
+      scheduleNotifications();
+    })();
+
+    // Initialize on load
+    window.addEventListener('load', () => {
+      updateUI();
+    });
+  </script>
+  
+<script>
+(function(){
+const $=id=>document.getElementById(id), LS=localStorage, Q=new URLSearchParams(location.search);
+const toast=m=>showToast(m);
+const TOGGLES=document.querySelectorAll('.toggle-switch');
+TOGGLES.forEach(t=>{t.tabIndex=0;t.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();t.click();}});});
+/* personalización */
+const nm=Q.get('nombre')||LS.getItem('name')||'', cm=Q.get('mensaje')||LS.getItem('cmsg')||'';
+if(nm)$('greet').textContent='✦ '+nm+' ✦'; if(cm)$('customMsg').textContent=cm;
+$('inName').value=LS.getItem('name')||'';$('inMsg').value=LS.getItem('cmsg')||'';$('inDate').value=LS.getItem('tdate')||'';
+$('saveCustom').onclick=()=>{LS.setItem('name',$('inName').value.trim());LS.setItem('cmsg',$('inMsg').value.trim());LS.setItem('tdate',$('inDate').value);location.href=location.pathname;};
+$('resetAll').onclick=()=>{if(confirm('¿Borrar resoluciones, fotos guardadas y ajustes?')){LS.clear();location.href=location.pathname;}};
+$('notifBtn').onclick=()=>{if(!('Notification' in window))return toast('Tu navegador no soporta notificaciones');Notification.requestPermission().then(p=>toast(p==='granted'?'Notificaciones activadas ✓':'Permiso denegado'));};
+$('fxFire').onclick=()=>launchFireworks();$('fxConf').onclick=()=>launchConfetti();
+/* acento */
+const ACC={Oro:['#d4af37','#e8cd7a'],Rosa:['#e0869b','#f0b3c1'],Esmeralda:['#3fbf8f','#8fe0bf'],Plata:['#b9c2d0','#e1e6ee'],Violeta:['#9b7be0','#c7b3f2']};
+function setAcc(n){const a=ACC[n]||ACC.Oro,r=document.documentElement.style;r.setProperty('--gold',a[0]);r.setProperty('--gold-soft',a[1]);LS.setItem('accent',n);document.querySelectorAll('.sw').forEach(b=>b.classList.toggle('on',b.title===n));}
+Object.keys(ACC).forEach(n=>{const b=document.createElement('button');b.className='sw';b.title=n;b.setAttribute('aria-label',n);b.style.background=ACC[n][0];b.onclick=()=>setAcc(n);$('accents').appendChild(b);});
+setAcc(LS.getItem('accent')||'Oro');
+/* partículas */
+function setFx(on){$('particles').style.display=on?'':'none';$('fxToggle').classList.toggle('active',on);$('fxToggle').setAttribute('aria-checked',on);$('fxStatus').textContent=on?'Activadas':'Desactivadas';LS.setItem('fx',on);}
+$('fxToggle').onclick=()=>setFx(LS.getItem('fx')==='false');setFx(LS.getItem('fx')!=='false');
+/* música */
+const TR=[['musicfondo.mp3','Música de fondo'],['Jazz-traditional.mp3','Jazz tradicional'],['Audio-Library.mp3','Audio Library'],['Cruce-De-Sentimientos.mp3','Cruce de sentimientos'],['sinfonía-de-penas.mp3','Sinfonía de penas']];
+function drawTracks(){const cur=LS.getItem('track')||TR[0][0];$('trackList').innerHTML='';TR.forEach(([f,n])=>{const b=document.createElement('button');b.className='track-btn'+(f===cur?' on':'');b.innerHTML='<i class="fa-solid '+(f===cur?'fa-circle-play':'fa-music')+'"></i> '+n;b.onclick=()=>{LS.setItem('track',f);drawTracks();window.refreshMusic&&window.refreshMusic();toast(STATE.musicEnabled?'Sonando: '+n:'Canción elegida: '+n+' (activa la música)');};$('trackList').appendChild(b);});}
+drawTracks();
+const vol=$('musicVol');vol.value=LS.getItem('musicVol')??20;$('volVal').textContent=vol.value+'%';
+vol.oninput=()=>{LS.setItem('musicVol',vol.value);$('volVal').textContent=vol.value+'%';window.setMusicVol&&window.setMusicVol(vol.value/100);};
+/* galería imgBB */
+const KEY='f5567fb36a6232aae841ea9aac0ee139',gal=$('gallery'),inp=$('photoInput'),zone=$('uploadZone'),st=$('upStatus');
+let ph=JSON.parse(LS.getItem('imgbb')||'[]');LS.removeItem('photos');
+const sv=()=>LS.setItem('imgbb',JSON.stringify(ph));
+function rg(){gal.innerHTML='';ph.forEach((p,i)=>{const d=document.createElement('div');d.className='gallery-item';const im=new Image();im.src=p.t;im.loading='lazy';im.alt='Foto '+(i+1);im.onclick=()=>lb(i);const b=document.createElement('button');b.className='delete-photo';b.setAttribute('aria-label','Quitar foto');b.innerHTML='<i class="fa-solid fa-trash"></i>';b.onclick=e=>{e.stopPropagation();ph.splice(i,1);sv();rg();};d.append(im,b);gal.appendChild(d);});}
+async function up(files){const fs=[...files].filter(f=>f.type.startsWith('image/'));let n=0;for(const f of fs){st.textContent='Subiendo '+(++n)+' de '+fs.length+'…';try{if(f.size>32e6)throw 0;const fd=new FormData();fd.append('image',f);const r=await fetch('https://api.imgbb.com/1/upload?key='+KEY,{method:'POST',body:fd}),j=await r.json();if(!j.success)throw 0;ph.push({u:j.data.url,t:(j.data.medium&&j.data.medium.url)||j.data.url});sv();rg();}catch(e){toast('No se pudo subir '+f.name);}}st.textContent=fs.length?'Listo ✓':'';setTimeout(()=>st.textContent='',2500);}
+zone.onclick=()=>inp.click();zone.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();inp.click();}};
+zone.ondragover=e=>{e.preventDefault();zone.style.borderColor='var(--gold)';};zone.ondragleave=()=>zone.style.borderColor='';
+zone.ondrop=e=>{e.preventDefault();zone.style.borderColor='';up(e.dataTransfer.files);};inp.onchange=e=>{up(e.target.files);inp.value='';};
+let li=0;const L=$('lightbox');
+function lb(i){li=(i+ph.length)%ph.length;$('lbImg').src=ph[li].u;L.classList.add('show');}
+$('lbClose').onclick=()=>L.classList.remove('show');$('lbPrev').onclick=()=>lb(li-1);$('lbNext').onclick=()=>lb(li+1);L.onclick=e=>{if(e.target===L)L.classList.remove('show');};
+document.addEventListener('keydown',e=>{if(!L.classList.contains('show'))return;if(e.key==='Escape')L.classList.remove('show');if(e.key==='ArrowLeft')lb(li-1);if(e.key==='ArrowRight')lb(li+1);});
+rg();$('gallerySection').classList.add('show');
+/* zonas horarias (Intl, con horario de verano) */
+const ZN=['Pacific/Auckland','Australia/Sydney','Asia/Tokyo','Asia/Hong_Kong','Asia/Kolkata','Asia/Dubai','Europe/Paris','Europe/London','America/New_York','America/Los_Angeles','Pacific/Honolulu'];
+function tzr(){const g=$('timezonesGrid'),names=Object.keys(t('timezones')),now=new Date(),Y=(window.getCountdownTarget?window.getCountdownTarget():new Date(CONFIG.TARGET_YEAR,0,1)).getFullYear();g.innerHTML='';
+names.forEach((n,i)=>{const z=ZN[i]||'UTC';let yr,h;try{const p=new Intl.DateTimeFormat('en-GB',{timeZone:z,year:'numeric',hour:'2-digit',hour12:false}).formatToParts(now);yr=+p.find(x=>x.type==='year').value;h=+p.find(x=>x.type==='hour').value%24;}catch(e){return;}
+const d=document.createElement('div');d.className='timezone-item'+(yr>=Y&&h===0?' celebrando':'');const a=document.createElement('div');a.className='location';a.textContent=(yr>=Y?'🎉 ':'')+n;const b=document.createElement('div');b.className='time';b.textContent=now.toLocaleTimeString([],{timeZone:z});d.append(a,b);g.appendChild(d);});}
+tzr();setInterval(tzr,1000);$('timezonesSection').classList.add('show');
+/* siguiente año tras medianoche */
+const nb=$('nextYearBtn');function nbt(){nb.innerHTML='<i class="fa-solid fa-rotate-right"></i> Contar hasta '+((new Date()).getFullYear()+1);}nbt();
+nb.onclick=()=>{$('newyearMsg').classList.remove('show');$('multimediaSection').classList.remove('show');$('rings').style.display='';$('rings').classList.remove('final-flash');window.resetCountdown&&window.resetCountdown();scrollTo({top:0,behavior:'smooth'});};
+/* tarjeta para compartir */
+$('cardBtn').onclick=()=>{const c=document.createElement('canvas');c.width=1080;c.height=1350;const x=c.getContext('2d'),T=window.getCountdownTarget(),dl=Math.max(0,Math.ceil((T-Date.now())/864e5)),a=getComputedStyle(document.documentElement).getPropertyValue('--gold').trim()||'#d4af37';
+const g=x.createLinearGradient(0,0,0,1350);g.addColorStop(0,'#050a1a');g.addColorStop(1,'#101c40');x.fillStyle=g;x.fillRect(0,0,1080,1350);x.textAlign='center';x.fillStyle=a;x.font='60px serif';x.fillText('✦',540,220);
+x.font='210px serif';x.fillText(T.getFullYear(),540,560);x.fillStyle='#f3e7c4';x.font='italic 56px serif';x.fillText(dl>0?'Faltan':'¡Feliz año nuevo!',540,700);if(dl>0){x.fillStyle=a;x.font='300px serif';x.fillText(dl,540,960);x.fillStyle='#f3e7c4';x.font='56px serif';x.fillText(dl===1?'día':'días',540,1060);}
+if(nm){x.font='italic 52px serif';x.fillText(nm,540,1200);}c.toBlob(b=>{const l=document.createElement('a');l.href=URL.createObjectURL(b);l.download='tarjeta-'+T.getFullYear()+'.png';l.click();toast('Tarjeta descargada ✓');});};
+/* modo presentación */
+const pm=$('presentationMode');let pi,idle,wl;const p2=n=>String(n).padStart(2,'0');
+const fsOn=()=>document.fullscreenElement||document.webkitFullscreenElement;
+function pt(){const T=window.getCountdownTarget(),d=T-Date.now();$('pmClock').textContent=new Date().toLocaleTimeString();$('pmYear').textContent=T.getFullYear();
+if(d<=0){pm.classList.remove('last');if(!pm.classList.contains('done')){pm.classList.add('done');$('pmFinal').textContent='¡Feliz '+T.getFullYear()+'!';launchFireworks();launchConfetti();}return;}
+pm.classList.remove('done');const s=Math.floor(d/1e3);pm.classList.toggle('last',s<=10);$('pmBig').textContent=s;
+$('pmD').textContent=p2(Math.floor(s/86400));$('pmH').textContent=p2(Math.floor(s/3600)%24);$('pmM').textContent=p2(Math.floor(s/60)%60);$('pmS').textContent=p2(s%60);
+const S=new Date(T.getFullYear()-1,0,1);$('pmBar').style.width=Math.min(100,Math.max(0,(1-d/(T-S))*100))+'%';}
+async function po(){$('settingsModal').classList.remove('show');pm.classList.add('active');pm.setAttribute('aria-hidden','false');document.body.classList.add('pm-on');document.body.style.overflow='hidden';pt();pi=setInterval(pt,250);try{(pm.requestFullscreen||pm.webkitRequestFullscreen).call(pm);}catch(e){}try{wl=await navigator.wakeLock.request('screen');}catch(e){}}
+function pc(){clearInterval(pi);pm.classList.remove('active','done','last');pm.setAttribute('aria-hidden','true');document.body.classList.remove('pm-on');document.body.style.overflow='auto';if(fsOn())(document.exitFullscreen||document.webkitExitFullscreen).call(document);try{wl&&wl.release();}catch(e){}}
+$('presentationBtn').onclick=po;$('exitPresentation').onclick=pc;
+$('pmFull').onclick=()=>fsOn()?(document.exitFullscreen||document.webkitExitFullscreen).call(document):(pm.requestFullscreen||pm.webkitRequestFullscreen).call(pm);
+$('pmMusic').onclick=()=>$('musicToggle').click();
+document.addEventListener('fullscreenchange',()=>{if(!fsOn()&&pm.classList.contains('active'))pc();});
+document.addEventListener('keydown',e=>{if(!pm.classList.contains('active'))return;if(e.key==='Escape')pc();if(e.key==='f'||e.key==='F')$('pmFull').click();if(e.key==='m'||e.key==='M')$('pmMusic').click();});
+pm.addEventListener('mousemove',()=>{pm.classList.remove('idle');clearTimeout(idle);idle=setTimeout(()=>pm.classList.add('idle'),3000);});
+})();
+</script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js')
+        .then(reg => console.log('✓ SW registrado:', reg))
+        .catch(err => console.error('✗ Error SW:', err));
+    });
+  }
+</script>
+</body>
+</html>
