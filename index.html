@@ -3380,6 +3380,7 @@ const pm=Notification.permission==='denied'?'denied':await Notification.requestP
 if(pm!=='granted')return toast(pm==='denied'?(edge?'Bloqueado. En Edge abre edge://settings/content/notifications y permite este sitio':saf?'Bloqueado. En Safari: Ajustes → Sitios web → Notificaciones → Permitir':'Bloqueado. Permite las notificaciones en los ajustes del sitio (candado junto a la dirección)'):'No aceptaste el permiso. Vuelve a tocar el botón y pulsa «Permitir»');
 const tk=await m.getToken({vapidKey:VAPID_KEY,serviceWorkerRegistration:await navigator.serviceWorker.ready});
 LS.setItem('pushToken',tk);LS.setItem('pushOn','1');await syncPush();pLabel();toast('Avisos con app cerrada activados ✓');}catch(e){console.error('Push:',e);toast('No se pudo activar: '+(e.code||e.message||e));}};
+try{firebase.messaging().onMessage(p=>{const n=p.notification||p.data||{};window.notify&&window.notify('',n.title||'Año Nuevo',n.body||'');});}catch(e){}
 window.dbReset=()=>UID?ref().delete().catch(()=>{}):null;
 au.onAuthStateChanged(async u=>{if(!u)return;UID=u.uid;rg();if(LS.getItem('pushOn')==='1')syncPush().catch(()=>{});
 try{const d=await ref().get();let ch=false;
