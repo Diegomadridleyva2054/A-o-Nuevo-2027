@@ -2229,10 +2229,20 @@
       photos: JSON.parse(localStorage.getItem('photos') || '[]'),
     };
 
+    function playNewYearSong() {
+      if (window.pauseMusic) window.pauseMusic();
+      const a = window._nyAudio || (window._nyAudio = new Audio(encodeURI(CONFIG.NEWYEAR_SONG)));
+      a.volume = 0.9;
+      a.play().catch(() => {
+        // Si el navegador bloquea el audio automático, suena al primer toque
+        ['pointerdown', 'keydown'].forEach(ev => document.addEventListener(ev, () => { if (a.paused && !a.currentTime) a.play().catch(() => {}); }, { once: true }));
+      });
+    }
     function esc(v){const d=document.createElement('div');d.textContent=v;return d.innerHTML;}
     const CONFIG = {
       get AUDIO_FILE(){return encodeURI(localStorage.getItem('track')||'musicfondo.mp3');},
       TARGET_YEAR: 2027,
+      NEWYEAR_SONG: 'musica-año-nuevo.mp4',
       VOICE:{es:'es-ES',en:'en-US',fr:'fr-FR',pt:'pt-PT',it:'it-IT',de:'de-DE'},
       customTarget(){const d=new URLSearchParams(location.search).get('fecha')||localStorage.getItem('tdate');if(!d)return null;const x=new Date(d.length<=10?d+'T00:00:00':d);return(!isNaN(x)&&x>new Date())?x:null;},
       VIDEO_FILE: 'año-nuevo.mp4',
@@ -2519,11 +2529,8 @@
         launchConfetti();
         playSound('bell');
 
-        // Al llegar a cero: enciende la música de fondo con la canción elegida
-        if (!STATE.musicEnabled) document.getElementById('musicToggle').click();
-        else if (window.refreshMusic) window.refreshMusic();
-        // Si el navegador bloquea el audio automático, suena al primer toque
-        ['pointerdown', 'keydown'].forEach(ev => document.addEventListener(ev, () => window.refreshMusic && window.refreshMusic(), { once: true }));
+        // Al llegar a cero suena la canción de celebración
+        playNewYearSong();
 
         try {
           const utterance = new SpeechSynthesisUtterance(document.getElementById('happyNewYearTitle').textContent);
@@ -2808,6 +2815,7 @@
       }
 
       updateToggle();
+      window.pauseMusic = () => { if (backgroundMusic) backgroundMusic.pause(); };
       window.refreshMusic = () => { if (STATE.musicEnabled) playBackgroundMusic(); };
       window.setMusicVol = v => { if (backgroundMusic) backgroundMusic.volume = v; };
 
@@ -2861,7 +2869,7 @@
           return;
         }
 
-        const audio = new Audio(CONFIG.AUDIO_FILE);
+        const audio = new Audio(encodeURI(CONFIG.NEWYEAR_SONG));
         audio.volume = 0.6;
         audio.play().catch(() => {
           showToast('No se pudo reproducir el archivo');
