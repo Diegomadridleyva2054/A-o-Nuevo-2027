@@ -1441,7 +1441,7 @@
           <i class="fa-solid fa-download"></i> <span id="exportTabText">Exportar</span>
         </button>
         <button class="modal-tab" data-tab="custom">
-          <i class="fa-solid fa-wand-magic-sparkles"></i> <span>Personalizar</span>
+          <i class="fa-solid fa-wand-magic-sparkles"></i> <span data-i="tab">Personalizar</span>
         </button>
       </div>
 
@@ -1480,8 +1480,8 @@
           </div>
         </div>
 
-        <div class="modal-section"><label class="modal-label"><i class="fa-solid fa-compact-disc"></i> Canción de fondo</label><div id="trackList" class="track-list"></div></div>
-        <div class="modal-section"><label class="modal-label"><i class="fa-solid fa-sliders"></i> Volumen <span id="volVal"></span></label><input type="range" id="musicVol" min="0" max="100" class="rng"></div>
+        <div class="modal-section"><label class="modal-label"><i class="fa-solid fa-compact-disc"></i> <span data-i="song">Canción de fondo</span></label><div id="trackList" class="track-list"></div></div>
+        <div class="modal-section"><label class="modal-label"><i class="fa-solid fa-sliders"></i> <span data-i="vol">Volumen</span> <span id="volVal"></span></label><input type="range" id="musicVol" min="0" max="100" class="rng"></div>
         <!-- Music Preview -->
         <div class="modal-section">
           <label class="modal-label">
@@ -1505,9 +1505,9 @@
           </button>
         </div>
 
-        <div class="modal-section"><label class="modal-label"><i class="fa-solid fa-palette"></i> Color de acento</label><div id="accents" class="swatches"></div></div>
-        <div class="modal-section"><label class="modal-label"><i class="fa-solid fa-sparkles"></i> Partículas de fondo</label><div style="display:flex;align-items:center;gap:16px"><div class="toggle-switch active" id="fxToggle" role="switch" aria-checked="true"></div><span id="fxStatus" style="color:var(--gold-soft);font-size:.9rem">Activadas</span></div></div>
-        <div class="modal-section"><label class="modal-label"><i class="fa-solid fa-burst"></i> Efectos al instante</label><div class="btn-row"><button class="btn-preview" id="fxFire"><i class="fa-solid fa-fire"></i> Fuegos</button><button class="btn-preview" id="fxConf"><i class="fa-solid fa-champagne-glasses"></i> Confeti</button></div></div>
+        <div class="modal-section"><label class="modal-label"><i class="fa-solid fa-palette"></i> <span data-i="accent">Color de acento</span></label><div id="accents" class="swatches"></div></div>
+        <div class="modal-section"><label class="modal-label"><i class="fa-solid fa-sparkles"></i> <span data-i="fx">Partículas de fondo</span></label><div style="display:flex;align-items:center;gap:16px"><div class="toggle-switch active" id="fxToggle" role="switch" aria-checked="true"></div><span id="fxStatus" style="color:var(--gold-soft);font-size:.9rem">Activadas</span></div></div>
+        <div class="modal-section"><label class="modal-label"><i class="fa-solid fa-burst"></i> <span data-i="inst">Efectos al instante</span></label><div class="btn-row"><button class="btn-preview" id="fxFire"><i class="fa-solid fa-fire"></i> <span data-i="fire">Fuegos</span></button><button class="btn-preview" id="fxConf"><i class="fa-solid fa-champagne-glasses"></i> <span data-i="conf">Confeti</span></button></div></div>
         <!-- Preview Animation -->
         <div class="modal-section">
           <label class="modal-label">
@@ -1520,13 +1520,13 @@
       </div>
 
       <div id="custom" class="tab-content">
-        <div class="modal-section"><label class="modal-label" for="inName"><i class="fa-solid fa-user"></i> Tu nombre</label><input class="fld" id="inName" maxlength="40" placeholder="Ej. Ana"></div>
-        <div class="modal-section"><label class="modal-label" for="inMsg"><i class="fa-solid fa-pen"></i> Mensaje propio (aparece a medianoche)</label><textarea class="fld" id="inMsg" rows="3" maxlength="280"></textarea></div>
-        <div class="modal-section"><label class="modal-label" for="inDate"><i class="fa-solid fa-calendar-days"></i> Fecha objetivo (vacío = 1 de enero de 2027)</label><input class="fld" type="datetime-local" id="inDate"></div>
-        <div class="modal-section"><button class="btn-preview" id="saveCustom"><i class="fa-solid fa-floppy-disk"></i> Guardar y aplicar</button></div>
-        <div class="modal-section"><label class="modal-label"><i class="fa-solid fa-bell"></i> Avisos</label><button class="btn-preview" id="notifBtn"><i class="fa-solid fa-bell"></i> Activar notificaciones (10, 5 y 1 min)</button></div>
-        <div class="modal-section"><label class="modal-label"><i class="fa-solid fa-share-from-square"></i> Tarjeta para compartir</label><button class="btn-preview" id="cardBtn"><i class="fa-solid fa-image"></i> Descargar tarjeta PNG</button></div>
-        <div class="modal-section"><button class="btn-preview danger" id="resetAll"><i class="fa-solid fa-trash"></i> Borrar mis datos</button></div>
+        <div class="modal-section"><label class="modal-label" for="inName"><i class="fa-solid fa-user"></i> <span data-i="name">Tu nombre</span></label><input class="fld" id="inName" maxlength="40" placeholder="Ej. Ana"></div>
+        <div class="modal-section"><label class="modal-label" for="inMsg"><i class="fa-solid fa-pen"></i> <span data-i="msg">Mensaje propio (aparece a medianoche)</span></label><textarea class="fld" id="inMsg" rows="3" maxlength="280"></textarea></div>
+        <div class="modal-section"><label class="modal-label" for="inDate"><i class="fa-solid fa-calendar-days"></i> <span data-i="date">Fecha objetivo (vacío = 1 de enero de 2027)</span></label><input class="fld" type="datetime-local" id="inDate"></div>
+        <div class="modal-section"><button class="btn-preview" id="saveCustom"><i class="fa-solid fa-floppy-disk"></i> <span data-i="save">Guardar y aplicar</span></button></div>
+        <div class="modal-section"><label class="modal-label"><i class="fa-solid fa-bell"></i> <span data-i="alerts">Avisos</span></label><button class="btn-preview" id="notifBtn"><i class="fa-solid fa-bell"></i> <span data-i="notif">Activar notificaciones (10, 5 y 1 min)</span></button></div>
+        <div class="modal-section"><label class="modal-label"><i class="fa-solid fa-share-from-square"></i> <span data-i="card">Tarjeta para compartir</span></label><button class="btn-preview" id="cardBtn"><i class="fa-solid fa-image"></i> <span data-i="cardbtn">Descargar tarjeta PNG</span></button></div>
+        <div class="modal-section"><button class="btn-preview danger" id="resetAll"><i class="fa-solid fa-trash"></i> <span data-i="reset">Borrar mis datos</span></button></div>
       </div>
 
       <!-- Export Tab -->
@@ -1716,8 +1716,8 @@
     <div class="pm-top"><span class="pm-clock"><i class="fa-regular fa-clock"></i> <span id="pmClock"></span></span>
       <div class="pm-actions"><button id="pmMusic" aria-label="Música"><i class="fa-solid fa-music"></i></button><button id="pmFull" aria-label="Pantalla completa"><i class="fa-solid fa-expand"></i></button><button class="exit-btn" id="exitPresentation"><i class="fa-solid fa-xmark"></i> <span id="exitText">Salir</span></button></div></div>
     <div class="pm-center">
-      <div class="pm-year" id="pmYear"></div><div class="pm-sub" id="pmSub">Falta muy poco para empezar de nuevo</div>
-      <div class="pm-units"><div class="pm-u"><b id="pmD">00</b><small>Días</small></div><div class="pm-u"><b id="pmH">00</b><small>Horas</small></div><div class="pm-u"><b id="pmM">00</b><small>Min</small></div><div class="pm-u"><b id="pmS">00</b><small>Seg</small></div></div>
+      <div class="pm-year" id="pmYear"></div><div class="pm-sub" id="pmSub" data-i="soon">Falta muy poco para empezar de nuevo</div>
+      <div class="pm-units"><div class="pm-u"><b id="pmD">00</b><small id="pmLd">Días</small></div><div class="pm-u"><b id="pmH">00</b><small id="pmLh">Horas</small></div><div class="pm-u"><b id="pmM">00</b><small id="pmLm">Min</small></div><div class="pm-u"><b id="pmS">00</b><small id="pmLs">Seg</small></div></div>
       <div class="pm-bar"><i id="pmBar"></i></div>
     </div>
     <div class="pm-big" id="pmBig"></div><div class="pm-final" id="pmFinal"></div>
@@ -2519,6 +2519,12 @@
         launchConfetti();
         playSound('bell');
 
+        // Al llegar a cero: enciende la música de fondo con la canción elegida
+        if (!STATE.musicEnabled) document.getElementById('musicToggle').click();
+        else if (window.refreshMusic) window.refreshMusic();
+        // Si el navegador bloquea el audio automático, suena al primer toque
+        ['pointerdown', 'keydown'].forEach(ev => document.addEventListener(ev, () => window.refreshMusic && window.refreshMusic(), { once: true }));
+
         try {
           const utterance = new SpeechSynthesisUtterance(document.getElementById('happyNewYearTitle').textContent);
           utterance.lang = CONFIG.VOICE[STATE.currentLanguage] || 'es-ES';
@@ -3110,7 +3116,7 @@ END:VCALENDAR`;
         const liveLink = location.origin + location.pathname + (pr.toString() ? '?' + pr : '');
 
         navigator.clipboard.writeText(liveLink).then(() => {
-          showToast('Enlace copiado ✓');
+          showToast(window.TX ? window.TX('copied') : 'Enlace copiado ✓');
         }).catch(() => {
           showToast('No se pudo copiar el enlace');
         });
@@ -3192,6 +3198,14 @@ END:VCALENDAR`;
 (function(){
 const $=id=>document.getElementById(id), LS=localStorage, Q=new URLSearchParams(location.search);
 const toast=m=>showToast(m);
+const KEYS='song vol accent fx on off inst fire conf name msg date save alerts notif card cardbtn reset tab copy next soon uploading done left day days copied playing pick confirm failed cardok notifok denied nosup'.split(' ');
+const I18N={"es": "Canción de fondo|Volumen|Color de acento|Partículas de fondo|Activadas|Desactivadas|Efectos al instante|Fuegos|Confeti|Tu nombre|Mensaje propio (aparece a medianoche)|Fecha objetivo (vacío = 1 de enero de 2027)|Guardar y aplicar|Avisos|Activar notificaciones (10, 5 y 1 min)|Tarjeta para compartir|Descargar tarjeta PNG|Borrar mis datos|Personalizar|Copiar Enlace Personalizado|Contar hasta|Falta muy poco para empezar de nuevo|Subiendo|Listo ✓|Faltan|día|días|Enlace copiado ✓|Sonando|Canción elegida|¿Borrar resoluciones, fotos guardadas y ajustes?|No se pudo subir|Tarjeta descargada ✓|Notificaciones activadas ✓|Permiso denegado|Tu navegador no soporta notificaciones", "en": "Background song|Volume|Accent color|Background particles|On|Off|Instant effects|Fireworks|Confetti|Your name|Your own message (shown at midnight)|Target date (empty = January 1, 2027)|Save and apply|Alerts|Enable notifications (10, 5 and 1 min)|Shareable card|Download PNG card|Delete my data|Customize|Copy Custom Link|Count down to|Almost time for a fresh start|Uploading|Done ✓|Left:|day|days|Link copied ✓|Playing|Song selected|Delete resolutions, saved photos and settings?|Could not upload|Card downloaded ✓|Notifications enabled ✓|Permission denied|Your browser does not support notifications", "fr": "Chanson de fond|Volume|Couleur d’accent|Particules en arrière-plan|Activées|Désactivées|Effets instantanés|Feux d’artifice|Confettis|Votre nom|Votre message (affiché à minuit)|Date cible (vide = 1er janvier 2027)|Enregistrer et appliquer|Alertes|Activer les notifications (10, 5 et 1 min)|Carte à partager|Télécharger la carte PNG|Supprimer mes données|Personnaliser|Copier le lien personnalisé|Compte à rebours jusqu’à|Presque l’heure de recommencer|Envoi|Terminé ✓|Reste :|jour|jours|Lien copié ✓|Lecture|Chanson choisie|Supprimer résolutions, photos enregistrées et réglages ?|Échec de l’envoi|Carte téléchargée ✓|Notifications activées ✓|Permission refusée|Votre navigateur ne gère pas les notifications", "pt": "Música de fundo|Volume|Cor de destaque|Partículas de fundo|Ativadas|Desativadas|Efeitos instantâneos|Fogos|Confete|Seu nome|Sua mensagem (exibida à meia-noite)|Data alvo (vazio = 1 de janeiro de 2027)|Salvar e aplicar|Avisos|Ativar notificações (10, 5 e 1 min)|Cartão para compartilhar|Baixar cartão PNG|Apagar meus dados|Personalizar|Copiar Link Personalizado|Contagem até|Falta pouco para recomeçar|Enviando|Pronto ✓|Faltam|dia|dias|Link copiado ✓|Tocando|Música escolhida|Apagar resoluções, fotos salvas e ajustes?|Não foi possível enviar|Cartão baixado ✓|Notificações ativadas ✓|Permissão negada|Seu navegador não suporta notificações", "it": "Canzone di sottofondo|Volume|Colore principale|Particelle di sfondo|Attive|Disattive|Effetti istantanei|Fuochi|Coriandoli|Il tuo nome|Il tuo messaggio (a mezzanotte)|Data obiettivo (vuoto = 1 gennaio 2027)|Salva e applica|Avvisi|Attiva notifiche (10, 5 e 1 min)|Cartolina da condividere|Scarica cartolina PNG|Elimina i miei dati|Personalizza|Copia link personalizzato|Conto alla rovescia fino a|Manca poco per ricominciare|Caricamento|Fatto ✓|Mancano|giorno|giorni|Link copiato ✓|In riproduzione|Canzone scelta|Eliminare propositi, foto salvate e impostazioni?|Impossibile caricare|Cartolina scaricata ✓|Notifiche attivate ✓|Permesso negato|Il tuo browser non supporta le notifiche", "de": "Hintergrundmusik|Lautstärke|Akzentfarbe|Hintergrundpartikel|An|Aus|Sofort-Effekte|Feuerwerk|Konfetti|Dein Name|Deine Nachricht (um Mitternacht)|Zieldatum (leer = 1. Januar 2027)|Speichern und anwenden|Hinweise|Benachrichtigungen aktivieren (10, 5 und 1 Min.)|Teilbare Karte|PNG-Karte herunterladen|Meine Daten löschen|Anpassen|Eigenen Link kopieren|Countdown bis|Gleich beginnt ein Neuanfang|Hochladen|Fertig ✓|Noch|Tag|Tage|Link kopiert ✓|Läuft|Lied gewählt|Vorsätze, gespeicherte Fotos und Einstellungen löschen?|Upload fehlgeschlagen|Karte heruntergeladen ✓|Benachrichtigungen aktiviert ✓|Berechtigung verweigert|Dein Browser unterstützt keine Benachrichtigungen"};
+const TX=k=>((I18N[STATE.currentLanguage]||I18N.es).split('|'))[KEYS.indexOf(k)];window.TX=TX;
+function applyI18n(){document.querySelectorAll('[data-i]').forEach(e=>e.textContent=TX(e.dataset.i));
+$('shareLiveBtnText').textContent=TX('copy');$('pmLd').textContent=t('dayLabel');$('pmLh').textContent=t('hourLabel');$('pmLm').textContent=t('minuteLabel');$('pmLs').textContent=t('secondLabel');
+$('fxStatus').textContent=LS.getItem('fx')==='false'?TX('off'):TX('on');nbt();drawTracks();}
+const _u=updateUI;updateUI=function(){_u.apply(this,arguments);applyI18n();};
+
 const TOGGLES=document.querySelectorAll('.toggle-switch');
 TOGGLES.forEach(t=>{t.tabIndex=0;t.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();t.click();}});});
 /* personalización */
@@ -3199,8 +3213,8 @@ const nm=Q.get('nombre')||LS.getItem('name')||'', cm=Q.get('mensaje')||LS.getIte
 if(nm)$('greet').textContent='✦ '+nm+' ✦'; if(cm)$('customMsg').textContent=cm;
 $('inName').value=LS.getItem('name')||'';$('inMsg').value=LS.getItem('cmsg')||'';$('inDate').value=LS.getItem('tdate')||'';
 $('saveCustom').onclick=()=>{LS.setItem('name',$('inName').value.trim());LS.setItem('cmsg',$('inMsg').value.trim());LS.setItem('tdate',$('inDate').value);location.href=location.pathname;};
-$('resetAll').onclick=()=>{if(confirm('¿Borrar resoluciones, fotos guardadas y ajustes?')){LS.clear();location.href=location.pathname;}};
-$('notifBtn').onclick=()=>{if(!('Notification' in window))return toast('Tu navegador no soporta notificaciones');Notification.requestPermission().then(p=>toast(p==='granted'?'Notificaciones activadas ✓':'Permiso denegado'));};
+$('resetAll').onclick=()=>{if(confirm(TX('confirm'))){LS.clear();location.href=location.pathname;}};
+$('notifBtn').onclick=()=>{if(!('Notification' in window))return toast(TX('nosup'));Notification.requestPermission().then(p=>toast(p==='granted'?TX('notifok'):TX('denied')));};
 $('fxFire').onclick=()=>launchFireworks();$('fxConf').onclick=()=>launchConfetti();
 /* acento */
 const ACC={Oro:['#d4af37','#e8cd7a'],Rosa:['#e0869b','#f0b3c1'],Esmeralda:['#3fbf8f','#8fe0bf'],Plata:['#b9c2d0','#e1e6ee'],Violeta:['#9b7be0','#c7b3f2']};
@@ -3208,11 +3222,11 @@ function setAcc(n){const a=ACC[n]||ACC.Oro,r=document.documentElement.style;r.se
 Object.keys(ACC).forEach(n=>{const b=document.createElement('button');b.className='sw';b.title=n;b.setAttribute('aria-label',n);b.style.background=ACC[n][0];b.onclick=()=>setAcc(n);$('accents').appendChild(b);});
 setAcc(LS.getItem('accent')||'Oro');
 /* partículas */
-function setFx(on){$('particles').style.display=on?'':'none';$('fxToggle').classList.toggle('active',on);$('fxToggle').setAttribute('aria-checked',on);$('fxStatus').textContent=on?'Activadas':'Desactivadas';LS.setItem('fx',on);}
+function setFx(on){$('particles').style.display=on?'':'none';$('fxToggle').classList.toggle('active',on);$('fxToggle').setAttribute('aria-checked',on);$('fxStatus').textContent=on?TX('on'):TX('off');LS.setItem('fx',on);}
 $('fxToggle').onclick=()=>setFx(LS.getItem('fx')==='false');setFx(LS.getItem('fx')!=='false');
 /* música */
 const TR=[['musicfondo.mp3','Música de fondo'],['Jazz-traditional.mp3','Jazz tradicional'],['Audio-Library.mp3','Audio Library'],['Cruce-De-Sentimientos.mp3','Cruce de sentimientos'],['sinfonía-de-penas.mp3','Sinfonía de penas']];
-function drawTracks(){const cur=LS.getItem('track')||TR[0][0];$('trackList').innerHTML='';TR.forEach(([f,n])=>{const b=document.createElement('button');b.className='track-btn'+(f===cur?' on':'');b.innerHTML='<i class="fa-solid '+(f===cur?'fa-circle-play':'fa-music')+'"></i> '+n;b.onclick=()=>{LS.setItem('track',f);drawTracks();window.refreshMusic&&window.refreshMusic();toast(STATE.musicEnabled?'Sonando: '+n:'Canción elegida: '+n+' (activa la música)');};$('trackList').appendChild(b);});}
+function drawTracks(){const cur=LS.getItem('track')||TR[0][0];$('trackList').innerHTML='';TR.forEach(([f,n])=>{const b=document.createElement('button');b.className='track-btn'+(f===cur?' on':'');b.innerHTML='<i class="fa-solid '+(f===cur?'fa-circle-play':'fa-music')+'"></i> '+n;b.onclick=()=>{LS.setItem('track',f);drawTracks();window.refreshMusic&&window.refreshMusic();toast((STATE.musicEnabled?TX('playing'):TX('pick'))+': '+n);};$('trackList').appendChild(b);});}
 drawTracks();
 const vol=$('musicVol');vol.value=LS.getItem('musicVol')??20;$('volVal').textContent=vol.value+'%';
 vol.oninput=()=>{LS.setItem('musicVol',vol.value);$('volVal').textContent=vol.value+'%';window.setMusicVol&&window.setMusicVol(vol.value/100);};
@@ -3221,7 +3235,7 @@ const KEY='f5567fb36a6232aae841ea9aac0ee139',gal=$('gallery'),inp=$('photoInput'
 let ph=JSON.parse(LS.getItem('imgbb')||'[]');LS.removeItem('photos');
 const sv=()=>LS.setItem('imgbb',JSON.stringify(ph));
 function rg(){gal.innerHTML='';ph.forEach((p,i)=>{const d=document.createElement('div');d.className='gallery-item';const im=new Image();im.src=p.t;im.loading='lazy';im.alt='Foto '+(i+1);im.onclick=()=>lb(i);const b=document.createElement('button');b.className='delete-photo';b.setAttribute('aria-label','Quitar foto');b.innerHTML='<i class="fa-solid fa-trash"></i>';b.onclick=e=>{e.stopPropagation();ph.splice(i,1);sv();rg();};d.append(im,b);gal.appendChild(d);});}
-async function up(files){const fs=[...files].filter(f=>f.type.startsWith('image/'));let n=0;for(const f of fs){st.textContent='Subiendo '+(++n)+' de '+fs.length+'…';try{if(f.size>32e6)throw 0;const fd=new FormData();fd.append('image',f);const r=await fetch('https://api.imgbb.com/1/upload?key='+KEY,{method:'POST',body:fd}),j=await r.json();if(!j.success)throw 0;ph.push({u:j.data.url,t:(j.data.medium&&j.data.medium.url)||j.data.url});sv();rg();}catch(e){toast('No se pudo subir '+f.name);}}st.textContent=fs.length?'Listo ✓':'';setTimeout(()=>st.textContent='',2500);}
+async function up(files){const fs=[...files].filter(f=>f.type.startsWith('image/'));let n=0;for(const f of fs){st.textContent=TX('uploading')+' '+(++n)+'/'+fs.length+'…';try{if(f.size>32e6)throw 0;const fd=new FormData();fd.append('image',f);const r=await fetch('https://api.imgbb.com/1/upload?key='+KEY,{method:'POST',body:fd}),j=await r.json();if(!j.success)throw 0;ph.push({u:j.data.url,t:(j.data.medium&&j.data.medium.url)||j.data.url});sv();rg();}catch(e){toast(TX('failed')+' '+f.name);}}st.textContent=fs.length?TX('done'):'';setTimeout(()=>st.textContent='',2500);}
 zone.onclick=()=>inp.click();zone.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();inp.click();}};
 zone.ondragover=e=>{e.preventDefault();zone.style.borderColor='var(--gold)';};zone.ondragleave=()=>zone.style.borderColor='';
 zone.ondrop=e=>{e.preventDefault();zone.style.borderColor='';up(e.dataTransfer.files);};inp.onchange=e=>{up(e.target.files);inp.value='';};
@@ -3237,18 +3251,18 @@ names.forEach((n,i)=>{const z=ZN[i]||'UTC';let yr,h;try{const p=new Intl.DateTim
 const d=document.createElement('div');d.className='timezone-item'+(yr>=Y&&h===0?' celebrando':'');const a=document.createElement('div');a.className='location';a.textContent=(yr>=Y?'🎉 ':'')+n;const b=document.createElement('div');b.className='time';b.textContent=now.toLocaleTimeString([],{timeZone:z});d.append(a,b);g.appendChild(d);});}
 tzr();setInterval(tzr,1000);$('timezonesSection').classList.add('show');
 /* siguiente año tras medianoche */
-const nb=$('nextYearBtn');function nbt(){nb.innerHTML='<i class="fa-solid fa-rotate-right"></i> Contar hasta '+((new Date()).getFullYear()+1);}nbt();
+const nb=$('nextYearBtn');function nbt(){nb.innerHTML='<i class="fa-solid fa-rotate-right"></i> '+TX('next')+' '+((new Date()).getFullYear()+1);}nbt();
 nb.onclick=()=>{$('newyearMsg').classList.remove('show');$('multimediaSection').classList.remove('show');$('rings').style.display='';$('rings').classList.remove('final-flash');window.resetCountdown&&window.resetCountdown();scrollTo({top:0,behavior:'smooth'});};
 /* tarjeta para compartir */
 $('cardBtn').onclick=()=>{const c=document.createElement('canvas');c.width=1080;c.height=1350;const x=c.getContext('2d'),T=window.getCountdownTarget(),dl=Math.max(0,Math.ceil((T-Date.now())/864e5)),a=getComputedStyle(document.documentElement).getPropertyValue('--gold').trim()||'#d4af37';
 const g=x.createLinearGradient(0,0,0,1350);g.addColorStop(0,'#050a1a');g.addColorStop(1,'#101c40');x.fillStyle=g;x.fillRect(0,0,1080,1350);x.textAlign='center';x.fillStyle=a;x.font='60px serif';x.fillText('✦',540,220);
-x.font='210px serif';x.fillText(T.getFullYear(),540,560);x.fillStyle='#f3e7c4';x.font='italic 56px serif';x.fillText(dl>0?'Faltan':'¡Feliz año nuevo!',540,700);if(dl>0){x.fillStyle=a;x.font='300px serif';x.fillText(dl,540,960);x.fillStyle='#f3e7c4';x.font='56px serif';x.fillText(dl===1?'día':'días',540,1060);}
-if(nm){x.font='italic 52px serif';x.fillText(nm,540,1200);}c.toBlob(b=>{const l=document.createElement('a');l.href=URL.createObjectURL(b);l.download='tarjeta-'+T.getFullYear()+'.png';l.click();toast('Tarjeta descargada ✓');});};
+x.font='210px serif';x.fillText(T.getFullYear(),540,560);x.fillStyle='#f3e7c4';x.font='italic 56px serif';x.fillText(dl>0?TX('left'):$('happyNewYearTitle').textContent,540,700);if(dl>0){x.fillStyle=a;x.font='300px serif';x.fillText(dl,540,960);x.fillStyle='#f3e7c4';x.font='56px serif';x.fillText(TX(dl===1?'day':'days'),540,1060);}
+if(nm){x.font='italic 52px serif';x.fillText(nm,540,1200);}c.toBlob(b=>{const l=document.createElement('a');l.href=URL.createObjectURL(b);l.download='tarjeta-'+T.getFullYear()+'.png';l.click();toast(TX('cardok'));});};
 /* modo presentación */
 const pm=$('presentationMode');let pi,idle,wl;const p2=n=>String(n).padStart(2,'0');
 const fsOn=()=>document.fullscreenElement||document.webkitFullscreenElement;
 function pt(){const T=window.getCountdownTarget(),d=T-Date.now();$('pmClock').textContent=new Date().toLocaleTimeString();$('pmYear').textContent=T.getFullYear();
-if(d<=0){pm.classList.remove('last');if(!pm.classList.contains('done')){pm.classList.add('done');$('pmFinal').textContent='¡Feliz '+T.getFullYear()+'!';launchFireworks();launchConfetti();}return;}
+if(d<=0){pm.classList.remove('last');if(!pm.classList.contains('done')){pm.classList.add('done');$('pmFinal').textContent=$('happyNewYearTitle').textContent;launchFireworks();launchConfetti();}return;}
 pm.classList.remove('done');const s=Math.floor(d/1e3);pm.classList.toggle('last',s<=10);$('pmBig').textContent=s;
 $('pmD').textContent=p2(Math.floor(s/86400));$('pmH').textContent=p2(Math.floor(s/3600)%24);$('pmM').textContent=p2(Math.floor(s/60)%60);$('pmS').textContent=p2(s%60);
 const S=new Date(T.getFullYear()-1,0,1);$('pmBar').style.width=Math.min(100,Math.max(0,(1-d/(T-S))*100))+'%';}
@@ -3260,7 +3274,11 @@ $('pmMusic').onclick=()=>$('musicToggle').click();
 document.addEventListener('fullscreenchange',()=>{if(!fsOn()&&pm.classList.contains('active'))pc();});
 document.addEventListener('keydown',e=>{if(!pm.classList.contains('active'))return;if(e.key==='Escape')pc();if(e.key==='f'||e.key==='F')$('pmFull').click();if(e.key==='m'||e.key==='M')$('pmMusic').click();});
 pm.addEventListener('mousemove',()=>{pm.classList.remove('idle');clearTimeout(idle);idle=setTimeout(()=>pm.classList.add('idle'),3000);});
+applyI18n();
 })();
+</script>
+<script>
+window.addEventListener('load',()=>{const m={resolutions:'resolutionsSection',gallery:'gallerySection'}[new URLSearchParams(location.search).get('action')];if(m)setTimeout(()=>document.getElementById(m).scrollIntoView({behavior:'smooth',block:'start'}),400);});
 </script>
 <script>
   if ('serviceWorker' in navigator) {
