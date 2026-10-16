@@ -1385,6 +1385,8 @@
     .lb-cap{position:absolute;bottom:0;left:0;right:0;padding:18px 64px calc(18px + env(safe-area-inset-bottom));text-align:center;color:var(--champagne);background:linear-gradient(transparent,rgba(5,10,26,.92));font-size:.95rem;max-height:24dvh;overflow:auto}
     .lb-cap small{display:block;color:var(--gold-soft);margin-top:4px}.lb-cap a{color:var(--gold);text-decoration:underline;word-break:break-all}
     .dlg .modal-content{max-width:460px}.dlg textarea.fld,.dlg input.fld{margin-bottom:10px}.dlg .pv{width:100%;max-height:200px;object-fit:contain;border-radius:12px;margin-bottom:12px}.dlg p{color:var(--champagne);margin-bottom:18px}
+    .ntrow{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:10px 0;border-bottom:1px solid rgba(212,175,55,.12);font-size:.88rem;color:var(--champagne)}
+    .ntnote{font-size:.78rem;color:var(--gold-soft);opacity:.85;margin-top:10px;line-height:1.4}
   </style>
 </head>
 <body>
@@ -3176,30 +3178,60 @@ END:VCALENDAR`;
        NOTIFICATIONS (Request permission on load)
        ============================================================ */
     (function initNotifications() {
+      const LS = localStorage, on = k => LS.getItem(k) !== 'false';
+      const D = 864e5, H = 36e5, Mi = 6e4;
+      const MILES = [[30*D,'Faltan 30 días'],[7*D,'Falta 1 semana'],[3*D,'Faltan 3 días'],[D,'¡Falta 1 día!'],[12*H,'Faltan 12 horas'],[6*H,'Faltan 6 horas'],[3*H,'Faltan 3 horas'],[H,'¡Falta 1 hora!'],[30*Mi,'Faltan 30 minutos'],[10*Mi,'¡Faltan 10 minutos!'],[5*Mi,'¡Faltan 5 minutos!'],[Mi,'¡Falta 1 minuto!']];
+      const ZONES = [['Nueva Zelanda','Pacific/Auckland'],['Japón','Asia/Tokyo'],['India','Asia/Kolkata'],['Francia','Europe/Paris'],['Reino Unido','Europe/London'],['Nueva York','America/New_York'],['Los Ángeles','America/Los_Angeles']];
+      const zs = {};
 
-      function scheduleNotifications() {
-        const now = new Date();
-        const target = window.getCountdownTarget ? window.getCountdownTarget() : new Date(CONFIG.TARGET_YEAR, 0, 1);
+      window.notify = function (key, title, body) {
+        if (!('Notification' in window) || Notification.permission !== 'granted' || (key && !on(key))) return;
+        const o = { body, tag: key || 'ny', icon: 'icon-192x192.png', badge: 'icon-192x192.png', vibrate: [200, 100, 200] };
+        const fb = () => { try { new Notification(title, o); } catch (e) {} };
+        if (navigator.serviceWorker) navigator.serviceWorker.getRegistration().then(r => r ? r.showNotification(title, o) : fb()).catch(fb); else fb();
+      };
 
-        const intervals = [1, 5, 10]; // minutes
-        intervals.forEach(mins => {
-          const notifyTime = new Date(target.getTime() - mins * 60000);
-          const timeUntil = notifyTime - now;
-
-          if (timeUntil > 0) {
-            setTimeout(() => {
-              if ('Notification' in window && Notification.permission === 'granted') {
-                new Notification('Año Nuevo', {
-                  body: `¡Faltan ${mins} minutos para el Año Nuevo!`,
-                  icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192"><rect fill="%23050a1a" width="192" height="192"/><text x="96" y="120" font-size="120" font-weight="bold" fill="%23d4af37" text-anchor="middle" font-family="serif">✦</text></svg>'
-                });
-              }
-            }, timeUntil);
-          }
+      function check() {
+        if (!window.getCountdownTarget) return;
+        const T = window.getCountdownTarget(), rem = T - Date.now(), Y = T.getFullYear();
+        const fired = JSON.parse(LS.getItem('ntFired') || '[]');
+        const once = id => { if (fired.includes(id)) return false; fired.push(id); LS.setItem('ntFired', JSON.stringify(fired.slice(-60))); return true; };
+        // 1) Hitos de la cuenta regresiva
+        MILES.forEach(([ms, txt]) => {
+          const win = Math.max(Math.min(ms * 0.1, 6 * H), 15000);
+          if (rem <= ms && rem > ms - win && on('nt_miles') && once(T.getTime() + '|' + ms)) notify('nt_miles', '✨ Año Nuevo ' + Y, txt + ' para recibir el ' + Y);
+        });
+        // 2) Medianoche
+        if (rem <= 0 && rem > -60000 && once(T.getTime() + '|0')) notify('nt_mid', '🎉 ¡Feliz Año Nuevo ' + Y + '!', 'Llegó el momento. ¡Que este año sea increíble!');
+        // 3) Recordatorio de resoluciones (1 vez al día, si aún no hay ninguna)
+        const day = new Date().toDateString();
+        if (rem > 0 && rem < 30 * D && LS.getItem('ntResDay') !== day && JSON.parse(LS.getItem('resolutions') || '[]').length === 0 && on('nt_res')) {
+          LS.setItem('ntResDay', day); notify('nt_res', '✍️ Tus resoluciones', 'Aún no escribes tus propósitos para ' + Y + '. ¡Hazlo antes de la medianoche!');
+        }
+        // 4) Países que ya celebran (solo si la meta es el 1 de enero)
+        if (T.getMonth() === 0 && T.getDate() === 1 && T.getHours() === 0) ZONES.forEach(([n, z]) => {
+          const yr = +new Intl.DateTimeFormat('en-GB', { timeZone: z, year: 'numeric' }).format(new Date());
+          if (zs[z] === false && yr >= Y) notify('nt_zones', '🌏 ¡' + n + ' ya celebra!', 'Allá ya es Año Nuevo ' + Y + '. ¡Pronto te toca a ti!');
+          zs[z] = yr >= Y;
         });
       }
 
-      scheduleNotifications();
+      // Opciones en Configuración → Personalizar
+      const host = document.getElementById('notifBtn').closest('.modal-section'), box = document.createElement('div');
+      [['nt_miles','Hitos de la cuenta (30 días, 1 día, horas, minutos)'],['nt_mid','Medianoche: ¡Feliz Año Nuevo!'],['nt_photo','Nuevas fotos en la galería'],['nt_res','Recordatorio de resoluciones (1 vez al día)'],['nt_zones','Países que ya celebran el Año Nuevo']].forEach(([k, t]) => {
+        const r = document.createElement('div'); r.className = 'ntrow';
+        const sp = document.createElement('span'); sp.textContent = t;
+        const sw = document.createElement('div'); sw.className = 'toggle-switch' + (on(k) ? ' active' : ''); sw.setAttribute('role', 'switch'); sw.setAttribute('aria-checked', on(k));
+        sw.onclick = () => { const v = !sw.classList.contains('active'); sw.classList.toggle('active', v); sw.setAttribute('aria-checked', v); LS.setItem(k, v); };
+        r.append(sp, sw); box.appendChild(r);
+      });
+      const note = document.createElement('p'); note.className = 'ntnote';
+      note.textContent = 'Los avisos llegan mientras la página esté abierta (aunque sea en segundo plano). Para recibirlos con la página cerrada se necesita un servidor de notificaciones push.';
+      box.appendChild(note); host.appendChild(box);
+      document.getElementById('notifBtn').addEventListener('click', () => {
+        if ('Notification' in window) Notification.requestPermission().then(p => p === 'granted' && notify('', '✨ Notificaciones activadas', 'Te avisaremos de los momentos importantes.'));
+      });
+      setInterval(check, 5000); setTimeout(check, 1500);
     })();
 
     // Initialize on load
@@ -3296,7 +3328,9 @@ function rg(){const g=$('gallery');g.innerHTML='';docs.forEach((p,i)=>{const d=d
 if(p.desc){const c=document.createElement('div');c.className='cap';c.textContent=p.desc;d.appendChild(c);}
 if(UID&&p.owner===UID){const b=document.createElement('button');b.className='delete-photo';b.setAttribute('aria-label','Eliminar foto');b.innerHTML='<i class="fa-solid fa-trash"></i>';b.onclick=e=>{e.stopPropagation();del(p);};d.appendChild(b);}
 g.appendChild(d);});}
-db.collection('photos').orderBy('createdAt','desc').limit(120).onSnapshot(q=>{docs=q.docs.map(x=>({id:x.id,...x.data()}));rg();},()=>toast('No se pudo leer la galería'));
+let first=true;
+db.collection('photos').orderBy('createdAt','desc').limit(120).onSnapshot(q=>{docs=q.docs.map(x=>({id:x.id,...x.data()}));rg();
+if(!first)q.docChanges().forEach(c=>{const d=c.doc.data();if(c.type==='added'&&d.owner!==UID&&!c.doc.metadata.hasPendingWrites&&window.notify)window.notify('nt_photo','📸 Nueva foto en la galería',d.desc||'Alguien subió una foto');});first=false;},()=>toast('No se pudo leer la galería'));
 function del(p){const o=dlg('<div class="modal-header"><h2>¿Eliminar esta foto?</h2></div><p>Se quitará de la galería para todos. Esta acción no se puede deshacer.</p><div class="btn-row"><button class="btn-preview" id="dNo">Cancelar</button><button class="btn-preview danger" id="dYes"><i class="fa-solid fa-trash"></i> Sí, eliminar</button></div>');
 o.querySelector('#dNo').onclick=o.close;o.querySelector('#dYes').onclick=()=>{o.close();db.collection('photos').doc(p.id).delete().then(()=>toast('Foto eliminada ✓')).catch(()=>toast('No se pudo eliminar'));};}
 function ask(f,i,n){return new Promise(res=>{const o=dlg('<div class="modal-header"><h2>Foto '+i+' de '+n+'</h2></div><img class="pv" alt=""><textarea class="fld" id="fD" rows="3" maxlength="500" placeholder="Descripción de la foto"></textarea><input class="fld" id="fL" type="url" placeholder="Enlace (opcional) https://..."><input class="fld" id="fA" maxlength="40" placeholder="Tu nombre (opcional)"><div class="btn-row"><button class="btn-preview" id="fN">Omitir</button><button class="btn-preview" id="fY"><i class="fa-solid fa-cloud-arrow-up"></i> Subir</button></div>');
