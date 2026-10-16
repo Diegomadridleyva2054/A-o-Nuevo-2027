@@ -3374,9 +3374,12 @@ async function syncPush(){const tk=LS.getItem('pushToken');if(!tk||!UID)return;c
 pbtn.onclick=async()=>{try{const m=firebase.messaging();
 if(LS.getItem('pushOn')==='1'){const tk=LS.getItem('pushToken');await m.deleteToken().catch(()=>{});if(tk)await tkRef(tk).delete().catch(()=>{});LS.setItem('pushOn','0');LS.removeItem('pushToken');pLabel();return toast('Avisos con app cerrada desactivados');}
 if(!UID)return toast('Conectando… intenta de nuevo');if(VAPID_KEY.startsWith('PEGA'))return toast('Falta la clave VAPID en el código');
-if(await Notification.requestPermission()!=='granted')return toast('Permiso denegado');
+const ua=navigator.userAgent,ios=/iPhone|iPad|iPod/.test(ua),edge=/Edg\//.test(ua),saf=/Safari/.test(ua)&&!/Chrome|Chromium|CriOS|Edg\/|FxiOS/.test(ua),stand=navigator.standalone||matchMedia('(display-mode: standalone)').matches;
+if(ios&&!stand)return toast('En iPhone/iPad: toca Compartir → «Añadir a pantalla de inicio» y abre la app desde ahí');
+const pm=Notification.permission==='denied'?'denied':await Notification.requestPermission();
+if(pm!=='granted')return toast(pm==='denied'?(edge?'Bloqueado. En Edge abre edge://settings/content/notifications y permite este sitio':saf?'Bloqueado. En Safari: Ajustes → Sitios web → Notificaciones → Permitir':'Bloqueado. Permite las notificaciones en los ajustes del sitio (candado junto a la dirección)'):'No aceptaste el permiso. Vuelve a tocar el botón y pulsa «Permitir»');
 const tk=await m.getToken({vapidKey:VAPID_KEY,serviceWorkerRegistration:await navigator.serviceWorker.ready});
-LS.setItem('pushToken',tk);LS.setItem('pushOn','1');await syncPush();pLabel();toast('Avisos con app cerrada activados ✓');}catch(e){toast('No se pudieron activar los avisos push');}};
+LS.setItem('pushToken',tk);LS.setItem('pushOn','1');await syncPush();pLabel();toast('Avisos con app cerrada activados ✓');}catch(e){console.error('Push:',e);toast('No se pudo activar: '+(e.code||e.message||e));}};
 window.dbReset=()=>UID?ref().delete().catch(()=>{}):null;
 au.onAuthStateChanged(async u=>{if(!u)return;UID=u.uid;rg();if(LS.getItem('pushOn')==='1')syncPush().catch(()=>{});
 try{const d=await ref().get();let ch=false;
