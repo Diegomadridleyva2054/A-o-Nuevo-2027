@@ -337,6 +337,38 @@
       border-color: var(--gold);
     }
 
+
+    /* ============================================================
+       CAMPANITA DE NOTIFICACIONES
+       ============================================================ */
+    .bell-btn { position: relative; }
+    .bell-badge { position: absolute; top: -7px; right: -7px; min-width: 19px; height: 19px; padding: 0 5px; border-radius: 10px; background: #e5484d; color: #fff; font: 700 .68rem/19px 'Jost', sans-serif; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,.45); display: none; letter-spacing: 0; }
+    .bell-badge.show { display: block; }
+    .bell-btn.ring i { animation: bellRing 1s ease; transform-origin: 50% 0; }
+    @keyframes bellRing { 0%,100% { transform: rotate(0); } 15% { transform: rotate(18deg); } 30% { transform: rotate(-16deg); } 45% { transform: rotate(12deg); } 60% { transform: rotate(-8deg); } 75% { transform: rotate(4deg); } }
+    .bell-panel { position: fixed; top: calc(env(safe-area-inset-top, 0px) + 72px); right: var(--spacing-sm); width: min(380px, calc(100vw - 24px)); max-height: min(70vh, 520px); display: none; flex-direction: column; z-index: 90; background: rgba(10,16,38,.97); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); border: 1px solid var(--glass-border); border-radius: 20px; box-shadow: var(--shadow-deep); overflow: hidden; font-family: 'Jost', sans-serif; }
+    [data-theme="light"] .bell-panel { background: rgba(255,255,255,.98); }
+    .bell-panel.show { display: flex; animation: bellIn .25s ease; }
+    @keyframes bellIn { from { opacity: 0; transform: translateY(-8px) scale(.98); } to { opacity: 1; transform: none; } }
+    .bell-head { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border-bottom: 1px solid var(--glass-border); }
+    .bell-head h3 { margin: 0; font-family: 'Marcellus', serif; font-weight: 400; font-size: 1.05rem; color: var(--gold); letter-spacing: .06em; }
+    .bell-clear, .bell-perm { background: none; border: 1px solid var(--glass-border); border-radius: 10px; color: var(--champagne); padding: 6px 10px; font: 500 .72rem 'Jost', sans-serif; letter-spacing: .06em; text-transform: uppercase; cursor: pointer; }
+    .bell-clear:hover, .bell-perm:hover { color: var(--gold-soft); border-color: var(--gold); }
+    .bell-list { overflow-y: auto; overscroll-behavior: contain; }
+    .bell-item { display: flex; gap: 12px; padding: 13px 16px; border-bottom: 1px solid rgba(212,175,55,.12); color: var(--champagne); text-decoration: none; position: relative; }
+    .bell-item:last-child { border-bottom: 0; }
+    a.bell-item:hover { background: rgba(212,175,55,.08); }
+    .bell-item.unread { background: rgba(212,175,55,.10); }
+    .bell-item.unread::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--gold); }
+    .bell-ico { font-size: 1.35rem; line-height: 1.2; flex: none; }
+    .bell-txt { min-width: 0; flex: 1; }
+    .bell-t { font-weight: 600; color: var(--gold-soft); font-size: .92rem; overflow-wrap: anywhere; }
+    .bell-b { font-size: .85rem; opacity: .88; margin-top: 2px; overflow-wrap: anywhere; white-space: pre-line; }
+    .bell-time { font-size: .7rem; opacity: .6; margin-top: 4px; letter-spacing: .04em; }
+    .bell-empty { padding: 36px 16px; text-align: center; color: var(--champagne); opacity: .7; font-size: .9rem; }
+    .bell-foot { padding: 10px 16px; border-top: 1px solid var(--glass-border); text-align: center; }
+    .bell-foot:empty { display: none; }
+
     /* Settings Floating Button */
     .settings-btn {
       position: fixed;
@@ -1403,6 +1435,9 @@
       <span id="brandText">Cuenta Regresiva Año Nuevo</span>
     </div>
     <div class="topbar-controls">
+      <button class="theme-btn bell-btn" id="bellBtn" aria-label="Notificaciones" aria-haspopup="true" aria-expanded="false" title="Notificaciones">
+        <i class="fa-regular fa-bell"></i><span class="bell-badge" id="bellBadge"></span>
+      </button>
       <button class="theme-btn" id="themeBtn" aria-label="Cambiar tema" title="Cambiar tema">
         <i class="fa-solid fa-moon"></i>
       </button>
@@ -1415,6 +1450,14 @@
       </button>
     </div>
   </header>
+
+
+  <!-- Campanita: panel de notificaciones -->
+  <div class="bell-panel" id="bellPanel" role="dialog" aria-label="Notificaciones">
+    <div class="bell-head"><h3 id="bellTitle">Notificaciones</h3><button class="bell-clear" id="bellClear" type="button">Borrar</button></div>
+    <div class="bell-list" id="bellList"></div>
+    <div class="bell-foot" id="bellFoot"></div>
+  </div>
 
   <!-- Settings Button -->
   <button class="settings-btn" id="settingsBtn" aria-label="Configuración">
@@ -3380,13 +3423,92 @@ const pm=Notification.permission==='denied'?'denied':await Notification.requestP
 if(pm!=='granted')return toast(pm==='denied'?(edge?'Bloqueado. En Edge abre edge://settings/content/notifications y permite este sitio':saf?'Bloqueado. En Safari: Ajustes → Sitios web → Notificaciones → Permitir':'Bloqueado. Permite las notificaciones en los ajustes del sitio (candado junto a la dirección)'):'No aceptaste el permiso. Vuelve a tocar el botón y pulsa «Permitir»');
 const tk=await m.getToken({vapidKey:VAPID_KEY,serviceWorkerRegistration:await navigator.serviceWorker.ready});
 LS.setItem('pushToken',tk);LS.setItem('pushOn','1');await syncPush();pLabel();toast('Avisos con app cerrada activados ✓');}catch(e){console.error('Push:',e);toast('No se pudo activar: '+(e.code||e.message||e));}};
-try{firebase.messaging().onMessage(p=>{const n=p.notification||p.data||{};window.notify&&window.notify('',n.title||'Año Nuevo',n.body||'');});}catch(e){}
+try{firebase.messaging().onMessage(p=>{const n=p.notification||p.data||{};window.notify&&window.notify('',n.title||'Año Nuevo',n.body||'');const d=p.data||{};window.bellAdd&&window.bellAdd({id:d.id,title:n.title,body:n.body,url:d.url,icon:d.icon});});}catch(e){}
 window.dbReset=()=>UID?ref().delete().catch(()=>{}):null;
 au.onAuthStateChanged(async u=>{if(!u)return;UID=u.uid;rg();if(LS.getItem('pushOn')==='1')syncPush().catch(()=>{});
 try{const d=await ref().get();let ch=false;
 if(d.exists&&!sessionStorage.dbPulled){const r=d.data();SYNC.forEach(k=>{if(r[k]!==undefined&&(LS.getItem(k)===null||(k==='resolutions'&&LS.getItem(k)==='[]'))){_s.call(LS,k,r[k]);ch=true;}});}
 sessionStorage.dbPulled='1';if(ch)return location.reload();push();}catch(e){}});
 au.signInAnonymously().catch(()=>toast('No se pudo conectar con la base de datos'));
+})();
+</script>
+<script>
+/* ===== Campanita de notificaciones: colección "announcements" de Firestore + avisos push recibidos ===== */
+(function(){
+const $=id=>document.getElementById(id),LS=localStorage;
+const btn=$('bellBtn'),badge=$('bellBadge'),panel=$('bellPanel'),list=$('bellList'),foot=$('bellFoot');
+if(!btn||!panel)return;
+const T={
+es:{t:'Notificaciones',c:'Borrar',e:'Aún no tienes notificaciones',now:'ahora',p:'Activar avisos',u:'Nueva versión lista · toca para actualizar'},
+en:{t:'Notifications',c:'Clear',e:'No notifications yet',now:'now',p:'Enable alerts',u:'New version ready · tap to update'},
+fr:{t:'Notifications',c:'Effacer',e:'Aucune notification',now:'maintenant',p:'Activer les alertes',u:'Nouvelle version prête · touchez pour mettre à jour'},
+pt:{t:'Notificações',c:'Limpar',e:'Ainda sem notificações',now:'agora',p:'Ativar avisos',u:'Nova versão pronta · toque para atualizar'},
+it:{t:'Notifiche',c:'Cancella',e:'Nessuna notifica',now:'ora',p:'Attiva avvisi',u:'Nuova versione pronta · tocca per aggiornare'},
+de:{t:'Benachrichtigungen',c:'Löschen',e:'Noch keine Benachrichtigungen',now:'jetzt',p:'Hinweise aktivieren',u:'Neue Version bereit · tippen zum Aktualisieren'}};
+const lang=()=>LS.getItem('language')||'es',L=()=>T[lang()]||T.es;
+const okLink=l=>/^https?:\/\//i.test(l||'');
+const CK='ny-inbox',CU='./__inbox.json';
+let remote=[],box={items:[],unread:0},seenOpen=0;
+
+/* --- avisos push guardados por el service worker (llegaron con la app cerrada) --- */
+async function readBox(){try{const r=await (await caches.open(CK)).match(CU);box=r?await r.json():{items:[],unread:0};box.items=box.items||[];}catch(e){}}
+async function saveBox(){try{await (await caches.open(CK)).put(CU,new Response(JSON.stringify(box),{headers:{'Content-Type':'application/json'}}));}catch(e){}}
+window.bellAdd=async function(x){await readBox();const ts=Date.now(),id=x.id||('p'+ts);if(box.items.some(i=>i.id===id))return;
+box.items.unshift({id,title:x.title||'Año Nuevo',body:x.body||'',url:x.url||'',icon:x.icon||'',ts});box.items=box.items.slice(0,50);await saveBox();render();ring();};
+
+/* --- lista combinada y sin duplicados --- */
+function items(){const cl=+LS.getItem('bellCleared')||0,out=[];
+[...remote,...box.items].sort((a,b)=>b.ts-a.ts).forEach(x=>{if(!x.title&&!x.body)return;if(x.ts<=cl)return;
+if(out.some(o=>(x.id&&o.id===x.id)||(o.title===x.title&&o.body===x.body&&Math.abs(o.ts-x.ts)<6e5)))return;out.push(x);});return out;}
+function ago(ts){let f;try{f=new Intl.RelativeTimeFormat(lang(),{numeric:'auto'});}catch(e){f=new Intl.RelativeTimeFormat('es',{numeric:'auto'});}
+const s=Math.round((ts-Date.now())/1e3),a=Math.abs(s);if(a<60)return L().now;if(a<3600)return f.format(Math.round(s/60),'minute');
+if(a<86400)return f.format(Math.round(s/3600),'hour');if(a<2592e3)return f.format(Math.round(s/86400),'day');return new Date(ts).toLocaleDateString(lang());}
+function render(){const a=items(),seen=+LS.getItem('bellSeen')||0,open=panel.classList.contains('show'),ref=open?seenOpen:seen,un=a.filter(x=>x.ts>seen).length;
+badge.textContent=un>9?'9+':un;badge.classList.toggle('show',un>0);
+try{if(un){navigator.setAppBadge&&navigator.setAppBadge(un);}else{navigator.clearAppBadge&&navigator.clearAppBadge();}}catch(e){}
+$('bellTitle').textContent=L().t;$('bellClear').textContent=L().c;btn.title=btn.ariaLabel=L().t;list.textContent='';
+if(!a.length){const e=document.createElement('div');e.className='bell-empty';e.textContent=L().e;list.appendChild(e);}
+a.forEach(x=>{const el=document.createElement(okLink(x.url)?'a':'div');el.className='bell-item'+(x.ts>ref?' unread':'');
+if(okLink(x.url)){el.href=x.url;el.target='_blank';el.rel='noopener noreferrer';}
+const i=document.createElement('div');i.className='bell-ico';i.textContent=x.icon||'🔔';
+const t=document.createElement('div');t.className='bell-txt';
+const h=document.createElement('div');h.className='bell-t';h.textContent=x.title;t.appendChild(h);
+if(x.body){const b=document.createElement('div');b.className='bell-b';b.textContent=x.body;t.appendChild(b);}
+const m=document.createElement('div');m.className='bell-time';m.textContent=ago(x.ts);t.appendChild(m);
+el.appendChild(i);el.appendChild(t);list.appendChild(el);});
+foot.textContent='';if('Notification' in window&&Notification.permission==='default'){const p=document.createElement('button');p.className='bell-perm';p.type='button';p.textContent='🔔 '+L().p;
+p.onclick=()=>{const n=$('notifBtn');if(n)n.click();else Notification.requestPermission().then(render);setTimeout(render,1500);};foot.appendChild(p);}}
+function ring(){btn.classList.remove('ring');void btn.offsetWidth;btn.classList.add('ring');}
+
+/* --- abrir / cerrar --- */
+function markRead(){const mx=Math.max(Date.now(),...items().map(x=>x.ts));LS.setItem('bellSeen',String(mx));box.unread=0;saveBox();}
+function openP(){seenOpen=+LS.getItem('bellSeen')||0;panel.classList.add('show');btn.setAttribute('aria-expanded','true');markRead();render();}
+function closeP(){panel.classList.remove('show');btn.setAttribute('aria-expanded','false');render();}
+btn.onclick=e=>{e.stopPropagation();panel.classList.contains('show')?closeP():openP();};
+panel.onclick=e=>e.stopPropagation();
+document.addEventListener('click',()=>panel.classList.contains('show')&&closeP());
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&panel.classList.contains('show'))closeP();});
+$('bellClear').onclick=()=>{LS.setItem('bellCleared',String(Math.max(Date.now(),...items().map(x=>x.ts))));render();};
+
+/* --- base de datos en tiempo real --- */
+try{if(window.firebase&&firebase.apps.length){let first=true;
+firebase.firestore().collection('announcements').orderBy('createdAt','desc').limit(50).onSnapshot(q=>{
+remote=q.docs.map(d=>{const x=d.data(),t=x.createdAt&&x.createdAt.toMillis?x.createdAt.toMillis():Date.now();
+return{id:d.id,title:String(x.title||'').slice(0,120),body:String(x.body||'').slice(0,500),icon:String(x.icon||'').slice(0,4),url:String(x.url||''),ts:t};});
+if(!first)q.docChanges().forEach(c=>{if(c.type!=='added')return;const x=c.doc.data(),t=x.createdAt&&x.createdAt.toMillis?x.createdAt.toMillis():0;
+if(t>Date.now()-12e4){ring();window.showToast&&showToast('🔔 '+(x.title||''));}});
+first=false;render();},()=>{});}}catch(e){}
+
+/* --- service worker: avisos recibidos en segundo plano, actualizaciones y sincronización periódica --- */
+if('serviceWorker' in navigator){const had=!!navigator.serviceWorker.controller;
+navigator.serviceWorker.addEventListener('message',e=>{const d=e.data||{};
+if(d.type==='INBOX_UPDATED')readBox().then(render);
+if(d.type==='OPEN_BELL')openP();
+if(d.type==='SW_UPDATED'&&had&&window.showToast){showToast('✨ '+L().u,6000);const tt=document.querySelector('.toast');if(tt){tt.style.pointerEvents='auto';tt.style.cursor='pointer';tt.onclick=()=>location.reload();setTimeout(()=>{tt.style.pointerEvents='';tt.style.cursor='';tt.onclick=null;},6200);}}});
+navigator.serviceWorker.ready.then(async reg=>{try{if(!reg.periodicSync)return;const s=await navigator.permissions.query({name:'periodic-background-sync'});
+if(s.state==='granted')await reg.periodicSync.register('check-announcements',{minIntervalSeconds:21600});}catch(e){}});}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)readBox().then(render);});
+readBox().then(()=>{render();if(new URLSearchParams(location.search).get('bell'))setTimeout(openP,700);});
 })();
 </script>
 <script>
