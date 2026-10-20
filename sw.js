@@ -1,6 +1,9 @@
-/* Service Worker v3 - Cuenta Regresiva Año Nuevo (modo offline completo) */
-const VERSION = 'v8';
+/* Service Worker v9 - Cuenta Regresiva Año Nuevo (offline completo + bandeja de notificaciones) */
+const VERSION = 'v9';
 const CACHE = `new-year-countdown-${VERSION}`;
+const CACHE_PREFIX = 'new-year-countdown-';
+const INBOX = 'ny-inbox', INBOX_URL = './__inbox.json';   // bandeja de la campanita (no se borra al actualizar)
+const FB = { apiKey: "AIzaSyDNXX68-zlaijO3Me2GDUVguOB5PpNL3ts", projectId: "studio-3276495626-227e0" };
 const CORE = ['./', './index.html', './manifest.json'];
 const MEDIA = ['./musicfondo.mp3', './Jazz-traditional.mp3', './Audio-Library.mp3', './Cruce-De-Sentimientos.mp3', './sinfonía-de-penas.mp3', './año-nuevo.mp4', './musica-año-nuevo.mp4', './icon-192x192.png', './icon-512x512.png', './icon-maskable-512.png'];
 const EXTERNAL = [
@@ -25,8 +28,11 @@ self.addEventListener('install', e => {
 
 self.addEventListener('activate', e => {
   e.waitUntil((async () => {
-    for (const k of await caches.keys()) if (k !== CACHE) await caches.delete(k);
+    const old = (await caches.keys()).filter(k => k.startsWith(CACHE_PREFIX) && k !== CACHE);
+    for (const k of old) await caches.delete(k);          // la bandeja 'ny-inbox' se conserva
+    try { if (self.registration.navigationPreload) await self.registration.navigationPreload.enable(); } catch {}
     await self.clients.claim();
+    if (old.length) await broadcast({ type: 'SW_UPDATED', version: VERSION }); // la página avisa "nueva versión lista"
   })());
 });
 
@@ -35,16 +41,16 @@ self.addEventListener('fetch', e => {
   if (r.method !== 'GET' || !/^https?:$/.test(u.protocol)) return;
   if (u.hostname === 'api.imgbb.com') return;
 
-  if (r.mode === 'navigate') return e.respondWith(navigate(r));
+  if (r.mode === 'navigate') return e.respondWith(navigate(r, e.preloadResponse));
   if (r.destination === 'audio' || r.destination === 'video') return e.respondWith(media(r));
   if (u.origin === location.origin || CDN_HOSTS.includes(u.hostname)) return e.respondWith(staleWhileRevalidate(r, u));
 });
 
-// HTML: red primero (para recibir actualizaciones) y, sin conexión, el index en caché.
+// HTML: red primero (con Navigation Preload, más rápido) y, sin conexión, el index en caché.
 // ignoreSearch permite que ?nombre=...&fecha=... funcionen offline.
-async function navigate(r) {
+async function navigate(r, preload) {
   try {
-    const res = await fetch(r);
+    const res = (await preload) || (await fetch(r));
     if (res.ok && new URL(r.url).origin === location.origin) (await caches.open(CACHE)).put('./index.html', res.clone());
     return res;
   } catch {
@@ -90,25 +96,95 @@ async function media(r) {
 }
 
 self.addEventListener('message', e => {
-  if (e.data && e.data.type === 'SKIP_WAITING') self.skipWaiting();
-  if (e.ports && e.ports[0]) e.ports[0].postMessage({ type: 'SW_READY', version: VERSION });
+  const t = e.data && e.data.type;
+  if (t === 'SKIP_WAITING') self.skipWaiting();
+  if (t === 'GET_VERSION' && e.ports && e.ports[0]) e.ports[0].postMessage({ type: 'SW_READY', version: VERSION });
+  if (e.ports && e.ports[0] && !t) e.ports[0].postMessage({ type: 'SW_READY', version: VERSION });
 });
 
-// Avisos push (FCM): el servidor envía mensajes "data" y aquí se muestran aunque la app esté cerrada
+/* ============================================================
+   BANDEJA DE NOTIFICACIONES (alimenta la campanita de la página)
+   ============================================================ */
+async function broadcast(msg) {
+  for (const c of await clients.matchAll({ type: 'window', includeUncontrolled: true })) c.postMessage(msg);
+}
+
+async function inboxRead() {
+  try { const r = await (await caches.open(INBOX)).match(INBOX_URL); const j = r ? await r.json() : {}; return { items: j.items || [], unread: j.unread || 0, lastCheck: j.lastCheck || 0 }; }
+  catch { return { items: [], unread: 0, lastCheck: 0 }; }
+}
+async function inboxSave(j) {
+  await (await caches.open(INBOX)).put(INBOX_URL, new Response(JSON.stringify(j), { headers: { 'Content-Type': 'application/json' } }));
+}
+// Devuelve false si ya existía (evita avisos duplicados cuando llega por push y por sincronización)
+async function inboxAdd(it) {
+  const j = await inboxRead();
+  if (j.items.some(x => x.id === it.id)) return false;
+  j.items.unshift(it); j.items = j.items.slice(0, 50); j.unread += 1;
+  await inboxSave(j);
+  try { await self.navigator.setAppBadge(j.unread); } catch {}   // globito numérico en el ícono de la app instalada
+  await broadcast({ type: 'INBOX_UPDATED' });
+  return true;
+}
+
+function toItem(p) {
+  const n = p.notification || {}, d = p.data || {}, ts = +d.ts || Date.now();
+  return { id: d.id || ('p' + ts + Math.random().toString(36).slice(2, 6)), title: n.title || d.title || 'Año Nuevo', body: n.body || d.body || '', url: d.url || '', icon: d.icon || '', ts };
+}
+
+function show(it, d = {}) {
+  const o = {
+    body: it.body, tag: d.tag || it.id,
+    icon: './icon-192x192.png', badge: './icon-192x192.png', vibrate: [200, 100, 200],
+    data: { id: it.id, url: it.url },
+    actions: [{ action: 'open', title: 'Ver' }, { action: 'close', title: 'Cerrar' }]
+  };
+  if (/^https:\/\//.test(d.image || '')) o.image = d.image;      // imagen grande opcional
+  if (d.important === '1') o.requireInteraction = true;          // no se oculta sola (ej. medianoche)
+  return self.registration.showNotification(it.title, o);
+}
+
+// Avisos push (FCM): llegan con la app cerrada, se muestran y quedan guardados en la campanita
 try { importScripts('https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js', 'https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js'); } catch (e) {}
 if (self.firebase) {
   firebase.initializeApp({apiKey:"AIzaSyDNXX68-zlaijO3Me2GDUVguOB5PpNL3ts",authDomain:"studio-3276495626-227e0.firebaseapp.com",projectId:"studio-3276495626-227e0",storageBucket:"studio-3276495626-227e0.firebasestorage.app",messagingSenderId:"1012275718197",appId:"1:1012275718197:web:25ec226e771e5a4072a97c"});
-  firebase.messaging().onBackgroundMessage(p => {
-    if (p.notification) return; // los mensajes enviados desde la consola de Firebase ya los muestra el SDK
-    const d = p.data || {};
-    return self.registration.showNotification(d.title || 'Año Nuevo', { body: d.body || '', tag: d.tag || 'ny', icon: './icon-192x192.png', badge: './icon-192x192.png', vibrate: [200, 100, 200] });
+  firebase.messaging().onBackgroundMessage(async p => {
+    const it = toItem(p);
+    const isNew = await inboxAdd(it);
+    if (p.notification) return;           // los enviados desde la consola de Firebase ya los muestra el SDK
+    if (isNew) return show(it, p.data || {});
   });
+}
+
+// Sincronización periódica (Chrome/Edge con la app instalada): revisa "announcements" aunque nadie haya enviado push.
+// Requiere que las reglas de Firestore permitan leer "announcements".
+self.addEventListener('periodicsync', e => { if (e.tag === 'check-announcements') e.waitUntil(checkAnnouncements()); });
+async function checkAnnouncements() {
+  try {
+    const res = await fetch(`https://firestore.googleapis.com/v1/projects/${FB.projectId}/databases/(default)/documents:runQuery?key=${FB.apiKey}`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ structuredQuery: { from: [{ collectionId: 'announcements' }], orderBy: [{ field: { fieldPath: 'createdAt' }, direction: 'DESCENDING' }], limit: 10 } })
+    });
+    if (!res.ok) return;
+    const rows = await res.json();
+    const j = await inboxRead(), since = j.lastCheck || Date.now();
+    const list = rows.filter(r => r.document).map(r => {
+      const f = r.document.fields || {}, s = k => (f[k] && f[k].stringValue) || '';
+      return { id: r.document.name.split('/').pop(), title: s('title'), body: s('body'), url: s('url'), icon: s('icon'),
+        ts: f.createdAt && f.createdAt.timestampValue ? Date.parse(f.createdAt.timestampValue) : Date.now(), image: s('image'), important: s('important') };
+    }).reverse();
+    for (const it of list) if (it.title && it.ts > since && await inboxAdd(it)) await show(it, it);
+    const j2 = await inboxRead(); j2.lastCheck = Date.now(); await inboxSave(j2);
+  } catch {}
 }
 
 self.addEventListener('notificationclick', e => {
   e.notification.close();
-  e.waitUntil(clients.matchAll({ type: 'window', includeUncontrolled: true }).then(list => {
+  if (e.action === 'close') return;
+  e.waitUntil((async () => {
+    const list = await clients.matchAll({ type: 'window', includeUncontrolled: true });
     const w = list.find(c => c.url.startsWith(self.registration.scope));
-    return w ? w.focus() : clients.openWindow('./');
-  }));
+    if (w) { await w.focus(); w.postMessage({ type: 'OPEN_BELL' }); return; }   // abre la campanita
+    await clients.openWindow('./?bell=1');
+  })());
 });
