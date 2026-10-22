@@ -1,10 +1,10 @@
 /* Service Worker v9 - Cuenta Regresiva Año Nuevo (offline completo + bandeja de notificaciones) */
-const VERSION = 'v9';
+const VERSION = 'v11';
 const CACHE = `new-year-countdown-${VERSION}`;
 const CACHE_PREFIX = 'new-year-countdown-';
 const INBOX = 'ny-inbox', INBOX_URL = './__inbox.json';   // bandeja de la campanita (no se borra al actualizar)
 const FB = { apiKey: "AIzaSyDNXX68-zlaijO3Me2GDUVguOB5PpNL3ts", projectId: "studio-3276495626-227e0" };
-const CORE = ['./', './index.html', './manifest.json'];
+const CORE = ['./', './index.html', './manifest.json', './extras.js', './extras2.js'];
 const MEDIA = ['./musicfondo.mp3', './Jazz-traditional.mp3', './Audio-Library.mp3', './Cruce-De-Sentimientos.mp3', './sinfonía-de-penas.mp3', './año-nuevo.mp4', './musica-año-nuevo.mp4', './icon-192x192.png', './icon-512x512.png', './icon-maskable-512.png'];
 const EXTERNAL = [
   'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Marcellus&family=Jost:wght@300;400;500;600;700&display=swap',
